@@ -16,3 +16,11 @@ script:
 cache:
   directories:
   - node_modules
+notifications:
+  email:
+    recipients:
+      - antoine.plaskowski@epitech.eu
+    on_success: change
+    on_failure: always
+  slack:
+    secure: X6ABry6nR94NKHySPqJAAE0yG/YdNSy0AIpbKGwmPUzqx6rkWHVfnX8QtwEga2au7XQ8V8rF0qQrf3mtTGm+mV9pvxZ08Oa8zTN0TnBXtxGfBf22vTLeH8N7oJaHq/1QuGH+0U/4g9+UFvmsbbJNsPxfR8zCzCY5DCVU8LaHfJZh8gkdt6DhTI9fKlXGFVgn+uw9lFep+aM/qeoKlXvgzSMqUs+DLxp3Jnn1FxL44LF3ZEor1X7dsFH7xdZgiRnFZW8TRZlxhuhY5GGOrCcArGhMqKSqMqZlkvAJWs0VhFmYUR1hFsneOy1/NTUNAlxJslHiTEysbdXLLQBnTnAVvCfrd2JDqjUpjPdj1KKJ/bzzjvOAaqBPNque+vqZTVQpSsY7S6BhnzjbQQxcg7iplFVB08Y4l7yzRBhM9TzRMtsljaLHxjqIGGaArt3EQw5M9n/jPgZkcOFmAxrHWhtqIXJX6StNHqFPES3X0A7bsgrbKU6GxThEjDRTdlU7vRvCwL8Jbhp4DHoyUsxQXLroBkcvbTHajMnTjVrv8hn29bUaLiwpJjdxHSdMWXjsVbP77iVaG9BWtkmB4RMy1csU63/v4ceYadbA3DZkBZh4mwE0oJ2+yyatvKlAzTC89dAERaeATA25klpZD8KX/mJtqVMy/ifbbXu1s/cPDEGpIqU=
