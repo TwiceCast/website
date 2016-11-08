@@ -9,5 +9,9 @@ matrix:
   - "iojs"
 install:
 - npm install
+- npm update
 script:
 - npm build
+cache:
+  directories:
+  - node_modules
