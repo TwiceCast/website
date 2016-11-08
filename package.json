@@ -6,7 +6,8 @@
     "lite": "lite-server",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "test": "true"
+    "test": "true",
+    "build": "tsc"
   },
   "licenses": [{
     "type": "MIT",
