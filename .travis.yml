@@ -12,6 +12,7 @@ install:
 - npm update
 script:
 - npm run build
+- npm run test
 cache:
   directories:
   - node_modules
