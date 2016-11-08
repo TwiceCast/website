@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- "6"
+- "node"
+- "iojs"
+matrix:
+  allow_failures:
+  - "node"
+  - "iojs"
+install:
+- npm install
+script:
+- npm build
