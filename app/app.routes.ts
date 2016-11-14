@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { signinRoutes }    from './pages/signin/signin.routes';
 import { signupRoutes }    from './pages/signup/signup.routes';
 import { homeRoutes }    from './pages/home/home.routes';
+import { profilRoutes }    from './pages/profil/profil.routes';
 
 // Route Configuration
 export const routes: Routes = [
@@ -18,7 +19,8 @@ export const routes: Routes = [
     // Add signin routes form a different file
   ...signinRoutes,
   ...signupRoutes,
-  ...homeRoutes
+  ...homeRoutes,
+  ...profilRoutes
 ];
 
 // Deprecated provide
