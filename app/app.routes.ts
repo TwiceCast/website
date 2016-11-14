@@ -5,6 +5,7 @@ import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { signinRoutes }    from './pages/signin/signin.routes';
+import { signupRoutes }    from './pages/signup/signup.routes';
 import { homeRoutes }    from './pages/home/home.routes';
 
 // Route Configuration
@@ -16,6 +17,7 @@ export const routes: Routes = [
   },
     // Add signin routes form a different file
   ...signinRoutes,
+  ...signupRoutes,
   ...homeRoutes
 ];
 
