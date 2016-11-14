@@ -8,6 +8,7 @@ import { signinRoutes }    from './pages/signin/signin.routes';
 import { signupRoutes }    from './pages/signup/signup.routes';
 import { homeRoutes }    from './pages/home/home.routes';
 import { profilRoutes }    from './pages/profil/profil.routes';
+import { languagesRoutes }    from './pages/languages/languages.routes'
 
 // Route Configuration
 export const routes: Routes = [
@@ -20,7 +21,8 @@ export const routes: Routes = [
   ...signinRoutes,
   ...signupRoutes,
   ...homeRoutes,
-  ...profilRoutes
+  ...profilRoutes,
+  ...languagesRoutes
 ];
 
 // Deprecated provide
