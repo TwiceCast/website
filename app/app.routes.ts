@@ -9,6 +9,7 @@ import { signupRoutes }    from './pages/signup/signup.routes';
 import { homeRoutes }    from './pages/home/home.routes';
 import { profilRoutes }    from './pages/profil/profil.routes';
 import { languagesRoutes }    from './pages/languages/languages.routes'
+import { streamRoutes }     from './pages/stream/stream.routes';
 
 // Route Configuration
 export const routes: Routes = [
@@ -22,7 +23,8 @@ export const routes: Routes = [
   ...signupRoutes,
   ...homeRoutes,
   ...profilRoutes,
-  ...languagesRoutes
+  ...languagesRoutes,
+  ...streamRoutes
 ];
 
 // Deprecated provide
