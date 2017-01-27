@@ -10,6 +10,8 @@ import { LanguagesComponent } from './pages/languages/languages.component';
 import { StreamComponent } from './pages/stream/stream.component';
 import { routing } from './app.routes';
 
+import { CodemirrorModule } from 'ng2-codemirror';
+
 @NgModule({
   imports: [
 		BrowserModule,

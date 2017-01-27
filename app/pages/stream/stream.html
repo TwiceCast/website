@@ -38,12 +38,12 @@
 <!--                <textarea style="margin-top:5px;height:30%;color:black;background-color:#dddddd;width:100%"></textarea>-->
             </div>
             <div class="col-lg-5">
-                <textarea style="margin-top:5px;width:100%;height:90%;background-color:black;">
-void my_putchar(char c)
-{
-    write(1, &c, 1);
-}
-                </textarea>
+                <div class="form-group text-center">
+                    <label for="commitMessage">Commit Message</label>
+                    <input type="email" class="form-control" id="commitMessage" aria-describedby="commitHelp" placeholder="">
+                    <small id="commitHelp" class="form-text text-muted">Explicit commit messages will help the streamer to accept your work.</small>
+                </div>
+                <button type="submit" class="btn btn-success" style="width:100%">Pull Request</button>
             </div>
         </div>
     </div>
