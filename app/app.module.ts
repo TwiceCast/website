@@ -10,7 +10,9 @@ import { LanguagesComponent } from './pages/languages/languages.component';
 import { StreamComponent } from './pages/stream/stream.component';
 import { routing } from './app.routes';
 
-import { CodemirrorModule } from 'ng2-codemirror';
+import { Logger } from './services/Logger.service';
+
+//import { CodemirrorModule } from 'ng2-codemirror';
 
 @NgModule({
   imports: [
@@ -26,6 +28,9 @@ import { CodemirrorModule } from 'ng2-codemirror';
         LanguagesComponent,
         StreamComponent
 	],
+  providers:[
+        Logger
+    ],
   bootstrap: [
 		AppComponent
 	]
