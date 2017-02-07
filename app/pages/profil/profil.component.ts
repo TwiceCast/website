@@ -2,7 +2,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: 'app/pages/profil/profil.html',
+  selector: 'component-profil',
+  template: '<router-outlet></router-outlet>',
 })
 
 // Component class

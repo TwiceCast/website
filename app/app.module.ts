@@ -6,6 +6,8 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfilComponent } from './pages/profil/profil.component';
+import { ProfilListComponent } from './pages/profil/profilList.component';
+import { ProfilDetailComponent } from './pages/profil/profilDetail.component';
 import { LanguagesComponent } from './pages/languages/languages.component';
 import { StreamComponent } from './pages/stream/stream.component';
 import { routing } from './app.routes';
@@ -25,6 +27,8 @@ import { Logger } from './services/Logger.service';
 		SignupComponent,
 		HomeComponent,
 		ProfilComponent,
+		ProfilListComponent,
+        ProfilDetailComponent,
         LanguagesComponent,
         StreamComponent
 	],

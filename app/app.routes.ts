@@ -18,7 +18,7 @@ export const routes: Routes = [
     redirectTo: '/home',
     pathMatch: 'full'
   },
-    // Add signin routes form a different file
+    // Add routes from all files
   ...signinRoutes,
   ...signupRoutes,
   ...homeRoutes,
@@ -32,4 +32,4 @@ export const routes: Routes = [
 //   provideRouter(routes)
 // ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes, { useHash: true });
