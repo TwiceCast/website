@@ -24,7 +24,13 @@ export const routes: Routes = [
   ...homeRoutes,
   ...profilRoutes,
   ...languagesRoutes,
-  ...streamRoutes
+  ...streamRoutes,
+  // Redirection all unknow routes to home page
+  {
+    path: '**',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  }
 ];
 
 // Deprecated provide
