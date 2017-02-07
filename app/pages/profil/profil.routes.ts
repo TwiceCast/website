@@ -13,6 +13,6 @@ export const profilRoutes: Routes = [
       children: [
         { path: '', redirectTo: 'list', pathMatch: 'full' },
         { path: 'list', component: ProfilListComponent },
-        { path: ':id', component: ProfilListComponent }
+        { path: ':id', component: ProfilDetailComponent }
     ]}
 ];
