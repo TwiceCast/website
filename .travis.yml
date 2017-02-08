@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-- "6"
-- "node"
-- "iojs"
+- '6'
+- node
+- iojs
 matrix:
   allow_failures:
-  - "node"
-  - "iojs"
+  - node
+  - iojs
 install:
 - npm install
 - npm update
@@ -19,8 +19,8 @@ cache:
 notifications:
   email:
     recipients:
-      - antoine.plaskowski@epitech.eu
+    - antoine.plaskowski@epitech.eu
     on_success: change
     on_failure: always
   slack:
-    secure: X6ABry6nR94NKHySPqJAAE0yG/YdNSy0AIpbKGwmPUzqx6rkWHVfnX8QtwEga2au7XQ8V8rF0qQrf3mtTGm+mV9pvxZ08Oa8zTN0TnBXtxGfBf22vTLeH8N7oJaHq/1QuGH+0U/4g9+UFvmsbbJNsPxfR8zCzCY5DCVU8LaHfJZh8gkdt6DhTI9fKlXGFVgn+uw9lFep+aM/qeoKlXvgzSMqUs+DLxp3Jnn1FxL44LF3ZEor1X7dsFH7xdZgiRnFZW8TRZlxhuhY5GGOrCcArGhMqKSqMqZlkvAJWs0VhFmYUR1hFsneOy1/NTUNAlxJslHiTEysbdXLLQBnTnAVvCfrd2JDqjUpjPdj1KKJ/bzzjvOAaqBPNque+vqZTVQpSsY7S6BhnzjbQQxcg7iplFVB08Y4l7yzRBhM9TzRMtsljaLHxjqIGGaArt3EQw5M9n/jPgZkcOFmAxrHWhtqIXJX6StNHqFPES3X0A7bsgrbKU6GxThEjDRTdlU7vRvCwL8Jbhp4DHoyUsxQXLroBkcvbTHajMnTjVrv8hn29bUaLiwpJjdxHSdMWXjsVbP77iVaG9BWtkmB4RMy1csU63/v4ceYadbA3DZkBZh4mwE0oJ2+yyatvKlAzTC89dAERaeATA25klpZD8KX/mJtqVMy/ifbbXu1s/cPDEGpIqU=
+    secure: e5kezDK1RNo1ak0pUv0Sb5UTOrEFdLex1lc5HBAVAiMWwgML3DSFOtGy92QJf2omIEluwV9SirhCK5mAS2BNTDXca6SEekYSsiw+K1T5XDjNUopP8fbx0RVLz3OrksqW0Ss4ReIUvCANu3D9Bzp6fidy6AL03259apE+ghk4FIsEeYqxY/1YyyNGxuZTD0X0z+ppek+BAduel7Od1M4KIbNZcyfnQ3k8JWms5RAKYcpMPwj0sQNKiQlZfiGZcpa3MnHJFcsalJ9Ff5/5GbMxViPHa17GgyZQcBRbXc5qi7tekthu7lz6IwTonyUgsF4ihDZFF403yL/nBNkujrTL4dbRwBk6Pe9FS4TXCytWeg5H5mkzULOkMzHozPa0pnxpAVtEXt8kBUePsdpM8EXuRvbKDp6N7L3oiG9ahKkYS2+3lKIIxvf/fuxFmQQr6yGpXptYgqnSZyhYCCfUiENVcNdnitYiL9xUNtP/QsdAr0b80GXK4AGjXJHs+bjLtmK4JVqarox0Th1nIK8pAXGSYKgyz5SVNkUYf11dZjUPWJuXSlTqrzBhDKE+Snw3pJ56Bm0/5x43spesta2PdBYA/hCRDBmj0G8481qIsRgFaZsEY7JV/thlIGrUbXLlWaEZ9rbTkCWpFAgvWHq/QgVwQ0sxPdXeBzsaa0HjoRUkDHw=
