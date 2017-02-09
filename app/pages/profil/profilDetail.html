@@ -30,7 +30,7 @@
     </nav>
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="container" *ngIf="user">
 		<div class="profile-background"></div>
 		<div class="row"> <!-- Profile -->
 			<div class="profile panel panel-primary col-xs-offset-3 col-md-offset-4 col-xs-6 col-md-4">
@@ -38,7 +38,7 @@
 					<img src="assets/242x200.png" class="img-circle" alt="...">
 				</div>
 				<div class="row panel-body">
-					<h1>Nickname</h1>
+					<h1>{{user.nickname}}</h1>
 				</div>
 			</div>
 		</div>
