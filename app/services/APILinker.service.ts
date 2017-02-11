@@ -16,16 +16,23 @@ export class APILinker {
         let options = new RequestOptions({ headers: headers });
         return this.http.get(this.API_URL + "users", options)
                         .toPromise()
-                        .then(response => response.json() as User[])
+                        .then((response) => {
+                            var res : User[] = [];
+                            for (let user of response.json())
+                            {
+                                res.push(new User().deserialize(user));
+                            }
+                            return res;
+                        })
                         .catch(this.handleError);
     }
     
-    getUser(id: number): Promise<User> {
+    getUser(id: any): Promise<User> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         return this.http.get(this.API_URL + "users/" + id, options)
                         .toPromise()
-                        .then(response => response.json() as User)
+                        .then(response => new User().deserialize(response.json()) as User)
                         .catch(this.handleError);
     }
     
