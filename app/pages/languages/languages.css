@@ -59,7 +59,7 @@
     color: white;
     border-radius: 20px;
 }
-
+/*
 .navbar {
     background-color: firebrick;
 }
@@ -83,7 +83,7 @@
 .login:hover {
     color:black !important;
 }
-
+*/
 .language_icon {
     vertical-align: middle !important;
     float: left;
@@ -130,7 +130,7 @@
     color: black;
     background-color:darkslateblue
 }
-
+/*
 a {
     color:firebrick;
 }
@@ -138,7 +138,7 @@ a {
 a:hover {
     color:red;
 }
-
+*/
 .slide-image {
     width: 100%;
 }

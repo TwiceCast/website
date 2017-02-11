@@ -1,83 +1,16 @@
 <link rel="stylesheet" href="home.css">
-<div id="home_body">
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a [routerLink]="['/']" class="navbar-brand logo_container"><img src="assets/twicecast.png" class="logo">  TwiceCast</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav pull-right">
-                    <li>
-                        <a [routerLink]="['/signin']" class="login">Sign in</a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['/signup']" class="login">Sign up</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
+<link rel="stylesheet" href="../../template.css">
+<div class="row-container" id="home_body">
     <!-- Page Content -->
     <div class="container">
-
+        <div class="row">
+            <div class="col-lg-12">
+                    <h4 class="inverted-title" id="recommanded-streams">Recommanded Streams</h4>
+            </div>
+        </div>
         <div class="row">
 
-            <div class="col-md-3">
-                <p class="text-center lead">Top Viewed</p>
-                <!-- TOP VIEW CATEGORYS -->
-                <div class="list-group">
-                    <a href="#" class="list-group-item text-center cpp">
-                        <img src="http://www.hashin.in/hash/_layout/images/expertise/cpp.png" class="language_icon">C++
-                    </a>
-                    <a href="#" class="list-group-item text-center csharp">
-                        <img src="http://jeroendj.be/assets/img/Icons/c.ico" class="language_icon">C#
-                    </a>
-                    <a href="#" class="list-group-item text-center ruby">
-                        <img src="https://cdn.codementor.io/assets/topic/category_header/ruby-on-rails-bc9ab2af8d92eb4e7eb3211d548a09ad.png" class="language_icon">Ruby
-                    </a>
-                    <a href="#" class="list-group-item text-center javascript">
-                        <img src="https://www.codementor.io/assets/page_img/learn-javascript.png" class="language_icon">JavaScript
-                    </a>
-                    <a [routerLink]="['/languages']" class="list-group-item text-center">
-                        See all
-                    </a>
-                </div>
-
-                <!-- TOP VIEW USERS -->
-                <div class="list-group">
-                    <a href="#" class="list-group-item text-center cpp">
-                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #1
-                    </a>
-                    <a href="#" class="list-group-item text-center csharp">
-                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #2
-                    </a>
-                    <a href="#" class="list-group-item text-center ruby">
-                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #3
-                    </a>
-                    <a href="#" class="list-group-item text-center javascript">
-                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #4
-                    </a>
-                    <a [routerLink]="['/profil/list']" class="list-group-item text-center">
-                        See all
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-md-9">
-
-                <div class="row carousel-holder">
+            <div class="row carousel-holder">
 
                     <div class="col-md-12">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -116,6 +49,67 @@
                     </div>
 
                 </div>
+
+
+        </div>
+    </div>
+</div>
+<div class="row-container" id="most_viewed_stream">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4 class="page-header">Currently Popular</h4>
+            </div>
+        </div>
+        <div class="row">
+
+
+            <!--
+            <div class="col-md-3">
+                <p class="text-center lead">Top Viewed</p>
+                </!-- TOP VIEW CATEGORYS --/>
+                <div class="list-group">
+                    <a href="#" class="list-group-item text-center cpp">
+                        <img src="http://www.hashin.in/hash/_layout/images/expertise/cpp.png" class="language_icon">C++
+                    </a>
+                    <a href="#" class="list-group-item text-center csharp">
+                        <img src="http://jeroendj.be/assets/img/Icons/c.ico" class="language_icon">C#
+                    </a>
+                    <a href="#" class="list-group-item text-center ruby">
+                        <img src="https://cdn.codementor.io/assets/topic/category_header/ruby-on-rails-bc9ab2af8d92eb4e7eb3211d548a09ad.png" class="language_icon">Ruby
+                    </a>
+                    <a href="#" class="list-group-item text-center javascript">
+                        <img src="https://www.codementor.io/assets/page_img/learn-javascript.png" class="language_icon">JavaScript
+                    </a>
+                    <a [routerLink]="['/languages']" class="list-group-item text-center">
+                        See all
+                    </a>
+                </div>
+
+                </!-- TOP VIEW USERS --/>
+                <div class="list-group">
+                    <a href="#" class="list-group-item text-center cpp">
+                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #1
+                    </a>
+                    <a href="#" class="list-group-item text-center csharp">
+                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #2
+                    </a>
+                    <a href="#" class="list-group-item text-center ruby">
+                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #3
+                    </a>
+                    <a href="#" class="list-group-item text-center javascript">
+                        <img src="http://simpleicon.com/wp-content/uploads/user1.png" class="language_icon">Username #4
+                    </a>
+                    <a [routerLink]="['/profil/list']" class="list-group-item text-center">
+                        See all
+                    </a>
+                </div>
+            </div>
+            -->
+
+            <div class="col-md-12">
+
+
 
                 <div class="row">
 
@@ -226,20 +220,6 @@
             </div>
 
         </div>
-
-    </div>
-    <!-- /.container -->
-
-    <div class="container">
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-					Footer
-                </div>
-            </div>
-        </footer>
 
     </div>
     <!-- /.container -->

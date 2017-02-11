@@ -17,5 +17,8 @@ export class ProfilListComponent {
     constructor(private api:APILinker, private logg:Logger) {
         api.getUsers().then(response => this.users = response);
     }
-
+    
+    public encodeURL(val: string): string {
+        return encodeURI(val);
+    }
 }

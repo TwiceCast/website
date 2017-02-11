@@ -23,7 +23,7 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
-            this.id = +params['id'];
+            this.id = params['id'];
             this.api.getUser(this.id).then(response => this.user = response);
         });
     }

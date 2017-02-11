@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'TwiceCast',
-  template: '<router-outlet></router-outlet>'
+  templateUrl: 'app/template.html'
 })
 
 export class AppComponent {
