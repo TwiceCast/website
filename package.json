@@ -9,10 +9,12 @@
     "test": "true",
     "build": "tsc"
   },
-  "licenses": [{
-    "type": "MIT",
-    "url": "https://github.com/angular/angular.io/blob/master/LICENSE"
-  }],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/angular/angular.io/blob/master/LICENSE"
+    }
+  ],
   "dependencies": {
     "@angular/common": "~2.1.1",
     "@angular/compiler": "~2.1.1",
@@ -23,10 +25,12 @@
     "@angular/platform-browser-dynamic": "~2.1.1",
     "@angular/router": "~3.1.1",
     "@angular/upgrade": "~2.1.1",
+    "@types/socket.io-client": "^1.4.29",
     "angular-in-memory-web-api": "~0.1.13",
     "core-js": "^2.4.1",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
+    "socket.io-client": "^1.7.3",
     "systemjs": "0.19.39",
     "zone.js": "^0.6.25"
   },

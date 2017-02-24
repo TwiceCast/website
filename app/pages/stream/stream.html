@@ -1,12 +1,46 @@
 <link rel="stylesheet" href="stream.css">
+<link rel="stylesheet" href="../../template.css">
+
 <div id="stream_body">
-    <!-- Page Content -->
-    <div class="container-fluid" style="margin-top:-5px;">
+    <!-- OneTwo Layout -->
+    <div *ngIf="layeringMode==1" class="container-fluid">
+        <!-- Stream -->
+        <div class="col-lg-8">
+            <div class="row">
+                <iframe src="https://player.twitch.tv/?channel=esl_overwatch" frameborder="0" allowfullscreen="true" scrolling="no" height="90%" width="100%"></iframe>
+            </div>
+        </div>
+        <!-- /Stream -->
+        <!-- Right Col -->
+        <div class="col-lg-4">
+            <!-- FileSystem -->
+            <div class="row">
+                <div class="form-group text-center">
+                    <label for="commitMessage">Commit Message</label>
+                    <input type="email" class="form-control" id="commitMessage" aria-describedby="commitHelp" placeholder="">
+                    <small id="commitHelp" class="form-text text-muted">Explicit commit messages will help the streamer to accept your work.</small>
+                </div>
+                <button type="submit" class="btn btn-success" style="width:100%">Pull Request</button>
+            </div>
+            <!-- /FileSystem -->
+            <div class="separetor"></div>
+            <!-- Chat -->
+            <div class="row">
+
+            </div>
+            <!-- /Chat -->
+        </div>
+        <!-- /Right Col -->
+    </div>
+    <!-- /OneTwo Layout -->
+    <!-- OneOneOne Layout -->
+    <!-- /OneOneOne Layout -->
+<!--
         <div class="row">
             <div class="col-lg-7">
                 <iframe src="https://player.twitch.tv/?channel=milleniumtvhs" frameborder="0" allowfullscreen="true" scrolling="no" height="60%" width="100%"></iframe>
                 <img src="http://img.brightcove.com/node15692-chatroll.png" style="margin-top:5px;height:30%;width:100%;">
-<!--                <textarea style="margin-top:5px;height:30%;color:black;background-color:#dddddd;width:100%"></textarea>-->
+                <textarea style="margin-top:5px;height:30%;color:black;background-color:#dddddd;width:100%"></textarea>
             </div>
             <div class="col-lg-5">
                 <div class="form-group text-center">
@@ -17,7 +51,6 @@
                 <button type="submit" class="btn btn-success" style="width:100%">Pull Request</button>
             </div>
         </div>
-    </div>
-    <!-- /.container -->
+-->
 
 </div>
