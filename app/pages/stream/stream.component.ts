@@ -24,14 +24,14 @@ export class StreamComponent implements OnInit, OnDestroy {
         
         this.mysock.on('connect', function(data:any){
             this.mysock.emit('message', {'content':'Salut!'});
-            this.mysock.emit('Auth', {'user':'Chocoderme', 'password':'edr4475rer!', 'room':'stream1'});
+            this.mysock.emit('auth', {'username':'Chocoderme', 'password':'edr4475rer!', 'room':'stream1'});
         }.bind(this));
         
         this.mysock.on('message', function(data:any){
             console.log('(CHAT MESSAGE)' + data.user + ': ' + data.content);
         }.bind(this));
         
-        this.mysock.on('Auth', function(data:any){
+        this.mysock.on('auth', function(data:any){
             console.log('CHAT LOG (' + data.code + '): ' + data.message);
             this.mysock.emit('message', {'content':'Bonjour!'});
         }.bind(this));
