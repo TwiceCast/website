@@ -8,6 +8,16 @@ enum LayeringMode {
     TwoOne
 }
 
+var sampleCode = `<html>
+<head>
+</head>
+<body>
+<div class="container">
+BÒNJOUR
+</div>
+</body>
+</html>`;
+
 @Component({
   selector: 'component-streamLayout',
   templateUrl: 'app/pages/stream/stream.html',
@@ -18,8 +28,16 @@ export class StreamComponent implements OnInit, OnDestroy {
     private layeringMode: LayeringMode = LayeringMode.OneTwo;
     
     private mysock: any;
+    private code: String;
+    private config: any;
+
+    logCode()
+    {
+        console.log(this.code);
+    }
     
     ngOnInit() {
+        // CHAT
         this.mysock = io('http://localhost:3005');
         
         this.mysock.on('connect', function(data:any){
@@ -39,6 +57,18 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.mysock.on('cerror', function(data:any){
             console.error('CHAT ERROR (' + data.code + '): ' + data.message);
         }.bind(this));
+        
+        //CODEMIRROR CONFIG
+        this.config = {
+            lineNumbers: true,
+            mode: {
+                name: 'htmlmixed', //CHANGER NAME ICI PAR CODE LANGAGE
+                json: true
+            },
+        };
+        
+        //CODEMIRROR sampleCode
+        this.code = sampleCode;
     }
     
     ngOnDestroy() {

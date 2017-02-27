@@ -16,7 +16,7 @@ import { routing } from './app.routes';
 import { Logger } from './services/Logger.service';
 import { APILinker } from './services/APILinker.service';
 
-import { CodemirrorModule } from 'ng2-codemirror';
+//import { CodemirrorModule } from 'ng2-codemirror';
 
 @NgModule({
   imports: [
