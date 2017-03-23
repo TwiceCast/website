@@ -9,6 +9,11 @@
     "test": "true",
     "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TwiceCast/website.git"
+  },
+  "author": "TwiceCast",
   "licenses": [
     {
       "type": "MIT",
@@ -16,28 +21,28 @@
     }
   ],
   "dependencies": {
-    "@angular/common": "~2.1.1",
-    "@angular/compiler": "~2.1.1",
-    "@angular/core": "~2.1.1",
-    "@angular/forms": "~2.1.1",
-    "@angular/http": "~2.1.1",
-    "@angular/platform-browser": "~2.1.1",
-    "@angular/platform-browser-dynamic": "~2.1.1",
-    "@angular/router": "~3.1.1",
-    "@angular/upgrade": "~2.1.1",
-    "@types/socket.io-client": "^1.4.29",
-    "core-js": "^2.4.1",
-    "reflect-metadata": "^0.1.8",
-    "rxjs": "^5.0.0-beta.12",
-    "socket.io-client": "^1.7.3",
-    "systemjs": "0.19.39",
-    "zone.js": "^0.6.25"
+	"@angular/common": "2.1.2",
+	"@angular/compiler": "2.1.2",
+	"@angular/core": "2.1.2",
+	"@angular/forms": "2.1.2",
+	"@angular/http": "2.1.2",
+	"@angular/platform-browser": "2.1.2",
+	"@angular/platform-browser-dynamic": "2.1.2",
+	"@angular/router": "3.1.2",
+	"@angular/upgrade": "2.1.2",
+	"reflect-metadata": "0.1.10",
+	"rxjs": "5.0.0-beta.12",
+	"socket.io-client": "1.7.3",
+	"systemjs": "0.19.39",
+	"zone.js": "0.6.26"
   },
   "devDependencies": {
-    "@types/core-js": "^0.9.34",
-    "@types/node": "^6.0.45",
-    "concurrently": "^3.0.0",
-    "lite-server": "^2.2.2",
-    "typescript": "^2.0.3"
+	"@types/core-js": "0.9.35",
+	"@types/node": "6.0.64",
+	"@types/socket.io-client": "1.4.29",
+	"concurrently": "3.3.0",
+	"core-js": "2.4.1",
+	"lite-server": "2.2.2",
+	"typescript": "2.2.1"
   }
 }
