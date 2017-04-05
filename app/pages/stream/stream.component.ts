@@ -1,6 +1,7 @@
 // Imports
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as io from 'socket.io-client';
+import { ChatMessage } from '../../models/chat.model';
 
 enum LayeringMode {
     OneTwo = 1,
@@ -27,6 +28,8 @@ BÒNJOUR
 export class StreamComponent implements OnInit, OnDestroy {
     private layeringMode: LayeringMode = LayeringMode.OneTwo;
     
+    private chatMessages: ChatMessage[];
+    
     private mysock: any;
     private code: String;
     private config: any;
@@ -36,8 +39,14 @@ export class StreamComponent implements OnInit, OnDestroy {
         console.log(this.code);
     }
     
+    private sendChatMessage(content: string) {
+        console.log(content);
+        this.mysock.emit('message', {'content': content});
+    }
+    
     ngOnInit() {
         // CHAT
+        this.chatMessages = [];
         this.mysock = io('http://localhost:3005');
         
         this.mysock.on('connect', function(data:any){
@@ -47,11 +56,12 @@ export class StreamComponent implements OnInit, OnDestroy {
         
         this.mysock.on('message', function(data:any){
             console.log('(CHAT MESSAGE)' + data.user + ': ' + data.content);
+            this.chatMessages.push(new ChatMessage().deserialize(data));
         }.bind(this));
         
         this.mysock.on('auth', function(data:any){
             console.log('CHAT LOG (' + data.code + '): ' + data.message);
-            this.mysock.emit('message', {'content':'Bonjour!'});
+            //this.mysock.emit('message', {'content':'Bonjour!'});
         }.bind(this));
         
         this.mysock.on('cerror', function(data:any){
