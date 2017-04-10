@@ -28,7 +28,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
 
     ngAfterViewInit(){
-        this.editor.setTheme("clouds");
+        this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp"); 
         this.editor.getEditor().$blockScrolling = Infinity;
     }
