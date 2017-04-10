@@ -20,9 +20,11 @@ enum LayeringMode {
 export class StreamComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
     public codeEditorOptions:any;
+    private code:String;
 
-    onChangeCodeInsideEditor(code){
-        console.log('on change code inside editor: ',code);
+    onChangeCodeInsideEditor(code)
+    {
+        this.code = code;
     }
 
     ngAfterViewInit(){
@@ -40,6 +42,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     
     logCode()
     {
+        console.log(this.code);
     }
     
     private sendChatMessage(content: string) {
