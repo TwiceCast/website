@@ -1,7 +1,10 @@
 // Imports
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as io from 'socket.io-client';
 import { ChatMessage } from '../../models/chat.model';
+import 'brace';
+import 'brace/theme/clouds';
+import 'brace/mode/c_cpp';
 
 enum LayeringMode {
     OneTwo = 1,
@@ -9,34 +12,34 @@ enum LayeringMode {
     TwoOne
 }
 
-var sampleCode = `<html>
-<head>
-</head>
-<body>
-<div class="container">
-BÒNJOUR
-</div>
-</body>
-</html>`;
 
 @Component({
   selector: 'component-streamLayout',
   templateUrl: 'app/pages/stream/stream.html',
 })
-
-// Component class
 export class StreamComponent implements OnInit, OnDestroy {
+    @ViewChild('editor') editor;
+    public codeEditorOptions:any;
+
+    onChangeCodeInsideEditor(code){
+        console.log('on change code inside editor: ',code);
+    }
+
+    ngAfterViewInit(){
+        this.editor.setTheme("clouds");
+        this.editor.setMode("c_cpp"); 
+        this.editor.getEditor().$blockScrolling = Infinity;
+    }
+
     private layeringMode: LayeringMode = LayeringMode.OneTwo;
     
     private chatMessages: ChatMessage[];
     
-    private mysock: any;
-    private code: String;
-    private config: any;
 
+    private mysock: any;
+    
     logCode()
     {
-        console.log(this.code);
     }
     
     private sendChatMessage(content: string) {
@@ -45,6 +48,10 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
     
     ngOnInit() {
+        this.codeEditorOptions = {
+                maxLines: 10, 
+                printMargin: true
+            };
         // CHAT
         this.chatMessages = [];
         this.mysock = io('http://localhost:3005');
@@ -66,19 +73,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         
         this.mysock.on('cerror', function(data:any){
             console.error('CHAT ERROR (' + data.code + '): ' + data.message);
-        }.bind(this));
-        
-        //CODEMIRROR CONFIG
-        this.config = {
-            lineNumbers: true,
-            mode: {
-                name: 'htmlmixed', //CHANGER NAME ICI PAR CODE LANGAGE
-                json: true
-            },
-        };
-        
-        //CODEMIRROR sampleCode
-        this.code = sampleCode;
+        }.bind(this));        
     }
     
     ngOnDestroy() {

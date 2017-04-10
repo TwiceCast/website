@@ -16,7 +16,9 @@ import { routing } from './app.routes';
 import { Logger } from './services/Logger.service';
 import { APILinker } from './services/APILinker.service';
 
-//import { CodemirrorModule } from 'ng2-codemirror';
+import { AceEditorDirective } from 'ng2-ace-editor';
+import { AceEditorComponent } from 'ng2-ace-editor';
+import 'brace';
 
 @NgModule({
   imports: [
@@ -26,6 +28,8 @@ import { APILinker } from './services/APILinker.service';
 	],
   declarations: [
 		AppComponent,
+        AceEditorDirective,
+        AceEditorComponent,
 		SigninComponent,
 		SignupComponent,
 		HomeComponent,

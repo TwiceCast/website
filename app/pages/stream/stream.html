@@ -14,7 +14,13 @@
         <!-- Right Col -->
         <div class="col-lg-4">
             <!-- FileSystem -->
-            <!-- <codemirror [(ngModel)]="code" [config]="config"></codemirror> -->
+            <ace-editor 
+                    #editor
+                    class="code-editor"
+                    [text]="code"
+                    [options]="codeEditorOptions" 
+                    (textChanged)="onChangeCodeInsideEditor($event)">
+            </ace-editor>
             <div class="row">
                 <div class="form-group text-center">
                     <label for="commitMessage">Commit Message</label>

@@ -25,7 +25,13 @@
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-      'socket.io-client':          'npm:socket.io-client/dist/socket.io.js'
+      'socket.io-client':          'npm:socket.io-client/dist/socket.io.js',
+      'ng2-ace-editor': 'npm:ng2-ace-editor',
+      'brace': 'npm:brace',
+      'w3c-blob': 'npm:w3c-blob/index.js',
+      'buffer': 'npm:buffer/index.js',
+      'base64-js': 'npm:base64-js/index.js',
+      'ieee754': 'npm:ieee754/index.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -37,6 +43,14 @@
         defaultExtension: 'js'
       },
       'socket.io-client': {
+        defaultExtension: 'js'
+      },
+      'ng2-ace-editor':{
+        main: 'ng2-ace-editor',
+        defaultExtension: 'js'
+      },
+      'brace': {
+        main: 'index',
         defaultExtension: 'js'
       }
     }
