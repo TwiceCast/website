@@ -13,12 +13,12 @@ export class User implements Serializable<User> {
     
     deserialize(input) {
         this.id = +input.ID;
-        this.pseudo = input.nickname;
+        this.pseudo = input.name;
         this.email = input.email;
-        this.birthdate = input.birthdate;
-        this.rank = new Rank().deserialize(input.rank);
+        //this.birthdate = input.birthdate;
+        //this.rank = new Rank().deserialize(input.rank);
         this.registerDate = input.registerDate;
-        this.lastVisitDate = input.lastVisitDate;
+        //this.lastVisitDate = input.lastVisitDate;
         
         return this;
     }

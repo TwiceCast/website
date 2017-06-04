@@ -57,10 +57,9 @@ export class StreamComponent implements OnInit, OnDestroy {
             };
         // CHAT
         this.chatMessages = [];
-        this.mysock = io('http://localhost:3005');
+        this.mysock = io('http://localhost:3006');
         
         this.mysock.on('connect', function(data:any){
-            this.mysock.emit('message', {'content':'Salut!'});
             this.mysock.emit('auth', {'username':'Chocoderme', 'password':'edr4475rer!', 'room':'stream1'});
         }.bind(this));
         
@@ -71,7 +70,6 @@ export class StreamComponent implements OnInit, OnDestroy {
         
         this.mysock.on('auth', function(data:any){
             console.log('CHAT LOG (' + data.code + '): ' + data.message);
-            //this.mysock.emit('message', {'content':'Bonjour!'});
         }.bind(this));
         
         this.mysock.on('cerror', function(data:any){

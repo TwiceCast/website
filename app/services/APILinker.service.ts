@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class APILinker {
-    private API_URL: string = "http://37.187.99.70/";
+    private API_URL: string = "https://twicecast.ovh/";
 
     constructor(private http: Http) { }
     
