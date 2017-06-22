@@ -18,7 +18,7 @@ export class APILinker {
                         .toPromise()
                         .then((response) => {
                             var res : User[] = [];
-                            for (let user of response.json())
+                            for (let user of response.json()["user_list"])
                             {
                                 res.push(new User().deserialize(user));
                             }
