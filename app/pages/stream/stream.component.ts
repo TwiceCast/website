@@ -76,9 +76,17 @@ export class StreamComponent implements OnInit, OnDestroy {
 			var logging_in_message = new ChatMessage();
 			logging_in_message.id = -1;
 			logging_in_message.author = "";
-			logging_in_message.message = "Logging in...";
-			this.chatMessages.push(logging_in_message);
-            this.mysock.emit('auth', {'username': this.sm.getLogin(), 'password':'loltest', 'room':'stream1'});
+            if (this.sm.isLogged())
+            {
+                logging_in_message.message = "Logging in...";
+                this.chatMessages.push(logging_in_message);
+                this.mysock.emit('auth', {'username': this.sm.getLogin(), 'password':'loltest', 'room':'stream1'});
+            }
+            else
+            {
+                logging_in_message.message = "Please log in to use the chat service !";
+                this.chatMessages.push(logging_in_message);
+            }
         }.bind(this));
         
         this.mysock.on('message', function(data:any){
