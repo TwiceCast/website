@@ -57,7 +57,7 @@ export class StreamComponent implements OnInit, OnDestroy {
             };
         // CHAT
         this.chatMessages = [];
-        this.mysock = io('http://localhost:3005');
+        this.mysock = io('http://localhost:3006');
         
         this.mysock.on('connect', function(data:any){
 			var logging_in_message = new ChatMessage();
