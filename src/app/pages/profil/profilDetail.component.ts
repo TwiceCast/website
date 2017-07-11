@@ -17,7 +17,7 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     private id: number;
     private sub: any;
     
-    private user: User;
+    user: User;
     
     constructor(private route: ActivatedRoute, private api:APILinker, private logg:Logger) {
     }

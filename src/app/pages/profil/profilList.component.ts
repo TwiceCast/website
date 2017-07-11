@@ -13,7 +13,7 @@ import { Logger } from '../../services/Logger.service';
 
 // Component class
 export class ProfilListComponent {
-    private users: User[];
+    users: User[];
 
     constructor(private api:APILinker, private logg:Logger) {
         api.getUsers().then(response => this.users = response);

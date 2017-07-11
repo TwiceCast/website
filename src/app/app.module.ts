@@ -17,20 +17,19 @@ import { Logger } from './services/Logger.service';
 import { APILinker } from './services/APILinker.service';
 import { SessionManager } from './services/SessionManager.service';
 
-import { AceEditorDirective } from 'ng2-ace-editor';
-import { AceEditorComponent } from 'ng2-ace-editor';
+import { AceEditorModule } from 'ng2-ace-editor';
+
 import 'brace';
 
 @NgModule({
   imports: [
 		BrowserModule,
         HttpModule,
-		routing
+		routing,
+	AceEditorModule,
 	],
   declarations: [
 		AppComponent,
-        AceEditorDirective,
-        AceEditorComponent,
 		SigninComponent,
 		SignupComponent,
 		HomeComponent,
@@ -38,7 +37,7 @@ import 'brace';
 		ProfilListComponent,
         ProfilDetailComponent,
         LanguagesComponent,
-        StreamComponent
+        StreamComponent,
 	],
   providers:[
         Logger,

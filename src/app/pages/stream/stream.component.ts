@@ -38,7 +38,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setOptions({minLines: 15, maxLines: 15});
     }
 
-    private layeringMode: LayeringMode = LayeringMode.OneTwo;
+    layeringMode: LayeringMode = LayeringMode.OneTwo;
     
     private chatMessages: ChatMessage[];
     
