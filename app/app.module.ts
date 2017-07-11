@@ -15,6 +15,7 @@ import { routing } from './app.routes';
 
 import { Logger } from './services/Logger.service';
 import { APILinker } from './services/APILinker.service';
+import { SessionManager } from './services/SessionManager.service';
 
 import { AceEditorDirective } from 'ng2-ace-editor';
 import { AceEditorComponent } from 'ng2-ace-editor';
@@ -41,7 +42,8 @@ import 'brace';
 	],
   providers:[
         Logger,
-        APILinker
+        APILinker,
+        SessionManager
     ],
   bootstrap: [
 		AppComponent

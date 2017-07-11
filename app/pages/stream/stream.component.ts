@@ -4,6 +4,8 @@ import * as io from 'socket.io-client';
 import { ChatMessage } from '../../models/chat.model';
 import 'brace';
 
+import { SessionManager } from '../../services/SessionManager.service';
+
 enum LayeringMode {
     OneTwo = 1,
     OneOneOne,
@@ -19,6 +21,9 @@ export class StreamComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
     public codeEditorOptions:any;
     private code:String;
+
+    constructor(private sm:SessionManager)
+    { }
 
     onChangeCodeInsideEditor(code)
     {
@@ -73,7 +78,7 @@ export class StreamComponent implements OnInit, OnDestroy {
 			logging_in_message.author = "";
 			logging_in_message.message = "Logging in...";
 			this.chatMessages.push(logging_in_message);
-            this.mysock.emit('auth', {'username':'test@test.com', 'password':'loltest', 'room':'stream1'});
+            this.mysock.emit('auth', {'username': this.sm.getLogin(), 'password':'loltest', 'room':'stream1'});
         }.bind(this));
         
         this.mysock.on('message', function(data:any){

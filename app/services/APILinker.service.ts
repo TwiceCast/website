@@ -11,6 +11,18 @@ export class APILinker {
 
     constructor(private http: Http) { }
     
+    login(email: string, password: string): Promise<string> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let data = {'email': email, 'password': password};
+        return this.http.post(this.API_URL + "login", JSON.stringify(data), options)
+                        .toPromise()
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .catch(this.handleError);
+    }
+    
     getUsers(): Promise<User[]> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
