@@ -30,7 +30,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     ngAfterViewInit(){
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp"); 
-        this.editor.getEditor().$blockScrolling = Infinity;
+        this.editor.setOptions({minLines: 15, maxLines: 15});
     }
 
     private layeringMode: LayeringMode = LayeringMode.OneTwo;
@@ -57,7 +57,7 @@ export class StreamComponent implements OnInit, OnDestroy {
             };
         // CHAT
         this.chatMessages = [];
-        this.mysock = io('http://localhost:3006');
+        this.mysock = io('http://localhost:3005');
         
         this.mysock.on('connect', function(data:any){
             this.mysock.emit('auth', {'username':'Chocoderme', 'password':'edr4475rer!', 'room':'stream1'});

@@ -1,13 +1,17 @@
 <link rel="stylesheet" href="stream.css">
 <link rel="stylesheet" href="../../template.css">
-
+<link href="http://vjs.zencdn.net/5.0.2/video-js.css" rel="stylesheet">
+<script src="http://vjs.zencdn.net/ie8/1.1.0/videojs-ie8.min.js"></script>
+<script src="http://vjs.zencdn.net/5.0.2/video.js"></script>
 <div id="stream_body">
     <!-- OneTwo Layout -->
-    <div *ngIf="layeringMode==1" class="container-fluid">
+    <div *ngIf="layeringMode==1" class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
         <!-- Stream -->
         <div class="col-lg-8">
             <div class="row">
-                <iframe src="https://player.twitch.tv/?channel=esl_olverwatch" frameborder="0" allowfullscreen="true" scrolling="no" height="90%" width="98%"></iframe>
+                <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="80%" height="60%" poster="http://vjs.zencdn.net/v/oceans.png" data-setup="{}">
+                <source src="rtmp://37.187.99.70:1935/live&live" type="rtmp/mp4">
+                </video>
             </div>
         </div>
         <!-- /Stream -->
@@ -19,7 +23,7 @@
                     class="code-editor"
                     [text]="code"
                     [options]="codeEditorOptions" 
-                    (textChanged)="onChangeCodeInsideEditor($event)">
+                    (textChanged)="onChangeCodeInsideEditor($event)" style="border-radius: 5px">
             </ace-editor>
             <div class="row">
                 <div class="form-group text-center">
