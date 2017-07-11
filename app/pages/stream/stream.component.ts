@@ -60,7 +60,12 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.mysock = io('http://localhost:3006');
         
         this.mysock.on('connect', function(data:any){
-            this.mysock.emit('auth', {'username':'Chocoderme', 'password':'edr4475rer!', 'room':'stream1'});
+			var logging_in_message = new ChatMessage();
+			logging_in_message.id = -1;
+			logging_in_message.author = "";
+			logging_in_message.message = "Joining chat...";
+			this.chatMessages.push(logging_in_message);
+            this.mysock.emit('auth', {'username':'test@test.com', 'password':'loltest', 'room':'stream1'});
         }.bind(this));
         
         this.mysock.on('message', function(data:any){
@@ -70,6 +75,11 @@ export class StreamComponent implements OnInit, OnDestroy {
         
         this.mysock.on('auth', function(data:any){
             console.log('CHAT LOG (' + data.code + '): ' + data.message);
+			var logged_in_message = new ChatMessage();
+			logged_in_message.id = -1;
+			logged_in_message.author = "";
+			logged_in_message.message = "Logged in !";
+			this.chatMessages.push(logged_in_message);
         }.bind(this));
         
         this.mysock.on('cerror', function(data:any){
