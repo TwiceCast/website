@@ -5,6 +5,7 @@ import { APILinker } from './APILinker.service';
 export class SessionManager {
 
     private login: string;
+    private password: string;
     private api_key: string;
 
     constructor(private linker:APILinker) {
@@ -18,6 +19,10 @@ export class SessionManager {
     
     getLogin(): string {
         return this.login;
+    }
+    
+    getPassword(): string {
+        return this.password;
     }
     
     Logout(): void {
@@ -51,6 +56,7 @@ export class SessionManager {
     
     Login(email: string, password: string): Promise<boolean> {
         this.login = email;
+        this.password = password;
         return new Promise((resolve, reject) => {
             this.linker.login(email, password).then(response => {
                 console.log(response);
