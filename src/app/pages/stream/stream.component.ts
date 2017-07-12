@@ -3,6 +3,8 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/co
 import * as io from 'socket.io-client';
 import { ChatMessage } from '../../models/chat.model';
 import 'brace';
+import 'brace/theme/tomorrow_night_eighties';
+import 'brace/mode/c_cpp';
 
 enum LayeringMode {
     OneTwo = 1,
