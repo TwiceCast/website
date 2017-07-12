@@ -21,12 +21,16 @@ import { AceEditorModule } from 'ng2-ace-editor';
 
 import 'brace';
 
+import { TreeModule } from 'angular-tree-component';
+
+
 @NgModule({
   imports: [
 		BrowserModule,
         HttpModule,
 		routing,
-	AceEditorModule,
+        AceEditorModule,
+        TreeModule
 	],
   declarations: [
 		AppComponent,

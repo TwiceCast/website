@@ -3,6 +3,14 @@
     color: white;
 }
 
+#tree {
+    background-color: #aaaaaa;
+    color: black;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    height: 150px;
+}
+
 .separetor {
     margin-top: 5px;
     margin-bottom: 5px;

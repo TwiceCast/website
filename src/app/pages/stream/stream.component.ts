@@ -1,5 +1,5 @@
 // Imports
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import * as io from 'socket.io-client';
 import { ChatMessage } from '../../models/chat.model';
 import 'brace';
@@ -24,9 +24,46 @@ export class StreamComponent implements OnInit, OnDestroy {
     public codeEditorOptions:any;
     private code:String;
 	
-	constructor(private sm:SessionManager)
-    { }
+    // reference to the element itself, we use this to access events and methods
+    private _elementRef: ElementRef
+
+    // declare player var
+    private player: any;
+
+    constructor(private sm:SessionManager)
+    {
+        this.player = false;
+    }
 	
+    public nodes = [
+        {
+          id: 1,
+          name: 'root1',
+          children: [
+            { id: 2, name: 'child1' },
+            { id: 3, name: 'child2' }
+          ]
+        },
+        {
+          id: 4,
+          name: 'root2',
+          children: 
+            [
+                {
+                id: 5, name: 'child2.1' 
+                },
+                {
+                id: 6,
+                    name: 'child2.2',
+                children: 
+                    [
+                        { id: 7, name: 'subsub' }
+                    ]
+                }
+            ]
+        }
+    ];
+     
     onChangeCodeInsideEditor(code)
     {
         this.code = code;
@@ -36,8 +73,30 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp"); 
         this.editor.setOptions({minLines: 15, maxLines: 15});
-    }
+        this.player = videojs(document.getElementById("stream_videojs"), {}, function() {
 
+          // Store the video object
+          var myPlayer = this, id = myPlayer.id();
+
+          // Make up an aspect ratio
+          var aspectRatio = 50/800;
+
+          // internal method to handle a window resize event to adjust the video player
+          function resizeVideoJS(){
+            var width = document.getElementById(id).parentElement.offsetWidth;
+            myPlayer.width(width);
+            myPlayer.height( width * aspectRatio );
+          }
+
+          // Initialize resizeVideoJS()
+          resizeVideoJS();
+
+          // Then on resize call resizeVideoJS()
+          window.onresize = resizeVideoJS;
+        });
+    }
+    
+    
     layeringMode: LayeringMode = LayeringMode.OneTwo;
     
     private chatMessages: ChatMessage[];

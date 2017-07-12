@@ -1,28 +1,28 @@
-<link href="http://vjs.zencdn.net/5.0.2/video-js.css" rel="stylesheet">
-<script src="http://vjs.zencdn.net/ie8/1.1.0/videojs-ie8.min.js"></script>
-<script src="http://vjs.zencdn.net/5.0.2/video.js"></script>
 <div id="stream_body">
     <!-- OneTwo Layout -->
     <div *ngIf="layeringMode==1" class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
         <!-- Stream -->
         <div class="col-lg-8">
             <div class="row">
-                <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="80%" height="60%" poster="http://vjs.zencdn.net/v/oceans.png" data-setup="{}">
-                <source src="rtmp://37.187.99.70:1935/live&live" type="rtmp/mp4">
-                </video>
+                <video id="stream_videojs"
+                        class="video-js vjs-default-skin vjs-big-play-centered"
+                        controls preload="auto">
+                <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+            </video>
             </div>
         </div>
         <!-- /Stream -->
         <!-- Right Col -->
         <div class="col-lg-4">
+            <div class="row" id="tree">
+                <tree-root [nodes]="nodes"></tree-root>
+            </div>
             <!-- FileSystem -->
-            <ace-editor 
-                    #editor
-                    class="code-editor"
-                    [text]="code"
-                    [options]="codeEditorOptions" 
+            <div class="row">
+                <ace-editor #editor class="code-editor" [text]="code" [options]="codeEditorOptions"
                     (textChanged)="onChangeCodeInsideEditor($event)" style="border-radius: 5px">
-            </ace-editor>
+                </ace-editor>
+            </div>
             <div class="row">
                 <div class="form-group text-center">
                     <label for="commitMessage">Commit Message</label>
