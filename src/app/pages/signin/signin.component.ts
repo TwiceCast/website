@@ -1,7 +1,6 @@
 // Imports
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { APILinker } from '../../services/APILinker.service';
 import { Logger } from '../../services/Logger.service';
 import { SessionManager } from '../../services/SessionManager.service';
 
@@ -17,15 +16,12 @@ export class SigninComponent implements OnInit, OnDestroy {
     
     public inputEmailSignin: string;
     public inputPasswordSignin: string;
+    
     public connectionState: string;
     
-    constructor(private api:APILinker, private logg:Logger, private sm:SessionManager) {
-        //api.getUsers().then(response => this.users = response);
-        
-    }
+    constructor(private logg:Logger, public sm:SessionManager) {}
     
     ngOnInit() {
-        //$('alert').hide();
         $("#signin_button").click(e => { e.preventDefault(); });
     }
     

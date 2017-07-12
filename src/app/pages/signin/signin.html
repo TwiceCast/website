@@ -14,19 +14,19 @@
                             <div class="form-group">
                                 <label for="inputEmailSignin" class="col-lg-3 control-label">Email</label>
                                 <div class="col-lg-9">
-                                    <input [(ngModel)]="inputEmailSignin" type="text" class="form-control" id="inputEmailSignin" placeholder="Email" name="inputEmailSignin" #name="ngModel" autofocus required>
+                                    <input [(ngModel)]="inputEmailSignin" type="email" class="form-control" id="inputEmailSignin" placeholder="Email" name="inputEmailSignin" #name="ngModel" autofocus required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPasswordSignin" class="col-lg-3 control-label">Password</label>
                                 <div class="col-lg-9">
-                                    <input [(ngModel)]="inputPasswordSignin" type="password" class="form-control" id="inputPasswordSignin" placeholder="Mot de passe" name="inputPasswordSignin" required>
+                                    <input [(ngModel)]="inputPasswordSignin" type="password" class="form-control" id="inputPasswordSignin" placeholder="Password" name="inputPasswordSignin" required>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div *ngIf="!sm.isLogged()" class="form-group">
                                 <div class="col-lg-9 col-lg-offset-3">
                                     <button type="reset" class="btn btn-default">Cancel</button>
-                                    <button [disabled]="!signinForm.form.valid" id="signin_button" type="submit" (click)="TryLogin()" class="btn btn-primary">Sign In</button>
+                                    <button [disabled]="!signinForm.form.valid||connectionState=='trying'" id="signin_button" type="submit" class="btn btn-primary">Sign In</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -35,20 +35,6 @@
             </div>
         </div>
 		</div>
-    </div>
-    <!-- /.container -->
-
-    <div class="container">
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-					Footer
-                </div>
-            </div>
-        </footer>
-
     </div>
     <!-- /.container -->
 </div>

@@ -6,35 +6,37 @@
             <div class="panel panel-success">
                 <div class="panel-heading"><h3 class="panel-title"><b>Sign Up</b></h3></div>
                 <div class="panel-body">
-                    <form id="signup" class="form-horizontal">
+                    <form id="signup" class="form-horizontal" (ngSubmit)="TryRegister()" #signupForm="ngForm">
                         <fieldset>
-                            <alert type="danger">Sign Up Error</alert>
-							<alert type="success">Sign Up Success</alert>
+                            <alert [hidden]="registerState!='error'" type="danger">Sign Up Error</alert>
+                            <alert [hidden]="registerState!='passwordMismatch'" type="danger">Error! Passwords must be the same</alert>
+							<alert [hidden]="registerState!='success'" type="success">Sign Up Success</alert>
+                            <alert [hidden]="registerState!='trying'" type="info">Signing up...</alert>
                             <div class="form-group">
                                 <label for="inputEmailSignup" class="col-lg-3 control-label">Email</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" id="inputEmailSignup" placeholder="Email" autofocus>
+                                    <input [(ngModel)]="inputEmailSignup" type="email" class="form-control" id="inputEmailSignup" name="inputEmailSignup" placeholder="Email" autofocus required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputNicknameSignup" class="col-lg-3 control-label">Nickname</label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" id="inputNicknameSignup" placeholder="Nickname">
+                                    <input [(ngModel)]="inputNicknameSignup" type="text" class="form-control" id="inputNicknameSignup" name="inputNicknameSignup" placeholder="Nickname" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputPasswordSignup" class="col-lg-3 control-label">Password</label>
                                 <div class="col-lg-9">
-                                    <input type="password" class="form-control" id="inputPasswordSignup" placeholder="Password">
+                                    <input [(ngModel)]="inputPasswordSignup" type="password" class="form-control" id="inputPasswordSignup" name="inputPasswordSignup" placeholder="Password" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputRePasswordSignup" class="col-lg-3 control-label">Password (confirm)</label>
                                 <div class="col-lg-9">
-                                    <input type="password" class="form-control" id="inputRePasswordSignup" placeholder="Password (confirm)">
+                                    <input [(ngModel)]="inputRePasswordSignup" type="password" class="form-control" id="inputRePasswordSignup" name="inputRePasswordSignup" placeholder="Password (confirm)" required>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label for="inputCountrySignup" class="col-lg-3 control-label">Country</label>
                                 <div class="col-lg-9">
                                     <input type="text" class="form-control" id="inputCountrySignup" placeholder="Country">
@@ -45,11 +47,11 @@
                                 <div class="col-lg-9">
                                     <input type="date" class="form-control" id="inputBirthdateSignup" placeholder="Birthdate">
                                 </div>
-                            </div>
-                            <div class="form-group">
+                            </div>-->
+                            <div *ngIf="!sm.isLogged()" class="form-group">
                                 <div class="col-lg-9 col-lg-offset-3">
                                     <button type="reset" class="btn btn-default">Cancel</button>
-                                    <button type="submit" class="btn btn-success">Sign Up</button>
+                                    <button [disabled]="!signupForm.form.valid" id="signup_button" type="submit" class="btn btn-success">Sign Up</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -61,17 +63,4 @@
     </div>
     <!-- /.container -->
 
-    <div class="container">
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-					Footer
-                </div>
-            </div>
-        </footer>
-
-    </div>
-    <!-- /.container -->
 </div>
