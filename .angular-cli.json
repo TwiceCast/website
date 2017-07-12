@@ -25,7 +25,8 @@
       ],
       "scripts": [
           "../node_modules/jquery/dist/jquery.min.js",
-          "../node_modules/video.js/dist/video.min.js"
+          "../node_modules/video.js/dist/video.min.js",
+          "../node_modules/videojs-flash/dist/videojs-flash.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

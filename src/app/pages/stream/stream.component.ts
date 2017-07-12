@@ -74,13 +74,13 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp"); 
         this.editor.setOptions({minLines: 15, maxLines: 15});
-        this.player = videojs(document.getElementById("stream_videojs"), {}, function() {
+        this.player = videojs(document.getElementById("stream_videojs"), {techOrder: ['flash']}, function() {
 
           // Store the video object
           var myPlayer = this, id = myPlayer.id();
 
           // Make up an aspect ratio
-          var aspectRatio = 16/9;
+          var aspectRatio = 9/16;
 
           // internal method to handle a window resize event to adjust the video player
           function resizeVideoJS(){

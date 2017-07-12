@@ -2,12 +2,12 @@
     <!-- OneTwo Layout -->
     <div *ngIf="layeringMode==1" class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
         <!-- Stream -->
-        <div class="col-lg-8">
+        <div class="col-lg-8" style="margin-bottom:20px;">
             <div class="row">
                 <video id="stream_videojs"
                         class="video-js vjs-default-skin vjs-big-play-centered"
                         controls preload="auto" data-setup='{}' width="800" height="600">
-                <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+                <source src="rtmp://37.187.99.70:1935/live/test" type="rtmp/mp4" />
             </video>
             </div>
         </div>
