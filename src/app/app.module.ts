@@ -23,6 +23,8 @@ import 'brace';
 
 import { TreeModule } from 'angular-tree-component';
 
+import { AlertModule } from 'ngx-bootstrap';
+
 
 @NgModule({
   imports: [
@@ -30,7 +32,8 @@ import { TreeModule } from 'angular-tree-component';
         HttpModule,
 		routing,
         AceEditorModule,
-        TreeModule
+        TreeModule,
+        AlertModule.forRoot()
 	],
   declarations: [
 		AppComponent,
