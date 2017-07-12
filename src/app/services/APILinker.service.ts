@@ -23,6 +23,25 @@ export class APILinker {
                         .catch(this.handleError);
     }
     
+    register(email: string, password: string, name: string) {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        let data = {
+            'name': name,
+            'email': email,
+            'password': password,
+            'language': {
+                'code': "FRA"
+            }
+        };
+        return this.http.post(this.API_URL + "users", JSON.stringify(data), options)
+                        .toPromise()
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .catch(this.handleError);
+    }
+    
     getUsers(): Promise<User[]> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
