@@ -14,42 +14,52 @@
         <!-- /Stream -->
         <!-- Right Col -->
         <div class="col-lg-4">
-            <div class="row" id="tree">
-                <tree-root [nodes]="nodes"></tree-root>
-            </div>
-            <!-- FileSystem -->
-            <div class="row">
-                <ace-editor #editor class="code-editor" [text]="code" [options]="codeEditorOptions"
-                    (textChanged)="onChangeCodeInsideEditor($event)" style="border-radius: 5px">
-                </ace-editor>
-            </div>
-            <div class="row">
-                <div class="form-group text-center">
-                    <label for="commitMessage">Commit Message</label>
-                    <input type="email" class="form-control" id="commitMessage" aria-describedby="commitHelp" placeholder="">
-                    <small id="commitHelp" class="form-text text-muted">Explicit commit messages will help the streamer to accept your work.</small>
-                </div>
-                <button (click)="logCode()" type="button" class="btn btn-success" style="width:100%">Pull Request</button>
-            </div>
-            <!-- /FileSystem -->
-            <div class="separetor"></div>
-            <!-- Chat -->
-            <div class="row">
-                <h5 class="text-center" style="background: #a33; color: #fff">Chat !</h5>
-                <div *ngFor="let chatMessage of chatMessages; let i = index">
-                    <div *ngIf="i == 0 || chatMessages[i - 1].author != chatMessage.author" class="row"><span style="background: #999; border-radius: 5px; margin-right: 5px; margin-left: 5px;">{{ chatMessage.author }}</span></div>
-                    <div class="row" style="background: #999; border-radius: 5px;">{{ chatMessage.message}}</div>
-                </div>
-                <div class="row">
-                    <div class="input-group">
-                        <input #newChatMessage type="text" class="form-control" placeholder="Message...">
-                        <span class="input-group-btn">
-                            <button (click)="sendChatMessage(newChatMessage.value)" class="btn btn-default" type="button">Send!</button>
-                        </span>
+        <ul  class="nav nav-pills">
+			<li class="active"><a href="#IDE" data-toggle="tab">Code</a></li>
+            <li><a href="#Chat" data-toggle="tab">Chat</a></li>
+		</ul>
+
+			<div class="tab-content clearfix">
+			  <div class="tab-pane active" id="IDE">
+                    <div class="row" id="tree">
+                        <tree-root [nodes]="nodes"></tree-root>
                     </div>
-                </div>
-            </div>
-            <!-- /Chat -->
+                    <!-- FileSystem -->
+                    <div class="row">
+                        <ace-editor #editor class="code-editor" [text]="code" [options]="codeEditorOptions"
+                            (textChanged)="onChangeCodeInsideEditor($event)" style="border-radius: 5px">
+                        </ace-editor>
+                    </div>
+                    <div class="row">
+                        <div class="form-group text-center">
+                            <label for="commitMessage">Commit Message</label>
+                            <input type="email" class="form-control" id="commitMessage" aria-describedby="commitHelp" placeholder="">
+                            <small id="commitHelp" class="form-text text-muted">Explicit commit messages will help the streamer to accept your work.</small>
+                        </div>
+                        <button (click)="logCode()" type="button" class="btn btn-success" style="width:100%">Pull Request</button>
+                    </div>
+                    <!-- /FileSystem -->
+				</div>
+				<div class="tab-pane" id="Chat">
+                    <!-- Chat -->
+                    <div class="row">
+                        <h5 class="text-center" style="background: #a33; color: #fff">Chat !</h5>
+                        <div *ngFor="let chatMessage of chatMessages; let i = index">
+                            <div *ngIf="i == 0 || chatMessages[i - 1].author != chatMessage.author" class="row"><span style="background: #999; border-radius: 5px; margin-right: 5px; margin-left: 5px;">{{ chatMessage.author }}</span></div>
+                            <div class="row" style="background: #999; border-radius: 5px;">{{ chatMessage.message}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <input #newChatMessage type="text" class="form-control" placeholder="Message...">
+                                <span class="input-group-btn">
+                                    <button (click)="sendChatMessage(newChatMessage.value)" class="btn btn-default" type="button">Send!</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Chat -->
+				</div>
+			</div>
         </div>
         <!-- /Right Col -->
     </div>
