@@ -53,9 +53,9 @@
                         </div>
                         <div class="row">
                             <div class="input-group">
-                                <input #newChatMessage type="text" class="form-control" placeholder="Message...">
+                                <input #newChatMessage id="newChatMessage" type="text" class="form-control" placeholder="Message...">
                                 <span class="input-group-btn">
-                                    <button (click)="sendChatMessage(newChatMessage.value)" class="btn btn-default" type="button">Send!</button>
+                                    <button (click)="sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
                                 </span>
                             </div>
                         </div>

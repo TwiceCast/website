@@ -6,6 +6,8 @@ import 'brace';
 import 'brace/theme/tomorrow_night_eighties';
 import 'brace/mode/c_cpp';
 
+import * as $ from 'jquery';
+
 enum LayeringMode {
     OneTwo = 1,
     OneOneOne,
@@ -97,6 +99,11 @@ export class StreamComponent implements OnInit, OnDestroy {
           // Then on resize call resizeVideoJS()
           window.onresize = resizeVideoJS;
         });
+        $("#newChatMessage").keyup(function(event){
+            if(event.keyCode == 13){
+                $("#sendChat").click();
+            }
+        });
     }
     
     
@@ -114,6 +121,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
     
     private sendChatMessage(content: string) {
+        $('#newChatMessage').val('');
         console.log(content);
         this.mysock.emit('message', {'content': content});
     }
