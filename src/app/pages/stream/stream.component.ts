@@ -123,7 +123,7 @@ export class StreamComponent implements OnInit, OnDestroy {
             };
         // CHAT
         this.chatMessages = [];
-        this.mysock = io('http://localhost:3006');
+        this.mysock = io('http://chat.twicecast.ovh:3006');
         
 		this.displayErrorConnect = true;
 		
