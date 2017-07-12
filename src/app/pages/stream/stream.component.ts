@@ -152,7 +152,7 @@ export class StreamComponent implements OnInit, OnDestroy {
             {
                 logging_in_message.message = "Logging in...";
                 this.chatMessages.push(logging_in_message);
-                this.mysock.emit('auth', {'username': this.sm.getLogin(), 'password':'loltest', 'room':'stream1'});
+                this.mysock.emit('auth', {'username': this.sm.getLogin(), 'password':this.sm.getPassword(), 'room':'stream1'});
             }
             else
             {
