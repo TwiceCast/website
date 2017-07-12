@@ -5,6 +5,7 @@ import { APILinker } from '../../services/APILinker.service';
 import { Logger } from '../../services/Logger.service';
 import { SessionManager } from '../../services/SessionManager.service';
 
+import * as $ from 'jquery';
 
 @Component({
   selector: 'component-SignInLayout',
@@ -19,6 +20,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     }
     
     ngOnInit() {
+        $('alert').hide();
         this.sm.Login("test@test.com", "loltest").then(response => {
             this.logg.log(response);
         });

@@ -1,5 +1,7 @@
 // Imports
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import * as $ from 'jquery';
 
 @Component({
   templateUrl: './signup.html',
@@ -7,5 +9,9 @@ import { Component } from '@angular/core';
 })
 
 // Component class
-export class SignupComponent {
+export class SignupComponent implements OnInit {
+
+    ngOnInit() {
+        $('alert').hide();
+    }
 }

@@ -23,7 +23,7 @@ import 'brace';
 
 import { TreeModule } from 'angular-tree-component';
 
-import { AlertModule } from 'ngx-bootstrap';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 
 @NgModule({
