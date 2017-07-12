@@ -3,8 +3,6 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/co
 import * as io from 'socket.io-client';
 import { ChatMessage } from '../../models/chat.model';
 import 'brace';
-import 'brace/theme/clouds';
-import 'brace/mode/c_cpp';
 
 enum LayeringMode {
     OneTwo = 1,
@@ -73,27 +71,27 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp"); 
         this.editor.setOptions({minLines: 15, maxLines: 15});
-        this.player = videojs(document.getElementById("stream_videojs"), {}, function() {
-
-          // Store the video object
-          var myPlayer = this, id = myPlayer.id();
-
-          // Make up an aspect ratio
-          var aspectRatio = 50/800;
-
-          // internal method to handle a window resize event to adjust the video player
-          function resizeVideoJS(){
-            var width = document.getElementById(id).parentElement.offsetWidth;
-            myPlayer.width(width);
-            myPlayer.height( width * aspectRatio );
-          }
-
-          // Initialize resizeVideoJS()
-          resizeVideoJS();
-
-          // Then on resize call resizeVideoJS()
-          window.onresize = resizeVideoJS;
-        });
+//        this.player = videojs(document.getElementById("stream_videojs"), {}, function() {
+//
+//          // Store the video object
+//          var myPlayer = this, id = myPlayer.id();
+//
+//          // Make up an aspect ratio
+//          var aspectRatio = 50/800;
+//
+//          // internal method to handle a window resize event to adjust the video player
+//          function resizeVideoJS(){
+//            var width = document.getElementById(id).parentElement.offsetWidth;
+//            myPlayer.width(width);
+//            myPlayer.height( width * aspectRatio );
+//          }
+//
+//          // Initialize resizeVideoJS()
+//          resizeVideoJS();
+//
+//          // Then on resize call resizeVideoJS()
+//          window.onresize = resizeVideoJS;
+//        });
     }
     
     
