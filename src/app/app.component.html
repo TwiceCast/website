@@ -27,10 +27,16 @@
                     </ul>
                 </li>
                 <li>
-                    <a [routerLink]="['/signin']">Sign in</a>
+                    <a *ngIf="!sm.isLogged()" [routerLink]="['/signin']">Sign in</a>
                 </li>
                 <li>
-                    <a [routerLink]="['/signup']">Sign up</a>
+                    <a *ngIf="!sm.isLogged()" [routerLink]="['/signup']">Sign up</a>
+                </li>
+                <li>
+                    <a *ngIf="sm.isLogged()" [routerLink]="['/']">{{sm.getLogin()}}</a>
+                </li>
+                <li>
+                    <a *ngIf="sm.isLogged()" (click)="sm.Logout()" [routerLink]="['/']">Logout</a>
                 </li>
             </ul>
         </div>
