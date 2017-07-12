@@ -15,15 +15,30 @@ import * as $ from 'jquery';
 // Component class
 export class SigninComponent implements OnInit, OnDestroy {
     
+    public inputEmailSignin: string;
+    public inputPasswordSignin: string;
+    public connectionState: string;
+    
     constructor(private api:APILinker, private logg:Logger, private sm:SessionManager) {
         //api.getUsers().then(response => this.users = response);
+        
     }
     
     ngOnInit() {
-        $('alert').hide();
-        this.sm.Login("test@test.com", "loltest").then(response => {
+        //$('alert').hide();
+        $("#signin_button").click(e => { e.preventDefault(); });
+    }
+    
+    TryLogin() {
+        this.connectionState = "trying";
+        this.sm.Login(this.inputEmailSignin, this.inputPasswordSignin).then(response => {
+            if (response == true)
+                this.connectionState = "success";
+            else
+                this.connectionState = "error";
             this.logg.log(response);
         });
+        this.logg.log("Trying to login");
     }
     
     ngOnDestroy() {

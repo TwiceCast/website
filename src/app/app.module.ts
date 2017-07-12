@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent }   from './app.component';
 import { HttpModule }    from '@angular/http';
+import { FormsModule }   from '@angular/forms';
 
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
@@ -30,6 +31,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
   imports: [
 		BrowserModule,
         HttpModule,
+        FormsModule,
 		routing,
         AceEditorModule,
         TreeModule,

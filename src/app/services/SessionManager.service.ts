@@ -20,6 +20,11 @@ export class SessionManager {
         return this.login;
     }
     
+    Logout(): void {
+        this.login = "";
+        this.api_key = "";
+    }
+    
     Login(email: string, password: string): Promise<boolean> {
         this.login = email;
         return new Promise((resolve, reject) => {
@@ -42,7 +47,7 @@ export class SessionManager {
                 {
                     resolve(false);
                 }
-            });
+            }).catch((e) => {resolve(false);});
         });
     }
 }
