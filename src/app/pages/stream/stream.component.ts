@@ -39,7 +39,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     // declare player var
     private player: any;
 
-    constructor(private sm:SessionManager, private fl:FileSystemLinker,private route: ActivatedRoute, private router: Router)
+    constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router)
     {
         this.player = false;
     }

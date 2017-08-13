@@ -1,5 +1,6 @@
 // Imports
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Logger } from '../../services/Logger.service';
 import { SessionManager } from '../../services/SessionManager.service';
@@ -21,7 +22,7 @@ export class SignupComponent implements OnInit {
 
     public registerState: string;
 
-    constructor(private logg:Logger, public sm:SessionManager) {}
+    constructor(private logg:Logger, public sm:SessionManager, private router: Router) {}
 
     ngOnInit() {
         $("#signup_button").click(e => { e.preventDefault(); });
@@ -37,6 +38,7 @@ export class SignupComponent implements OnInit {
                 if (response == true) {
                     this.registerState = "success";
                     this.sm.Login(this.inputEmailSignup, this.inputPasswordSignup);
+                    setTimeout(function() {this.router.navigate(['/home']); }.bind(this), 3000);
                 }
                 else
                     this.registerState = "error";

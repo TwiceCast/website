@@ -9,7 +9,7 @@
                     <form id="signin" class="form-horizontal" (ngSubmit)="TryLogin()" #signinForm="ngForm">
                         <fieldset>
                             <alert [hidden]="connectionState!='error'" type="danger">Login Error</alert>
-							<alert [hidden]="connectionState!='success'" type="success">Login Success</alert>
+							<alert [hidden]="connectionState!='success'" type="success">Login Success ! Redirecting in 3 seconds</alert>
                             <alert [hidden]="connectionState!='trying'" type="info">Login in...</alert>
                             <div class="form-group">
                                 <label for="inputEmailSignin" class="col-lg-3 control-label">Email</label>

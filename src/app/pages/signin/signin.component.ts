@@ -1,5 +1,6 @@
 // Imports
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Logger } from '../../services/Logger.service';
 import { SessionManager } from '../../services/SessionManager.service';
@@ -19,7 +20,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     
     public connectionState: string;
     
-    constructor(private logg:Logger, public sm:SessionManager) {}
+    constructor(private logg:Logger, public sm:SessionManager, private router: Router) {}
     
     ngOnInit() {
         $("#signin_button").click(e => { e.preventDefault(); });
@@ -28,8 +29,10 @@ export class SigninComponent implements OnInit, OnDestroy {
     TryLogin() {
         this.connectionState = "trying";
         this.sm.Login(this.inputEmailSignin, this.inputPasswordSignin).then(response => {
-            if (response == true)
+            if (response == true) {
                 this.connectionState = "success";
+                setTimeout(function() {this.router.navigate(['/home']); }.bind(this), 3000);
+            }
             else
                 this.connectionState = "error";
             this.logg.log(response);
