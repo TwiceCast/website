@@ -1,5 +1,7 @@
 // Imports
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import 'rxjs/add/operator/switchMap';
 import * as io from 'socket.io-client';
 import { ChatMessage } from '../../models/chat.model';
 import 'brace';
@@ -18,6 +20,7 @@ declare function videojs(id: any, options: any, ready:any): any;
 
 
 import { SessionManager } from '../../services/SessionManager.service';
+import { FileSystemLinker } from '../../services/FileSystemLinker.service';
 
 @Component({
   selector: 'component-streamLayout',
@@ -28,6 +31,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
     public codeEditorOptions:any;
     private code:String;
+    private id: number;
 	
     // reference to the element itself, we use this to access events and methods
     private _elementRef: ElementRef
@@ -35,7 +39,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     // declare player var
     private player: any;
 
-    constructor(private sm:SessionManager)
+    constructor(private sm:SessionManager, private fl:FileSystemLinker,private route: ActivatedRoute, private router: Router)
     {
         this.player = false;
     }
@@ -104,6 +108,14 @@ export class StreamComponent implements OnInit, OnDestroy {
                 $("#sendChat").click();
             }
         });
+        
+        
+        ///
+        /// Init file system
+        ///
+        
+        this.fl.connect();
+        this.fl.auth();
     }
     
     
@@ -127,6 +139,11 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
     
     ngOnInit() {
+        // Get Stream ID
+        this.route.paramMap.switchMap((params: ParamMap) =>
+            params.get('id')
+        ).subscribe((id: any) => this.id = id);
+        
         this.codeEditorOptions = {
                 maxLines: 10, 
                 printMargin: true
@@ -201,5 +218,6 @@ export class StreamComponent implements OnInit, OnDestroy {
     
     ngOnDestroy() {
         this.mysock.close(true);
+        this.fl.disconnect();
     }
 }

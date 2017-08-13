@@ -17,6 +17,7 @@ import { routing } from './app.routes';
 import { Logger } from './services/Logger.service';
 import { APILinker } from './services/APILinker.service';
 import { SessionManager } from './services/SessionManager.service';
+import { FileSystemLinker } from './services/FileSystemLinker.service';
 
 import { AceEditorModule } from 'ng2-ace-editor';
 
@@ -51,7 +52,8 @@ import { AlertModule } from 'ngx-bootstrap/alert';
   providers:[
         Logger,
         APILinker,
-		SessionManager
+		SessionManager,
+        FileSystemLinker
     ],
   bootstrap: [
 		AppComponent

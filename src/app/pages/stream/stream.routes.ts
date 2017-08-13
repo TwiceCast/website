@@ -7,5 +7,5 @@ import { StreamComponent }    from './stream.component';
 
 // Route Configuration
 export const streamRoutes: Routes = [
-  { path: 'stream', component: StreamComponent }
+  { path: 'stream/:id', component: StreamComponent }
 ];

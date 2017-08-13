@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { SessionManager } from './services/SessionManager.service';
+import { FileSystemLinker } from './services/FileSystemLinker.service';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +11,5 @@ import { SessionManager } from './services/SessionManager.service';
 export class AppComponent {
   title = 'TwiceCast';
   
-  constructor(public sm:SessionManager) { }
+  constructor(public sm:SessionManager, public fl:FileSystemLinker) { }
 }
