@@ -12,6 +12,7 @@ import { ProfilListComponent } from './pages/profil/profilList.component';
 import { ProfilDetailComponent } from './pages/profil/profilDetail.component';
 import { LanguagesComponent } from './pages/languages/languages.component';
 import { StreamComponent } from './pages/stream/stream.component';
+import { LiveComponent } from './pages/live/live.component'
 import { routing } from './app.routes';
 
 import { Logger } from './services/Logger.service';
@@ -48,6 +49,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
         ProfilDetailComponent,
         LanguagesComponent,
         StreamComponent,
+        LiveComponent
 	],
   providers:[
         Logger,

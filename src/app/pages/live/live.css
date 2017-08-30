@@ -1,0 +1,16 @@
+#live_body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    color: white;
+}
+
+.getLive {
+    font-size:40px;
+    color:black;
+    background-color:#eeeeee;
+    border-radius:5px;
+    border: 1px solid #000000;
+}
+
+footer {
+    margin: 50px 0;
+}

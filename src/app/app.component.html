@@ -33,6 +33,9 @@
                     <a *ngIf="!sm.isLogged()" [routerLink]="['/signup']">Sign up</a>
                 </li>
                 <li>
+                    <a *ngIf="sm.isLogged()" [routerLink]="['/live/1']">Get LIVE now</a>
+                </li>
+                <li>
                     <a *ngIf="sm.isLogged()" [routerLink]="['/']">{{sm.getLogin()}}</a>
                 </li>
                 <li>

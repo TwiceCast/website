@@ -1,0 +1,40 @@
+<div id="live_body">
+    <!-- OneTwo Layout -->
+    <div *ngIf="layeringMode==1" class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
+        <!-- Stream -->
+        <div class="col-lg-8" style="margin-bottom:20px;">
+            <div class="row" style="text-align:center;margin-bottom:20px;">
+                <button class="getLive">Toggle Live</button>
+            </div>
+            <div class="row" style="text-align:center;color:black;">
+                Live status : <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Red_Light_Icon.svg/2000px-Red_Light_Icon.svg.png" width="50">
+            </div>
+        </div>
+        <!-- /Stream -->
+        <!-- Right Col -->
+        <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-left:5px;margin-right:5px;">
+                        <h5 class="text-center" style="background: #a33; color: #fff">Chat !</h5>
+                        <div *ngFor="let chatMessage of chatMessages; let i = index" class="row">
+                            <div class="col-lg-12">
+                            <div *ngIf="i == 0 || chatMessages[i - 1].author != chatMessage.author" class="row"><span style="background: #999; border-radius: 5px; margin-right: 5px; margin-left: 5px;">{{ chatMessage.author }}</span></div>
+                            <div class="row" style="background: #999; border-radius: 5px;">{{ chatMessage.message}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <input #newChatMessage id="newChatMessage" type="text" class="form-control" placeholder="Message...">
+                                <span class="input-group-btn">
+                                    <button (click)="sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
+                                </span>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- /Chat -->
+        </div>
+        <!-- /Right Col -->
+    </div>
+    <!-- /OneTwo Layout -->
+</div>

@@ -80,7 +80,7 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     ngAfterViewInit(){
         this.editor.setTheme("tomorrow_night_eighties");
-        this.editor.setMode("c_cpp"); 
+        this.editor.setMode("c_cpp");
         this.editor.setOptions({minLines: 15, maxLines: 15});
         this.player = videojs(document.getElementById("stream_videojs"), {techOrder: ['flash']}, function() {
 
