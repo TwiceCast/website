@@ -118,7 +118,6 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.fl.auth();
     }
     
-    
     layeringMode: LayeringMode = LayeringMode.OneTwo;
     
     private chatMessages: ChatMessage[];

@@ -27,6 +27,7 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
             this.id = params['id'];
             this.api.getUser(this.id).then(response => this.user = response);
         });
+        console.log(this.user);
     }
     
     ngOnDestroy() {
