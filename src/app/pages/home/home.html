@@ -313,14 +313,14 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="row">
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
+                <div class="row" *ngIf="random_streams">
+                    <div *ngFor="let stream of random_streams; let i = index" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
                                 <h4 class="pull-right"></h4>
-                                <h4 class="text-primary">Stream 1</h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                <h4 class="text-primary">{{ stream.title }}</h4>
+                                <p>This is a short description.</p>
                             </div>
                             <div class="ratings">
                                 <p class="text-center">
@@ -329,82 +329,21 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
+                </div>
+                
+                <div class="row" *ngIf="!random_streams">
+                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/1']">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
                                 <h4 class="pull-right"></h4>
-                                <h4 class="text-primary">Stream 2</h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                <h4 class="text-primary">No stream</h4>
+                                <p>There is no stream at the moment.<br />
+                                    Start streaming to be the first !</p>
                             </div>
                             <div class="ratings">
                                 <p class="text-center">
-                                    15 Viewers
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
-                        <div class="thumbnail">
-                            <img src="assets/320x150.png" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right"></h4>
-                                <h4 class="text-primary">Stream 3</h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="text-center">
-                                    15 Viewers
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
-                        <div class="thumbnail">
-                            <img src="assets/320x150.png" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right"></h4>
-                                <h4 class="text-primary">Stream 4</h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="text-center">
-                                    15 Viewers
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
-                        <div class="thumbnail">
-                            <img src="assets/320x150.png" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right"></h4>
-                                <h4 class="text-primary">Stream 5</h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="text-center">
-                                    15 Viewers
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
-                        <div class="thumbnail">
-                            <img src="assets/320x150.png" alt="">
-                            <div class="caption">
-                                <h4 class="pull-right"></h4>
-                                <h4 class="text-primary">Stream 6</h4>
-                                <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </div>
-                            <div class="ratings">
-                                <p class="text-center">
-                                    15 Viewers
+                                    Start streaming now !
                                 </p>
                             </div>
                         </div>
