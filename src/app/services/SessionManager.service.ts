@@ -27,7 +27,9 @@ export class SessionManager {
     
     Logout(): void {
         this.login = "";
+        this.password = "";
         this.api_key = "";
+        this.clearCredentials();
     }
     
     Register(email: string, password: string, name: string): Promise<boolean> {
@@ -65,19 +67,56 @@ export class SessionManager {
                     if (response['token'])
                     {
                         this.api_key = response['token'];
+                        this.SaveCredentials();
                         resolve(true);
                     }
                     else
                     {
+                        this.clearCredentials();
                         resolve(false);
                     }
                     
                 }
                 catch (e)
                 {
+                    this.clearCredentials();
                     resolve(false);
                 }
             }).catch((e) => {resolve(false);});
         });
+    }
+    
+    private LC_loginKey = 'TC_login';
+    private LC_passwordKey = 'TC_pass';
+    private LC_apiKey = 'TC_api';
+
+    private clearCredentials(): void {
+        localStorage.removeItem(this.LC_loginKey);
+        localStorage.removeItem(this.LC_passwordKey);
+        localStorage.removeItem(this.LC_apiKey);
+    }
+    
+    private SaveCredentials(): Boolean {
+        if (this.isLogged()) {
+            localStorage.setItem(this.LC_loginKey, this.login);
+            localStorage.setItem(this.LC_passwordKey, this.password);
+            localStorage.setItem(this.LC_apiKey, this.api_key);
+            return true;
+        }
+        return false;
+    }
+    
+    public retrieveCredentials(): Boolean {
+        let tmp_login: string = localStorage.getItem(this.LC_loginKey);
+        let tmp_pass: string = localStorage.getItem(this.LC_passwordKey);
+        let tmp_apikey: string = localStorage.getItem(this.LC_apiKey);
+        
+        if (tmp_login && tmp_pass && tmp_apikey && tmp_login != 'undefined' && tmp_pass != 'undefined' && tmp_apikey != 'undefined' && tmp_login != 'null' && tmp_pass != 'null' && tmp_apikey != 'null') {
+            this.login = tmp_login;
+            this.password = tmp_pass;
+            this.api_key = tmp_apikey;
+            return true;
+        }
+        return false;
     }
 }

@@ -11,5 +11,7 @@ import { FileSystemLinker } from './services/FileSystemLinker.service';
 export class AppComponent {
   title = 'TwiceCast';
   
-  constructor(public sm:SessionManager, public fl:FileSystemLinker) { }
+  constructor(public sm:SessionManager, public fl:FileSystemLinker) {
+      sm.retrieveCredentials();
+  }
 }
