@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Stream } from '../../models/stream.model';
 
 import { Logger } from '../../services/Logger.service';
+import { SessionManager } from '../../services/SessionManager.service';
 import { APILinker } from '../../services/APILinker.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class HomeComponent {
     private all_stream: Stream[];
     public random_streams: Stream[] = null;
 
-    constructor(private logg:Logger, public linker:APILinker) {}
+    constructor(private logg:Logger, public linker:APILinker, public sm:SessionManager) {}
 
     ngOnInit() {
         this.linker.getStreams()

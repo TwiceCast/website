@@ -250,7 +250,7 @@
 <!-- /Popular categories -->
 
 <!-- Join Us -->
-<div class="row-container" id="join-us">
+<div *ngIf="!sm.isLogged()" class="row-container" id="join-us">
     <!-- Container -->
     <div class="container">
         <!-- Title -->
