@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { APILinker } from './APILinker.service';
 
+import { User } from '../models/user.model';
+
 @Injectable()
 export class SessionManager {
 
@@ -85,6 +87,11 @@ export class SessionManager {
             }).catch((e) => {resolve(false);});
         });
     }
+    
+    // WAITING FOR API
+    /*RetrieveUser(): Promise<boolean> {
+        
+    }*/
     
     private LC_loginKey = 'TC_login';
     private LC_passwordKey = 'TC_pass';
