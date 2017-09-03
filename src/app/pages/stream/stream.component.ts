@@ -29,9 +29,11 @@ import { FileSystemLinker } from '../../services/FileSystemLinker.service';
 })
 export class StreamComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
+	@ViewChild('chat') chat;
     public codeEditorOptions:any;
     private code:String;
     private id: number;
+	private disableScrollDown = false;
 	
     // reference to the element itself, we use this to access events and methods
     private _elementRef: ElementRef
@@ -132,6 +134,8 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
     
     private sendChatMessage(content: string) {
+		if (content == "")
+			return;
         $('#newChatMessage').val('');
         console.log(content);
         this.mysock.emit('message', {'content': content});
@@ -214,9 +218,18 @@ export class StreamComponent implements OnInit, OnDestroy {
 			this.chatMessages.push(disconnect_message);
 		}.bind(this));
     }
+	
+	ngAfterViewChecked() {
+		if (!this.disableScrollDown)
+			this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
+	}
     
     ngOnDestroy() {
         this.mysock.close(true);
         this.fl.disconnect();
+    }
+
+    private onChatScroll(event) {
+		this.disableScrollDown = (this.chat.nativeElement.scrollTop + this.chat.nativeElement.clientHeight !== this.chat.nativeElement.scrollHeight);
     }
 }
