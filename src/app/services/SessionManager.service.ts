@@ -27,6 +27,10 @@ export class SessionManager {
         return this.password;
     }
     
+    getId(): number {
+        return JSON.parse(atob(this.api_key.split(".")[1]))["uid"];
+    }
+    
     Logout(): void {
         this.login = "";
         this.password = "";
