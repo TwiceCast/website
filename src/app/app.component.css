@@ -12,6 +12,10 @@
 /*    padding-top: 70px;*/
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 footer {
     background: #333;
     color: #fff;
