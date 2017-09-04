@@ -62,9 +62,13 @@ export class APILinker {
     getUser(id: number): Promise<User> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(this.API_URL + 'users/' + id, options)
+        console.log('REQUESTING + ' + this.API_URL + 'users/' + id.toString());
+        return this.http.get(this.API_URL + 'users/' + id.toString(), options)
                         .toPromise()
-                        .then(response => new User().deserialize(response.json()) as User)
+                        .then((response) => {
+                            console.log(response);
+                            return new User().deserialize(response.json());
+                        })
                         .catch(this.handleError);
     }
 
