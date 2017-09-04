@@ -7,12 +7,6 @@ import { ChatMessage } from '../../models/chat.model';
 
 import * as $ from 'jquery';
 
-enum LayeringMode {
-    OneTwo = 1,
-    OneOneOne,
-    TwoOne
-}
-
 import { SessionManager } from '../../services/SessionManager.service';
 import { APILinker } from '../../services/APILinker.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
@@ -35,9 +29,9 @@ export class LiveComponent implements OnInit, OnDestroy {
     public InputStreamTitle: String;
     public InputStreamDescription: String;
     
-    private layeringMode: LayeringMode = LayeringMode.OneTwo;
+    public chatMessages: ChatMessage[];
     
-    private sendChatMessage(content: string) {
+    public sendChatMessage(content: string) {
     }
     
     checkLive(response:any) {

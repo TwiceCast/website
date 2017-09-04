@@ -10,12 +10,6 @@ import 'brace/mode/c_cpp';
 
 import * as $ from 'jquery';
 
-enum LayeringMode {
-    OneTwo = 1,
-    OneOneOne,
-    TwoOne
-}
-
 declare function videojs(id: any, options: any, ready:any): any;
 
 
@@ -31,7 +25,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
 	@ViewChild('chat') chat;
     public codeEditorOptions:any;
-    private code:String;
+    public code:String;
     private id: number;
 	private disableScrollDown = false;
 	
@@ -120,9 +114,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.fl.auth();
     }
     
-    layeringMode: LayeringMode = LayeringMode.OneTwo;
-    
-    private chatMessages: ChatMessage[];
+    public chatMessages: ChatMessage[];
     
 
     private mysock: any;
@@ -133,7 +125,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         console.log(this.code);
     }
     
-    private sendChatMessage(content: string) {
+    public sendChatMessage(content: string) {
 		if (content == "")
 			return;
         $('#newChatMessage').val('');
@@ -229,7 +221,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.fl.disconnect();
     }
 
-    private onChatScroll(event) {
+    public onChatScroll(event) {
 		this.disableScrollDown = (this.chat.nativeElement.scrollTop + this.chat.nativeElement.clientHeight !== this.chat.nativeElement.scrollHeight);
     }
 }
