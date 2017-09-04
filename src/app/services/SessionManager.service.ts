@@ -28,6 +28,8 @@ export class SessionManager {
     }
     
     getId(): number {
+        if (!this.isLogged())
+            return -1;
         return JSON.parse(atob(this.api_key.split(".")[1]))["uid"];
     }
     
@@ -41,6 +43,7 @@ export class SessionManager {
     Register(email: string, password: string, name: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.linker.register(email, password, name).then(response => {
+                console.log('Register');
                 console.log(response);
                 try
                 {
@@ -67,6 +70,7 @@ export class SessionManager {
         this.password = password;
         return new Promise((resolve, reject) => {
             this.linker.login(email, password).then(response => {
+                console.log('Login');
                 console.log(response);
                 try
                 {
