@@ -4,10 +4,12 @@
         <!-- Stream -->
         <div class="col-lg-8" style="margin-bottom:20px;">
             <div class="row" style="text-align:center;margin-bottom:20px;">
-                <button class="getLive">Toggle Live</button>
+                <button *ngIf="live==false"class="getLive" (click)="goLive()">Turn on live</button>
+                <button *ngIf="live==true"class="getLive" (click)="liveOff()">Turn off live</button>
             </div>
             <div class="row" style="text-align:center;color:black;">
-                Live status : <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Red_Light_Icon.svg/2000px-Red_Light_Icon.svg.png" width="50">
+                Live status : <img *ngIf="live==true" src="../../../assets/GREEN.png" width="50">
+                <img *ngIf="live==false" src="../../../assets/RED.png" width="50">
             </div>
         </div>
         <!-- /Stream -->

@@ -84,9 +84,8 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
-    createStream(token:any, id:any, title:any, language:any): Promise<any> {
+    createStream(token:any, title:any, language:any): Promise<any> {
         let data = {
-            'id': id,
             'title': title,
             'lang': 'FRA',
             'private': false,
@@ -94,7 +93,7 @@ export class APILinker {
         const headers = new Headers({ 'Content-Type': 'application/json',
                                     'Authorization': token});
         const options = new RequestOptions({ headers: headers });
-        return this.http.post(this.API_URL + 'streams/' + id, JSON.stringify(data), options)
+        return this.http.post(this.API_URL + 'streams', JSON.stringify(data), options)
                         .toPromise()
                         .then((response) => {
                             return (response);
@@ -104,7 +103,8 @@ export class APILinker {
 
     
     deleteStream(token:any, id: any): Promise<any> {
-        const headers = new Headers({ 'Content-Type': 'application/json','Authorization': token});
+        const headers = new Headers({ 'Content-Type': 'application/json',
+                                     'Authorization': token});
         const options = new RequestOptions({ headers: headers });
         return this.http.delete(this.API_URL + 'streams/' + id, options)
                         .toPromise()

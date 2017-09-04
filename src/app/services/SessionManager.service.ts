@@ -19,6 +19,10 @@ export class SessionManager {
         return this.api_key != "";
     }
     
+    getApiKey(): string {
+        return this.api_key;
+    }
+    
     getLogin(): string {
         return this.login;
     }

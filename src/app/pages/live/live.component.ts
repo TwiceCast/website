@@ -14,6 +14,7 @@ enum LayeringMode {
 }
 
 import { SessionManager } from '../../services/SessionManager.service';
+import { APILinker } from '../../services/APILinker.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
 
 @Component({
@@ -23,20 +24,52 @@ import { FileSystemLinker } from '../../services/FileSystemLinker.service';
 })
 export class LiveComponent implements OnInit, OnDestroy {
 
-    constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router)
+    constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
     }
 
     ngAfterViewInit(){
     }
-    
+        
+    live: boolean = false;
     
     layeringMode: LayeringMode = LayeringMode.OneTwo;
     
     private sendChatMessage(content: string) {
     }
     
+    checkLive(response:any) {
+        for (let stream of response)
+        {
+            if (stream.owner.id == this.sm.getId())
+                this.live = true;
+        }
+    }
+    
+    goLive() {
+        this.linker.createStream(this.sm.getApiKey(), "test", "FRA");
+        this.live = true;
+    }
+    
+    liveOff() {
+        var streamId: string = "";
+        this.linker.getStreams().then(response => {
+            for (let stream of response)
+            {
+                if (stream.owner.id == this.sm.getId())
+                {
+                    alert(String(stream.id));
+                    this.linker.deleteStream(this.sm.getApiKey(), String(stream.id));
+                    this.live = false;
+                }
+            }
+        });
+    }
+    
     ngOnInit() {
+        this.linker.getStreams().then(response => {
+            this.checkLive(response);
+        });        
     }
     
     ngOnDestroy() {
