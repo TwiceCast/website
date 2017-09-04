@@ -5,12 +5,12 @@
 		<div class="row">
             <div *ngIf="!users"><div class="alert alert-info col-sm-12 col-lg-12 col-md-12 text-center">Loading...</div></div>
             <div *ngFor="let user of users; let i = index">
-                <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/profil/' + encodeURL(user.pseudo)]">
+                <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/profil/' + user.id]">
                     <div class="thumbnail">
                         <img src="assets/320x150.png" alt="">
                         <div class="caption">
                             <h4 class="pull-right"></h4>
-                            <h4><a href="#">{{user.pseudo}}</a>
+                            <h4><a>{{user.pseudo}}</a>
                             </h4>
                             <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         </div>

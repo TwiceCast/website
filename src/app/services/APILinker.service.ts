@@ -59,7 +59,7 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
-    getUser(id: any): Promise<User> {
+    getUser(id: number): Promise<User> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         return this.http.get(this.API_URL + 'users/' + id, options)
