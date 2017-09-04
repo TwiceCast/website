@@ -58,7 +58,6 @@ export class LiveComponent implements OnInit, OnDestroy {
             {
                 if (stream.owner.id == this.sm.getId())
                 {
-                    alert(String(stream.id));
                     this.linker.deleteStream(this.sm.getApiKey(), String(stream.id));
                     this.live = false;
                 }
