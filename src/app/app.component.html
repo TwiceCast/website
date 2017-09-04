@@ -33,7 +33,7 @@
                     <a *ngIf="!sm.isLogged()" [routerLink]="['/signup']">Sign up</a>
                 </li>
                 <li>
-                    <a *ngIf="sm.isLogged()" [routerLink]="['/live/1']"><button type="button" class="btn btn-danger btn-sm">Get LIVE now</button></a>
+                    <a *ngIf="sm.isLogged()" [routerLink]="['/live/']"><button type="button" class="btn btn-danger btn-sm">Get LIVE now</button></a>
                 </li>
                 <li>
                     <a *ngIf="sm.isLogged()" [routerLink]="['/']">{{sm.getLogin()}}</a>
