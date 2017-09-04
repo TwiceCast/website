@@ -6,7 +6,7 @@ export class Stream implements Serializable<Stream> {
     owner: User;
     
     deserialize(input) {
-        this.id = input.ID;
+        this.id = input.id;
         this.title = input.title;
         this.owner = new User().deserialize(input.owner);
 

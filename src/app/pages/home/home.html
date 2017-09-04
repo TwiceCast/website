@@ -68,7 +68,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row" *ngIf="popular_streams">
-                    <div *ngFor="let stream of popular_streams; let i = index" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
+                    <div *ngFor="let stream of popular_streams; let i = index" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream/'+stream.id]">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
@@ -86,7 +86,7 @@
                 </div>
                 
                 <div class="row" *ngIf="!popular_streams">
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/1']">
+                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/'+sm.getId()]">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
@@ -253,7 +253,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row" *ngIf="random_streams">
-                    <div *ngFor="let stream of random_streams; let i = index" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream']">
+                    <div *ngFor="let stream of random_streams; let i = index" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream'+stream.id]">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
@@ -271,7 +271,7 @@
                 </div>
                 
                 <div class="row" *ngIf="!random_streams">
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/1']">
+                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/'+sm.getId()]">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
