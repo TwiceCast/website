@@ -47,22 +47,34 @@ export class LiveComponent implements OnInit, OnDestroy {
     }
     
     goLive() {
-        this.linker.createStream(this.sm.getApiKey(), "test", "FRA");
-        this.live = true;
+        this.sm.checkToken().then((response) => {
+            if (response == true) {
+                this.linker.createStream(this.sm.getApiKey(), "test", "FRA");
+                this.live = true;
+            } else {
+                console.log("Please relog");
+            }
+        }).catch((response) => { console.log("not logged"); });
     }
     
     liveOff() {
-        var streamId: string = "";
-        this.linker.getStreams().then(response => {
-            for (let stream of response)
-            {
-                if (stream.owner.id == this.sm.getId())
-                {
-                    this.linker.deleteStream(this.sm.getApiKey(), String(stream.id));
-                    this.live = false;
-                }
+        this.sm.checkToken().then((response) => {
+            if (response == true) {
+                var streamId: string = "";
+                this.linker.getStreams().then((response_stream) => {
+                    for (let stream of response_stream)
+                    {
+                        if (stream.owner.id == this.sm.getId())
+                        {
+                            this.linker.deleteStream(this.sm.getApiKey(), String(stream.id));
+                            this.live = false;
+                        }
+                    }
+                });
+            } else {
+                console.log("Please relog");
             }
-        });
+        }).catch((response) => { console.log("not logged"); });
     }
     
     ngOnInit() {

@@ -44,6 +44,18 @@ export class SessionManager {
         this.clearCredentials();
     }
     
+    checkToken(): Promise<boolean> {
+        if (!this.isLogged)
+            return new Promise((resolve, reject) => { reject(false); });
+        let token_date = new Date(JSON.parse(atob(this.api_key.split(".")[1]))["exp"] * 1000);
+        let current_date = new Date();
+        if (token_date < current_date) {
+            return this.Login(this.login, this.password);
+        }
+        else
+            return new Promise((resolve, reject) => { resolve(true); });
+    }
+    
     Register(email: string, password: string, name: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.linker.register(email, password, name).then(response => {
