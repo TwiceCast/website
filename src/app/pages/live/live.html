@@ -31,26 +31,32 @@
         <!-- /Stream -->
         <!-- Right Col -->
         <div class="col-lg-4">
-                    <div class="row">
-                        <div class="col-lg-12" style="margin-left:5px;margin-right:5px;">
-                        <h5 class="text-center" style="background: #a33; color: #fff">Chat !</h5>
-                        <div *ngFor="let chatMessage of chatMessages; let i = index" class="row">
-                            <div class="col-lg-12">
-                            <div *ngIf="i == 0 || chatMessages[i - 1].author != chatMessage.author" class="row"><span style="background: #999; border-radius: 5px; margin-right: 5px; margin-left: 5px;">{{ chatMessage.author }}</span></div>
-                            <div class="row" style="background: #999; border-radius: 5px;">{{ chatMessage.message}}</div>
-                            </div>
+            <div class="row">
+                <div class="col-lg-11 col-lg-offset-1">
+                    <ul  class="nav nav-pills">
+                        <li class="active"><a href="#Chat" data-toggle="tab">Chat</a></li>
+                    </ul>
+
+                    <div class="tab-content clearfix">
+                        <div *ngIf="chatService" class="tab-pane active" id="Chat">
+                            <!-- Chat -->
+							<div #chat class="row" id="MessagesContainer" (scroll)="onChatScroll($event)">
+								<div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
+									<div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row"><span class="author">{{ chatMessage.author }}</span></div>
+									<div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row">{{ chatMessage.message}}</div>
+								</div>
+							</div>
+							<div class="row input-group">
+								<input #newChatMessage id="newChatMessage" type="text" class="form-control" placeholder="Message...">
+								<span class="input-group-btn">
+									<button (click)="chatService.sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
+								</span>
+							</div>
+                            <!-- /Chat -->
                         </div>
-                        <div class="row">
-                            <div class="input-group">
-                                <input #newChatMessage id="newChatMessage" type="text" class="form-control" placeholder="Message...">
-                                <span class="input-group-btn">
-                                    <button (click)="sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
-                                </span>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- /Chat -->
+                     </div>
+                </div>                    
+            </div>
         </div>
         <!-- /Right Col -->
     </div>

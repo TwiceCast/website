@@ -19,6 +19,7 @@ import { Logger } from './services/Logger.service';
 import { APILinker } from './services/APILinker.service';
 import { SessionManager } from './services/SessionManager.service';
 import { FileSystemLinker } from './services/FileSystemLinker.service';
+import { ChatService } from './services/ChatService.service';
 
 import { AceEditorModule } from 'ng2-ace-editor';
 
@@ -55,7 +56,8 @@ import { AlertModule } from 'ngx-bootstrap/alert';
         Logger,
         APILinker,
 		SessionManager,
-        FileSystemLinker
+        FileSystemLinker,
+        ChatService
     ],
   bootstrap: [
 		AppComponent

@@ -3,13 +3,13 @@ import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/co
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import * as io from 'socket.io-client';
-import { ChatMessage } from '../../models/chat.model';
 
 import * as $ from 'jquery';
 
 import { SessionManager } from '../../services/SessionManager.service';
 import { APILinker } from '../../services/APILinker.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
+import { ChatService } from '../../services/ChatService.service';
 
 @Component({
   selector: 'component-streamLayout',
@@ -18,27 +18,27 @@ import { FileSystemLinker } from '../../services/FileSystemLinker.service';
 })
 export class LiveComponent implements OnInit, OnDestroy {
 
+    @ViewChild('chat') chat;
+    private disableScrollDown = false;
+    
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
-    }
-
-    ngAfterViewInit(){
     }
         
     public live: boolean = false;
     public InputStreamTitle: String;
     public InputStreamDescription: String;
     
-    public chatMessages: ChatMessage[];
-    
-    public sendChatMessage(content: string) {
-    }
+    public chatService: ChatService;
     
     checkLive(response:any) {
         for (let stream of response)
         {
-            if (stream.owner.id == this.sm.getId())
+            if (stream.owner.id == this.sm.getId()) {
                 this.live = true;
+                this.chatService = new ChatService('#newChatMessage', '#sendChat', this.sm);
+                this.chatService.Init(stream.id);
+            }
         }
     }
     
@@ -49,7 +49,11 @@ export class LiveComponent implements OnInit, OnDestroy {
             return;
         this.sm.checkToken().then((response) => {
             if (response == true) {
-                this.linker.createStream(this.sm.getApiKey(), this.InputStreamTitle, this.InputStreamDescription, "FRA").catch((error) => {
+                this.linker.createStream(this.sm.getApiKey(), this.InputStreamTitle, this.InputStreamDescription, "FRA").then((reponse) => {
+                    this.linker.getStreams().then(live_response => {
+                        this.checkLive(live_response);
+                    });
+                }).catch((error) => {
                     if (error["status"] == 401) {
                         this.sm.Login(this.sm.getLogin(), this.sm.getPassword()).then((resp) => {
                             if (resp == true) {
@@ -58,7 +62,6 @@ export class LiveComponent implements OnInit, OnDestroy {
                         });
                     }
                 });
-                this.live = true;
             } else {
                 console.log("Please relog");
             }
@@ -76,6 +79,10 @@ export class LiveComponent implements OnInit, OnDestroy {
                         {
                             this.linker.deleteStream(this.sm.getApiKey(), String(stream.id));
                             this.live = false;
+                            if (this.chatService) {
+                                this.chatService.Destroy();
+                                this.chatService = null;
+                            }
                         }
                     }
                 });
@@ -88,9 +95,15 @@ export class LiveComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.linker.getStreams().then(response => {
             this.checkLive(response);
-        });        
+        });
     }
     
     ngOnDestroy() {
+        if (this.chatService)
+            this.chatService.Destroy();
+    }
+    
+    public onChatScroll(event) {
+		this.disableScrollDown = (this.chat.nativeElement.scrollTop + this.chat.nativeElement.clientHeight !== this.chat.nativeElement.scrollHeight);
     }
 }
