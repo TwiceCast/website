@@ -84,6 +84,35 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
+    createStream(id:any, title:any, language:any): Promise<any> {
+        let data = {
+            'id': id,
+            'title': title,
+            'lang': 'FRA',
+            'private': false,
+        }
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.post(this.API_URL + 'streams/' + id, JSON.stringify(data), options)
+                        .toPromise()
+                        .then((response) => {
+                            return (response);
+                        })
+                        .catch(this.handleError);
+    }
+
+    
+    deleteStream(id: any): Promise<any> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.delete(this.API_URL + 'streams/' + id, options)
+                        .toPromise()
+                        .then((response) => {
+                            return (response);
+                        })
+                        .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
