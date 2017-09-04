@@ -89,9 +89,10 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
-    createStream(token:any, title:any, language:any): Promise<any> {
+    createStream(token:any, title:any, description: any, language:any): Promise<any> {
         let data = {
             'title': title,
+            'short_description': description,
             'lang': 'FRA',
             'private': false,
         }

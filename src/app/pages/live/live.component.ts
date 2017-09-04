@@ -31,9 +31,11 @@ export class LiveComponent implements OnInit, OnDestroy {
     ngAfterViewInit(){
     }
         
-    live: boolean = false;
+    public live: boolean = false;
+    public InputStreamTitle: String;
+    public InputStreamDescription: String;
     
-    layeringMode: LayeringMode = LayeringMode.OneTwo;
+    private layeringMode: LayeringMode = LayeringMode.OneTwo;
     
     private sendChatMessage(content: string) {
     }
@@ -47,9 +49,21 @@ export class LiveComponent implements OnInit, OnDestroy {
     }
     
     goLive() {
+        if (!this.InputStreamTitle || this.InputStreamTitle.length < 4)
+            return;
+        if (!this.InputStreamDescription || this.InputStreamDescription.length < 4)
+            return;
         this.sm.checkToken().then((response) => {
             if (response == true) {
-                this.linker.createStream(this.sm.getApiKey(), "test", "FRA");
+                this.linker.createStream(this.sm.getApiKey(), this.InputStreamTitle, this.InputStreamDescription, "FRA").catch((error) => {
+                    if (error["status"] == 401) {
+                        this.sm.Login(this.sm.getLogin(), this.sm.getPassword()).then((resp) => {
+                            if (resp == true) {
+                                this.goLive();
+                            }
+                        });
+                    }
+                });
                 this.live = true;
             } else {
                 console.log("Please relog");

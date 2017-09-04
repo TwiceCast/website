@@ -3,6 +3,18 @@
     <div *ngIf="layeringMode==1" class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
         <!-- Stream -->
         <div class="col-lg-8" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4 form-group">
+                    <label for="InputStreamTitle" style="color:black;">Stream title</label>
+                    <input [(ngModel)]="InputStreamTitle" type="text" class="form-control" id="InputStreamTitle" name="InputStreamTitle" placeholder="Enter title" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4 form-group">
+                    <label for="InputStreamDescription" style="color:black;">Stream Description</label>
+                    <input [(ngModel)]="InputStreamDescription" type="text" class="form-control" id="InputStreamDescription" name="InputStreamDescription" placeholder="Enter description" required>
+                </div>
+            </div>
             <div class="row" style="text-align:center;margin-bottom:20px;">
                 <button *ngIf="live==false"class="getLive" (click)="goLive()">Turn on live</button>
                 <button *ngIf="live==true"class="getLive" (click)="liveOff()">Turn off live</button>
