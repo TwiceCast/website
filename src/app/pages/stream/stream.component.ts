@@ -25,7 +25,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
 	@ViewChild('chat') chat;
     public codeEditorOptions:any;
-    public streamUrl:string;
+    public streamUrl:string = "";
     public code:String;
     private id: number;
 	private disableScrollDown = false;
@@ -40,7 +40,6 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
-        this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(this.id);
         this.player = false;
     }
 	
@@ -83,25 +82,16 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setMode("c_cpp");
         this.editor.setOptions({minLines: 15, maxLines: 15});
         this.player = videojs(document.getElementById('stream_videojs'), {techOrder: ['flash']}, function() {
-
-          // Store the video object
-          var myPlayer = this, id = myPlayer.id();
-
-          // Make up an aspect ratio
-          var aspectRatio = 9/16;
-
-          // internal method to handle a window resize event to adjust the video player
-          function resizeVideoJS(){
-            var width = document.getElementById(id).parentElement.offsetWidth;
-            myPlayer.width(width);
-            myPlayer.height( width * aspectRatio );
-          }
-
-          // Initialize resizeVideoJS()
-          resizeVideoJS();
-
-          // Then on resize call resizeVideoJS()
-          window.onresize = resizeVideoJS;
+            var myPlayer = this, id = myPlayer.id();
+            myPlayer.src({type:"rtmp/mp4", src:this.streamUrl});
+            var aspectRatio = 9/16;
+            function resizeVideoJS(){
+                var width = document.getElementById(id).parentElement.offsetWidth;
+                myPlayer.width(width);
+                myPlayer.height( width * aspectRatio );
+            }
+            resizeVideoJS();
+            window.onresize = resizeVideoJS;
         });
     }
     
@@ -116,6 +106,16 @@ export class StreamComponent implements OnInit, OnDestroy {
             params.get('id')
         ).subscribe((id: any) => this.id = id);
         
+        this.linker.getStreams().then(response => {
+            for (let stream of response)
+            {
+                if (this.id == stream.id)
+                {
+                    this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(stream.owner.id);
+                }
+            }
+        });
+
         this.codeEditorOptions = {
                 maxLines: 10, 
                 printMargin: true
