@@ -86,7 +86,23 @@
                 </div>
                 
                 <div class="row" *ngIf="!popular_streams">
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/'+sm.getId()]">
+                    <div *ngIf="sm.isLogged()" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/'+sm.getId()]">
+                        <div class="thumbnail">
+                            <img src="assets/320x150.png" alt="">
+                            <div class="caption">
+                                <h4 class="pull-right"></h4>
+                                <h4 class="text-primary">No stream</h4>
+                                <p>There is no stream at the moment.<br />
+                                    Start streaming to be the first !</p>
+                            </div>
+                            <div class="ratings">
+                                <p class="text-center">
+                                    Start streaming now !
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!sm.isLogged()" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/signup']">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
@@ -271,7 +287,23 @@
                 </div>
                 
                 <div class="row" *ngIf="!random_streams">
-                    <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/'+sm.getId()]">
+                    <div *ngIf="sm.isLogged()" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/live/'+sm.getId()]">
+                        <div class="thumbnail">
+                            <img src="assets/320x150.png" alt="">
+                            <div class="caption">
+                                <h4 class="pull-right"></h4>
+                                <h4 class="text-primary">No stream</h4>
+                                <p>There is no stream at the moment.<br />
+                                    Start streaming to be the first !</p>
+                            </div>
+                            <div class="ratings">
+                                <p class="text-center">
+                                    Start streaming now !
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!sm.isLogged()" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/signup']">
                         <div class="thumbnail">
                             <img src="assets/320x150.png" alt="">
                             <div class="caption">
