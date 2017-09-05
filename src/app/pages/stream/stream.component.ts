@@ -21,6 +21,7 @@ declare function videojs(id: any, options: any, ready:any): any;
 
 import { SessionManager } from '../../services/SessionManager.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
+import { APILinker } from '../../services/APILinker.service';
 
 @Component({
   selector: 'component-streamLayout',
@@ -31,6 +32,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
 	@ViewChild('chat') chat;
     public codeEditorOptions:any;
+    public streamUrl:string;
     private code:String;
     private id: number;
 	private disableScrollDown = false;
@@ -41,8 +43,9 @@ export class StreamComponent implements OnInit, OnDestroy {
     // declare player var
     private player: any;
 
-    constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router)
+    constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
+        this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(this.id);
         this.player = false;
     }
 	
@@ -81,6 +84,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
 
     ngAfterViewInit(){
+        
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp");
         this.editor.setOptions({minLines: 15, maxLines: 15});
