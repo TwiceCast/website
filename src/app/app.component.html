@@ -36,7 +36,8 @@
                     <a *ngIf="sm.isLogged()" [routerLink]="['/live/'+sm.getId()]"><button type="button" class="btn btn-danger btn-sm">Get LIVE now</button></a>
                 </li>
                 <li>
-                    <a *ngIf="sm.isLogged()" [routerLink]="['/']">{{sm.getLogin()}}</a>
+                    <a *ngIf="sm.isLogged() && !sm.getUser()" [routerLink]="['/']">{{sm.getLogin()}}</a>
+                    <a *ngIf="sm.isLogged() && sm.getUser()" [routerLink]="['/']">{{sm.getUser().pseudo}}</a>
                 </li>
                 <li>
                     <a *ngIf="sm.isLogged()" (click)="sm.Logout()" [routerLink]="['/']">Logout</a>

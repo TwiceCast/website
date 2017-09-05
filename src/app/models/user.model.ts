@@ -12,7 +12,6 @@ export class User implements Serializable<User> {
     lastVisitDate: any;
     
     deserialize(input) {
-        console.log(input);
         this.id = +input.id;
         this.pseudo = input.name;
         this.email = input.email;

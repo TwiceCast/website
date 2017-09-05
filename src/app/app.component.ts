@@ -12,6 +12,12 @@ export class AppComponent {
   title = 'TwiceCast';
   
   constructor(public sm:SessionManager, public fl:FileSystemLinker) {
-      sm.retrieveCredentials();
+      if (sm.retrieveCredentials()) {
+          sm.checkToken().then((resp) => {
+             if (resp == true) {
+                 sm.RetrieveUser();
+             } 
+          });
+      }
   }
 }
