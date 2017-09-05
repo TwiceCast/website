@@ -20,6 +20,8 @@ export class SigninComponent implements OnInit, OnDestroy {
     
     public connectionState: string;
     
+    private timeoutRedir: any;
+    
     constructor(private logg:Logger, public sm:SessionManager, private router: Router) {}
     
     ngOnInit() {
@@ -31,7 +33,7 @@ export class SigninComponent implements OnInit, OnDestroy {
         this.sm.Login(this.inputEmailSignin, this.inputPasswordSignin).then(response => {
             if (response == true) {
                 this.connectionState = "success";
-                setTimeout(function() {this.router.navigate(['/home']); }.bind(this), 3000);
+                this.timeoutRedir = setTimeout(function() {this.router.navigate(['/home']); }.bind(this), 3000);
             }
             else
                 this.connectionState = "error";
@@ -41,5 +43,8 @@ export class SigninComponent implements OnInit, OnDestroy {
     }
     
     ngOnDestroy() {
+        if (this.timeoutRedir) {
+            clearTimeout(this.timeoutRedir);
+        }
     }
 }
