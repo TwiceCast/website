@@ -14,7 +14,7 @@ import { Logger } from '../../services/Logger.service';
 
 // Component class
 export class ProfilDetailComponent implements OnInit, OnDestroy {
-    private id: number;
+    public id: number;
     private sub: any;
     
     user: User;

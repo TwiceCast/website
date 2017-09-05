@@ -62,12 +62,9 @@ export class APILinker {
     getUser(id: number): Promise<User> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
-        console.log('REQUESTING + ' + this.API_URL + 'users/' + id.toString());
         return this.http.get(this.API_URL + 'users/' + id.toString(), options)
                         .toPromise()
                         .then((response) => {
-                            console.log('Get user');
-                            console.log(response);
                             return new User().deserialize(response.json());
                         })
                         .catch(this.handleError);
@@ -89,9 +86,10 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
-    createStream(token:any, title:any, language:any): Promise<any> {
+    createStream(token:any, title:any, description: any, language:any): Promise<any> {
         let data = {
             'title': title,
+            'short_description': description,
             'lang': 'FRA',
             'private': false,
         }

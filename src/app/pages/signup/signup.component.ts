@@ -1,5 +1,5 @@
 // Imports
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Logger } from '../../services/Logger.service';
@@ -13,7 +13,7 @@ import * as $ from 'jquery';
 })
 
 // Component class
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
 
     public inputNicknameSignup: string;
     public inputEmailSignup: string;
@@ -21,6 +21,8 @@ export class SignupComponent implements OnInit {
     public inputRePasswordSignup: string;
 
     public registerState: string;
+    
+    private timeoutRedir: any;
 
     constructor(private logg:Logger, public sm:SessionManager, private router: Router) {}
 
@@ -38,13 +40,19 @@ export class SignupComponent implements OnInit {
                 if (response == true) {
                     this.registerState = "success";
                     this.sm.Login(this.inputEmailSignup, this.inputPasswordSignup);
-                    setTimeout(function() {this.router.navigate(['/home']); }.bind(this), 3000);
+                    this.timeoutRedir = setTimeout(function() {this.router.navigate(['/home']); }.bind(this), 3000);
                 }
                 else
                     this.registerState = "error";
                 this.logg.log(response);
             });
             this.logg.log("Trying to register");
+        }
+    }
+    
+    ngOnDestroy() {
+        if (this.timeoutRedir) {
+            clearTimeout(this.timeoutRedir);
         }
     }
 }

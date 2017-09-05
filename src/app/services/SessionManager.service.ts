@@ -10,9 +10,13 @@ export class SessionManager {
     private password: string;
     private api_key: string;
 
+    private user: User;
+    
     constructor(private linker:APILinker) {
         this.login = "";
         this.api_key = "";
+        this.password = "";
+        this.user = null;
     }
     
     isLogged(): boolean {
@@ -37,11 +41,28 @@ export class SessionManager {
         return JSON.parse(atob(this.api_key.split(".")[1]))["uid"];
     }
     
+    getUser() : User {
+        return this.user;
+    }
+    
     Logout(): void {
         this.login = "";
         this.password = "";
         this.api_key = "";
+        this.user = null;
         this.clearCredentials();
+    }
+    
+    checkToken(): Promise<boolean> {
+        if (!this.isLogged)
+            return new Promise((resolve, reject) => { reject(false); });
+        let token_date = new Date(JSON.parse(atob(this.api_key.split(".")[1]))["exp"] * 1000);
+        let current_date = new Date();
+        if (token_date < current_date) {
+            return this.Login(this.login, this.password);
+        }
+        else
+            return new Promise((resolve, reject) => { resolve(true); });
     }
     
     Register(email: string, password: string, name: string): Promise<boolean> {
@@ -82,6 +103,7 @@ export class SessionManager {
                     {
                         this.api_key = response['token'];
                         this.SaveCredentials();
+                        this.RetrieveUser();
                         resolve(true);
                     }
                     else
@@ -100,10 +122,17 @@ export class SessionManager {
         });
     }
     
-    // WAITING FOR API
-    /*RetrieveUser(): Promise<boolean> {
-        
-    }*/
+    RetrieveUser(): boolean {
+        if (!this.isLogged())
+            return false;
+        this.linker.getUser(this.getId()).then((response) => {
+            this.user = response;
+            return true;
+        }).catch((error) => {
+            console.log('Session Manager: coudn\'t retrieve user');
+            return false;
+        });
+    }
     
     private LC_loginKey = 'TC_login';
     private LC_passwordKey = 'TC_pass';
