@@ -1,19 +1,23 @@
 <div id="profildetail_body">
     <!-- Page Content -->
     <div class="container" *ngIf="user">
-		<div class="profile-background"></div>
 		<div class="row"> <!-- Profile -->
-			<div class="profile panel panel-primary col-xs-offset-3 col-md-offset-4 col-xs-6 col-md-4">
+			<div class="profile panel panel-primary col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
 				<div class="row panel-heading">
 					<img src="https://api.twicecast.ovh/users/{{ id }}/avatar" width="250" height="250" class="img-circle" alt="...">
 				</div>
-				<div class="row panel-body">
-					<h1>{{user.pseudo}}</h1>
+				<div class="row panel-body text-center">
+					<h1 style="word-break:break-all;">{{user.pseudo}}</h1>
 				</div>
 			</div>
 		</div>
-        <div class="row text-center">
-            <h4>{{user.email}}</h4>
+        <div class="row text-center personal_info">
+            <h4>Email : {{user.email}}</h4>
+            <form *ngIf="isCurrentUser==true" class="form-horizontal">
+                <label for="password_changer"><h4>Change password :</h4></label>
+                <input style="font-size:24px" type="password" id="password_changer">
+                <button class="btn btn-danger">Change</button>
+            </form>
         </div>
     </div>
     <!-- /.container -->
