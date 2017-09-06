@@ -37,7 +37,7 @@ export class ChatService {
         // CHAT
         this.id = room_id;
         this.chatMessages = [];
-        this.mysock = io('http://chat.twicecast.ovh:3006');
+        this.mysock = io('http://chat.twicecast.ovh:3008');
         
 		this.displayErrorConnect = true;
 		

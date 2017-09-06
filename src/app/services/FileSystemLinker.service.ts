@@ -9,7 +9,7 @@ import { APILinker } from './APILinker.service';
 
 @Injectable()
 export class FileSystemLinker {
-    private FILESERVEUR_ADDR: string = "ws://file.twicecast.ovh:3005/";
+    private FILESERVEUR_ADDR: string = "ws://repository.twicecast.ovh:3006/";
     private PROTOCOL: string = "";
     
     private socket: any;
@@ -17,7 +17,7 @@ export class FileSystemLinker {
     public connect(url: string): Promise<boolean> {
         if (this.socket != null)
             this.disconnect();
-        this.socket = new WebSocket(url);
+        this.socket = new WebSocket(this.FILESERVEUR_ADDR);
         return new Promise((resolve, reject) => {
             if (this.socket) {
                 this.socket.onmessage = this.message.bind(this);
