@@ -85,6 +85,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.player = videojs(document.getElementById('stream_videojs'), {techOrder: ['flash']}, function() {
             var myPlayer = this, id = myPlayer.id();
             var aspectRatio = 9/16;
+            myPlayer.autoplay(true);
             function resizeVideoJS(){
                 var width = document.getElementById(id).parentElement.offsetWidth;
                 myPlayer.width(width);
@@ -110,6 +111,8 @@ export class StreamComponent implements OnInit, OnDestroy {
                 {
                     this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(stream.owner.id);
                     this.player.src({type:"rtmp/mp4",src:this.streamUrl});
+                    this.player.play();
+                    $('window').trigger("resize");
                 }
             }
         });
@@ -142,6 +145,8 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.chatService.Destroy();
         this.fl.disconnect();
         this.sub.unsubscribe();
+        this.player.dispose();
+        window.onresize = undefined;
     }
 
     public onChatScroll(event) {
