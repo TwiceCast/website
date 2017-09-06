@@ -131,8 +131,11 @@ export class StreamComponent implements OnInit, OnDestroy {
         ///
         /// Init file system
         ///
-        this.fl.connect();
-        this.fl.auth();
+        this.fl.connect().then((resp) => {
+            if (resp) {
+                this.fl.auth(this.sm.getApiKey());
+            }
+        });
     }
 
     ngAfterViewChecked() {
