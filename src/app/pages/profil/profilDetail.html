@@ -14,9 +14,8 @@
         <div class="row text-center personal_info">
             <h4>Email : {{user.email}}</h4>
             <form *ngIf="isCurrentUser==true" class="form-horizontal">
-                <label for="password_changer"><h4>Change password :</h4></label>
-                <input style="font-size:24px" type="password" id="password_changer">
-                <button class="btn btn-danger">Change</button>
+                <input style="font-size:24px" type="password" [(ngModel)]="inputPasswordChanger" id="inputPasswordChanger" placeholder="New Password" name="inputPasswordChanger" #name="ngModel" required >
+                <button class="btn btn-danger" (click)="changePassword()">Change</button>
             </form>
         </div>
     </div>

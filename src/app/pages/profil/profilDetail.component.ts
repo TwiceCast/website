@@ -18,10 +18,16 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     public id: number;
     public isCurrentUser: boolean = false;
     private sub: any;
+    public inputPasswordChanger: string;
     
     user: User;
     
     constructor(private route: ActivatedRoute, private api:APILinker, private logg:Logger, private sm:SessionManager) {
+    }
+    
+    changePassword() {
+        this.api.changePassword(this.sm.getApiKey(), this.sm.getId(), this.inputPasswordChanger);
+        this.inputPasswordChanger = "";
     }
     
     ngOnInit() {
