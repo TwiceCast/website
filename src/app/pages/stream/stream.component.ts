@@ -28,6 +28,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     public streamUrl:string = "";
     public code:String;
     private id: number;
+    private sub: any;
 	private disableScrollDown = false;
     
     public chatService: ChatService;
@@ -83,7 +84,6 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setOptions({minLines: 15, maxLines: 15});
         this.player = videojs(document.getElementById('stream_videojs'), {techOrder: ['flash']}, function() {
             var myPlayer = this, id = myPlayer.id();
-            myPlayer.src({type:"rtmp/mp4", src:this.streamUrl});
             var aspectRatio = 9/16;
             function resizeVideoJS(){
                 var width = document.getElementById(id).parentElement.offsetWidth;
@@ -102,16 +102,14 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // Get Stream ID
-        this.route.paramMap.switchMap((params: ParamMap) =>
-            params.get('id')
-        ).subscribe((id: any) => this.id = id);
-        
+        this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
         this.linker.getStreams().then(response => {
             for (let stream of response)
             {
                 if (this.id == stream.id)
                 {
                     this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(stream.owner.id);
+                    this.player.src({type:"rtmp/mp4",src:this.streamUrl});
                 }
             }
         });
@@ -143,6 +141,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.chatService.Destroy();
         this.fl.disconnect();
+        this.sub.unsubscribe();
     }
 
     public onChatScroll(event) {
