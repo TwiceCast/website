@@ -14,40 +14,19 @@
 	background-position: center bottom;
 }
 
+.personal_info {
+    margin-bottom: 40px;
+}
+
 .profile {
 	margin-top: 100px;
-	margin-bottom: 100px;
+	margin-bottom: 50px;
 	text-align: center;
 }
 
 .profile img {
 	border: 1px solid black;
 }
-/*
-.navbar {
-    background-color: firebrick;
-}
-
-.logo_container {
-    background-color: white;
-    color: firebrick;
-    border-radius: 15px;
-}
-
-.logo {
-    float: left;
-    margin-top: -15px;
-    height: 50px;
-}
-
-.login {
-    color: white !important;
-}
-
-.login:hover {
-    color:black !important;
-}
-*/
 .language_icon {
     vertical-align: middle !important;
     float: left;

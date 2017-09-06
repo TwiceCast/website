@@ -15,6 +15,7 @@ import { Logger } from '../../services/Logger.service';
 // Component class
 export class ProfilDetailComponent implements OnInit, OnDestroy {
     public id: number;
+    public isCurrentUser: boolean;
     private sub: any;
     
     user: User;
@@ -30,6 +31,7 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
                 console.log(this.user);
             });
         });
+        this.isCurrentUser = true;
     }
     
     ngOnDestroy() {
