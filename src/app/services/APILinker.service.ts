@@ -85,6 +85,33 @@ export class APILinker {
                         })
                         .catch(this.handleError);
     }
+    
+    getStream(id: number): Promise<Stream> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.API_URL + 'streams/' + id, options)
+                        .toPromise()
+                        .then((response) => {
+                            return new Stream().deserialize(response.json());
+                        })
+                        .catch(this.handleError);
+    }
+    
+    getTags(): Promise<any[]> {
+        return null;
+    }
+    
+    getRepository(token: any, id: number): Promise<any> {
+        const headers = new Headers({ 'Content-Type': 'application/json',
+                                    'Authorization': token});
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.API_URL + 'streams/' + id + '/repository', options)
+                        .toPromise()
+                        .then((response) => {
+                            return response;
+                        })
+                        .catch(this.handleError);
+    }
 
     createStream(token:any, title:any, description: any, language:any): Promise<any> {
         let data = {

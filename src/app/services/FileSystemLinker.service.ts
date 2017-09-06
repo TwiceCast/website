@@ -5,6 +5,8 @@ import { User } from '../models/user.model';
 
 import 'rxjs/add/operator/toPromise';
 
+import { APILinker } from './APILinker.service';
+
 @Injectable()
 export class FileSystemLinker {
     private FILESERVEUR_ADDR: string = "ws://file.twicecast.ovh:3005/";
@@ -12,10 +14,10 @@ export class FileSystemLinker {
     
     private socket: any;
     
-    public connect(): Promise<boolean> {
+    public connect(url: string): Promise<boolean> {
         if (this.socket != null)
             this.disconnect();
-        this.socket = new WebSocket(this.FILESERVEUR_ADDR);
+        this.socket = new WebSocket(url);
         return new Promise((resolve, reject) => {
             if (this.socket) {
                 this.socket.onmessage = this.message.bind(this);
@@ -33,10 +35,16 @@ export class FileSystemLinker {
         console.log(data);
     }
     
-    public auth(token: String) {
+    public auth(token: string, username: string, streamer: string, stream_name: string) {
+        
         let authrequest: object = {
             "type":"authenticate",
             "data": {
+                "pullrequest" : {
+                    "username" : username,
+                    "streamer" : streamer,
+                    "project" : stream_name
+                },
                 "token": token
             }
         };

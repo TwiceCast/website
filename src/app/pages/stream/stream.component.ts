@@ -10,6 +10,7 @@ import * as $ from 'jquery';
 
 declare function videojs(id: any, options: any, ready:any): any;
 
+import { Stream } from '../../models/stream.model';
 
 import { SessionManager } from '../../services/SessionManager.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
@@ -30,6 +31,8 @@ export class StreamComponent implements OnInit, OnDestroy {
     private id: number;
     private sub: any;
 	private disableScrollDown = false;
+    
+    public stream: Stream;
     
     public chatService: ChatService;
     
@@ -131,11 +134,22 @@ export class StreamComponent implements OnInit, OnDestroy {
         ///
         /// Init file system
         ///
-        this.fl.connect().then((resp) => {
-            if (resp) {
-                this.fl.auth(this.sm.getApiKey());
-            }
-        });
+        this.linker.getStream(this.id).then((resp_stream) => {
+            console.log(resp_stream);
+            this.stream = resp_stream;
+            this.sm.checkToken().then((token_valid) => {
+                this.linker.getRepository(this.sm.getApiKey(), this.id).then((response) => {
+                    console.log(response);
+                    let rep_info = JSON.parse(response['_body']);
+                    this.fl.connect(rep_info.url).then((resp) => {
+                        if (resp) {
+                            this.fl.auth(rep_info.token, this.sm.getUser().pseudo, this.stream.owner.pseudo, this.stream.title);
+                        }
+                    });
+                });
+            });
+        })
+        
     }
 
     ngAfterViewChecked() {
