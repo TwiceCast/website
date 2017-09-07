@@ -1,0 +1,54 @@
+#streamlist_body {
+    padding-top: 90px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+.stream {
+	margin-top: 100px;
+	margin-bottom: 100px;
+	text-align: center;
+}
+
+.stream img {
+	border: 1px solid black;
+}
+
+.caption {
+    height: 130px;
+    overflow: hidden;
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.ratings {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #cb263c;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+.tag-filter {
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+footer {
+    margin: 50px 0;
+}

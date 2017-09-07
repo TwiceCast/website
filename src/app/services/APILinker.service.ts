@@ -3,6 +3,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 
 import { User } from '../models/user.model';
 import { Stream } from '../models/stream.model';
+import { Tag } from '../models/tag.model';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -85,7 +86,7 @@ export class APILinker {
                         })
                         .catch(this.handleError);
     }
-    
+
     getStream(id: number): Promise<Stream> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
@@ -96,11 +97,23 @@ export class APILinker {
                         })
                         .catch(this.handleError);
     }
-    
-    getTags(): Promise<any[]> {
-        return null;
+
+    getTags(): Promise<Tag[]> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.API_URL + 'tags/', options)
+                        .toPromise()
+                        .then((response) => {
+                            let res : Tag[] = [];
+                            for (let tag of response.json()["tag_list"])
+                            {
+                                res.push(new Tag().deserialize(tag));
+                            }
+                            return res;
+                        })
+                        .catch(this.handleError);
     }
-    
+
     getRepository(token: any, id: number): Promise<any> {
         const headers = new Headers({ 'Content-Type': 'application/json',
                                     'Authorization': token});
@@ -159,7 +172,7 @@ export class APILinker {
                         })
                         .catch(this.handleError);
     }
-    
+
     private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
