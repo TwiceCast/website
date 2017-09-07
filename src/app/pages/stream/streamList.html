@@ -14,7 +14,7 @@
 		<div class="row">
             <!-- Streams -->
             <div *ngIf="!streams"><div class="alert alert-info col-sm-12 col-lg-12 col-md-12 text-center">Loading...</div></div>
-            <div *ngFor="let stream of streams; let i = index">
+            <div *ngFor="let stream of displayedStreams; let i = index">
                 <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream/' + stream.id]">
                     <div class="thumbnail">
                         <img height="120" src="../../../assets/320x150.png" alt="">

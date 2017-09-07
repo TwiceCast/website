@@ -18,19 +18,53 @@ export class StreamListComponent {
     private streams: Stream[];
     public tags: Tag[];
     
+    public displayedStreams: Stream[];
+    
     public TagsPressed: Object = {};
     
     constructor(private api:APILinker, private logg:Logger) {
-        api.getStreams().then(response => this.streams = response);
+        api.getStreams().then((response) => { this.streams = response; this.displayedStreams = this.streams; });
         api.getTags().then(response => this.tags = response);
+    }
+
+    
+    private hasProperties(object: Object): boolean {
+        for (let prop in object) {
+            if (object.hasOwnProperty(prop))
+                return true;
+        }
+        return false;
     }
     
     public UpdateStreams(id: number) {
         if (id in this.TagsPressed)
-            this.TagsPressed[id] = !this.TagsPressed[id];
+            delete this.TagsPressed[id];
         else
             this.TagsPressed[id] = true;
         console.log(this.TagsPressed);
+
+        if (this.hasProperties(this.TagsPressed)) {
+            this.sortStreams();
+        } else {
+            this.displayedStreams = this.streams;
+        }
+    }
+    
+    public sortStreams() {
+        this.displayedStreams = [];
+        
+        for (let stream in this.streams) {
+            console.log(stream);
+            let showStream = true;
+            for (let tag in this.TagsPressed) {
+                if (this.streams[stream].tags.find(x => x.id == +tag) == null) {
+                    showStream = false;
+                }
+            }
+            if (showStream) {
+                this.displayedStreams.push(this.streams[stream]);
+            }
+        }
     }
     
     public isLive(id: number): boolean {
