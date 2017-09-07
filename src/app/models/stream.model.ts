@@ -14,6 +14,10 @@ export class Stream implements Serializable<Stream> {
         this.description = input.short_description;
         this.owner = new User().deserialize(input.owner);
 
+        for (let tag in input.tags) {
+            this.tags.push(new Tag().deserialize(tag));
+        }
+
         return this;
     }
 }
