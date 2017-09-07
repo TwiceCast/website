@@ -24,9 +24,14 @@
                             </h4>
                             <p>{{ stream.description }}</p>
                         </div>
-                        <div class="ratings">
+                        <div class="live">
                             <p class="text-center">
                                 • Currently live !
+                            </p>
+                        </div>
+                        <div class="ratings">
+                            <p class="text-center">
+                                <span *ngFor="let tag of stream.tags"><span class="badge badge-danger">{{ tag.name }}</span> </span>
                             </p>
                         </div>
                     </div>
