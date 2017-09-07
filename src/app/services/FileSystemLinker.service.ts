@@ -49,7 +49,6 @@ export class FileSystemLinker {
             }
         };
         this.socket.send(JSON.stringify(authrequest));
-        this.socket.send('BONJOUR');
         console.log(authrequest);
     }
     
