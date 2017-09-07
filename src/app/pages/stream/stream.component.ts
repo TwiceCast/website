@@ -1,5 +1,5 @@
 // Imports
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import 'brace';
@@ -45,6 +45,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
         this.player = false;
+        this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
     }
 	
     public nodes = [

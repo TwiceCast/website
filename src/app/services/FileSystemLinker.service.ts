@@ -1,5 +1,5 @@
 import * as Rx from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 
 import { User } from '../models/user.model';
 
@@ -13,6 +13,24 @@ export class FileSystemLinker {
     private PROTOCOL: string = "";
     
     private socket: any;
+    
+    /*
+    ** Usual parameters
+    */
+    private username: string;
+    private project: string;
+    private streamer: string;
+    private project_token: string;
+    
+    /*
+    ** Events
+    */
+    @Output('AuthStateChanged') AuthStateChanged: EventEmitter<boolean> = new EventEmitter(false);
+    
+    /*
+    ** States
+    */
+    private authStatus: boolean = false;
     
     public connect(url: string): Promise<boolean> {
         if (this.socket != null)
@@ -32,10 +50,40 @@ export class FileSystemLinker {
     }
     
     private message(data: any) {
-        console.log(data);
+        var response = JSON.parse(data["data"]);
+        if (response.code == 200 && response.type == "pullRequestAuth") {
+            this.authStatus = true;
+            this.AuthStateChanged.emit(this.authStatus);
+        } else {
+            console.log(response);
+        }
+    }
+    
+    public isAuth(): boolean {
+        return this.authStatus;
+    }
+    
+    public getFiles() {
+        let getfilerequest: object = {
+            "type":"file",
+            "subtype":"get",
+            "data": {
+                "username": this.streamer,
+                "project": this.project,
+                "name": "/",
+                "recursively": true 
+            }
+        };
+        
+        this.socket.send(JSON.stringify(getfilerequest));
     }
     
     public auth(token: string, username: string, streamer: string, stream_name: string) {
+        this.username = username;
+        this.streamer = streamer;
+        this.project = stream_name;
+        this.project_token = token;
+        
         
         let authrequest: object = {
             "type":"authenticate",
