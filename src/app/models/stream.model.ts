@@ -16,7 +16,8 @@ export class Stream implements Serializable<Stream> {
         this.tags = [];
         
         for (let tag in input.tags) {
-            this.tags.push(new Tag().deserialize(tag));
+            let tmp_tag = new Tag().deserialize(input.tags[tag]);
+            this.tags.push(tmp_tag);
         }
 
         return this;

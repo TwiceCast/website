@@ -5,6 +5,12 @@ import 'rxjs/add/operator/switchMap';
 import 'brace';
 import 'brace/theme/tomorrow_night_eighties';
 import 'brace/mode/c_cpp';
+import 'brace/mode/yaml';
+import 'brace/mode/css';
+import 'brace/mode/html';
+import 'brace/mode/java';
+import 'brace/mode/javascript';
+import 'brace/mode/json';
 
 import * as $ from 'jquery';
 
@@ -38,6 +44,18 @@ export class StreamComponent implements OnInit, OnDestroy {
     public stream: Stream;
     
     public chatService: ChatService;
+    
+    public showLanguage = true;
+    public language = "C/C++";
+    public Languages = [
+        {'title': 'C/C++', 'file': 'c_cpp'},
+        {'title': 'YAML', 'file': 'yaml'},
+        {'title': 'CSS', 'file': 'css'},
+        {'title': 'HTML', 'file': 'html'},
+        {'title': 'JavaScript', 'file': 'javascript'},
+        {'title': 'JSON', 'file': 'json'},
+        {'title': 'Java', 'file': 'java'}
+    ];
     
     // reference to the element itself, we use this to access events and methods
     private _elementRef: ElementRef;
@@ -159,6 +177,12 @@ export class StreamComponent implements OnInit, OnDestroy {
         fileNode.name = fileName;
         this.nodes.push(fileNode);
         this.tree.treeModel.update();
+    }
+    
+    private switchLanguage(lang:any) {
+        console.log(lang);
+        this.editor.setMode('' + lang.file);
+        this.language = lang.title;
     }
     
     ngAfterViewChecked() {

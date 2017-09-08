@@ -19,6 +19,16 @@
                     <ul  class="nav nav-pills">
                         <li class="active"><a href="#IDE" data-toggle="tab">Code</a></li>
                         <li><a href="#Chat" data-toggle="tab">Chat</a></li>
+                        <li class="pull-right" *ngIf="showLanguage">
+                            <a>
+                                Language: <span class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ language }} <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li *ngFor="let lang of Languages"><a (click)="switchLanguage(lang)" class="pointer">{{lang.title}}</a></li>
+                                    </ul>
+                                </span>
+                            </a>
+                        </li>
                     </ul>
 
                     <div class="tab-content clearfix">

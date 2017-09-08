@@ -23,7 +23,7 @@ export class StreamListComponent {
     public TagsPressed: Object = {};
     
     constructor(private api:APILinker, private logg:Logger) {
-        api.getStreams().then((response) => { this.streams = response; this.displayedStreams = this.streams; });
+        api.getStreams().then((response) => { this.streams = response; console.log(response); this.displayedStreams = this.streams; });
         api.getTags().then(response => this.tags = response);
     }
 
