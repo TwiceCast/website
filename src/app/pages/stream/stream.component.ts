@@ -134,17 +134,14 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
 
     private receivedFile(content: any) {
-        console.log(content);
         if (content.name in this.receivedFiles) {
             this.receivedFiles[content.name].deserialize(content);
             if (this.receivedFiles[content.name].isComplete()) {
-                console.log(content.name + ' COMPLETE');
                 this.fileCompleted(content.name);
             }
         } else {
             this.receivedFiles[content.name] = new File().deserialize(content);
             if (this.receivedFiles[content.name].isComplete()) {
-                console.log(content.name + ' COMPLETE');
                 this.fileCompleted(content.name);
             }
         }
@@ -152,8 +149,7 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     public fileSelected($event) {
         let clicked = $event.node.data;
-        let file_ref = this.receivedFiles[clicked.name];
-        console.log(file_ref);
+        let file_ref = this.receivedFiles[clicked.id];
         this.code = file_ref.content;
     }
     
@@ -161,7 +157,6 @@ export class StreamComponent implements OnInit, OnDestroy {
         let fileNode: any = {};
         fileNode.id = fileName;
         fileNode.name = fileName;
-        console.log(fileNode);
         this.nodes.push(fileNode);
         this.tree.treeModel.update();
     }
