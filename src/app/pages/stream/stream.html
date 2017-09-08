@@ -24,7 +24,7 @@
                     <div class="tab-content clearfix">
                       <div class="tab-pane active" id="IDE">
                             <div class="row" id="tree">
-                                <tree-root [nodes]="nodes" class="tree_style"></tree-root>
+                                <tree-root #tree [nodes]="nodes" (activate)="fileSelected($event)" class="tree_style"></tree-root>
                             </div>
                             <!-- FileSystem -->
                             <div class="row">

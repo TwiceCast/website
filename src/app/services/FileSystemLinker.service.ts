@@ -26,6 +26,7 @@ export class FileSystemLinker {
     ** Events
     */
     @Output('AuthStateChanged') AuthStateChanged: EventEmitter<boolean> = new EventEmitter(false);
+    @Output('ReceivedFile') ReceivedFile: EventEmitter<string> = new EventEmitter(false);
     
     /*
     ** States
@@ -54,6 +55,8 @@ export class FileSystemLinker {
         if (response.code == 200 && response.type == "pullRequestAuth") {
             this.authStatus = true;
             this.AuthStateChanged.emit(this.authStatus);
+        } else if (response.code == 200 && response.type == "fileGet") {
+            this.ReceivedFile.emit(response.data);
         } else {
             console.log(response);
         }

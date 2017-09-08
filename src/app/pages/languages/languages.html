@@ -26,7 +26,7 @@
             <div *ngFor="let language of languages">
                 <div class="col-lg-3">
                     <div class="language col-lg-12">
-                        <img src="{{ language.image }}" style="width:180px;height:180px;"><br />
+                        <img src="https://api.twicecast.ovh/tags/{{urlencode(language.name)}}.png" style="width:180px;height:180px;"><br />
                         {{ language.name }}
                     </div>
                 </div>

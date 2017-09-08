@@ -11,6 +11,9 @@ import * as $ from 'jquery';
 declare function videojs(id: any, options: any, ready:any): any;
 
 import { Stream } from '../../models/stream.model';
+import { File } from '../../models/file.model';
+
+import { TreeModule, TreeComponent, TreeNode } from 'angular-tree-component';
 
 import { SessionManager } from '../../services/SessionManager.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
@@ -46,37 +49,15 @@ export class StreamComponent implements OnInit, OnDestroy {
     {
         this.player = false;
         this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
+        this.fl.ReceivedFile.subscribe(this.receivedFile.bind(this));
     }
-	
-    public nodes = [
-        {
-          id: 1,
-          name: 'root1',
-          children: [
-            { id: 2, name: 'child1' },
-            { id: 3, name: 'child2' }
-          ]
-        },
-        {
-          id: 4,
-          name: 'root2',
-          children: 
-            [
-                {
-                id: 5, name: 'child2.1' 
-                },
-                {
-                id: 6,
-                    name: 'child2.2',
-                children: 
-                    [
-                        { id: 7, name: 'subsub' }
-                    ]
-                }
-            ]
-        }
-    ];
-     
+
+    private receivedFiles: File[] = [];
+
+    @ViewChild(TreeComponent)
+    private tree: TreeComponent;
+    public nodes = [];
+
     onChangeCodeInsideEditor(code)
     {
         this.code = code;
@@ -149,10 +130,42 @@ export class StreamComponent implements OnInit, OnDestroy {
                     });
                 });
             });
-        })
-        
+        });
     }
 
+    private receivedFile(content: any) {
+        console.log(content);
+        if (content.name in this.receivedFiles) {
+            this.receivedFiles[content.name].deserialize(content);
+            if (this.receivedFiles[content.name].isComplete()) {
+                console.log(content.name + ' COMPLETE');
+                this.fileCompleted(content.name);
+            }
+        } else {
+            this.receivedFiles[content.name] = new File().deserialize(content);
+            if (this.receivedFiles[content.name].isComplete()) {
+                console.log(content.name + ' COMPLETE');
+                this.fileCompleted(content.name);
+            }
+        }
+    }
+
+    public fileSelected($event) {
+        let clicked = $event.node.data;
+        let file_ref = this.receivedFiles[clicked.name];
+        console.log(file_ref);
+        this.code = file_ref.content;
+    }
+    
+    private fileCompleted(fileName: string) {
+        let fileNode: any = {};
+        fileNode.id = fileName;
+        fileNode.name = fileName;
+        console.log(fileNode);
+        this.nodes.push(fileNode);
+        this.tree.treeModel.update();
+    }
+    
     ngAfterViewChecked() {
         if (!this.disableScrollDown) {
 			this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
