@@ -15,6 +15,16 @@
                     <input [(ngModel)]="InputStreamDescription" type="text" class="form-control" id="InputStreamDescription" name="InputStreamDescription" placeholder="Enter description" required>
                 </div>
             </div>
+            <div class="row" *ngIf="live==false" style="margin-bottom:30px;margin-top:10px;">
+                <div class="col-lg-4 col-lg-offset-4 form-group">
+                    <label style="color:black;">List of Tags</label>
+                </div>
+                <div class="col-lg-10 col-lg-offset-1 text-center" *ngIf="tags">
+                    <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" aria-pressed="false" autocomplete="off">
+                        {{ tag.name }}
+                    </button>
+                </div>
+            </div>
             <div class="row" style="text-align:center;margin-bottom:20px;">
                 <button *ngIf="live==false" class="getLive" (click)="goLive()">Turn on live</button>
                 <button *ngIf="live==true" class="getLive" (click)="liveOff()">Turn off live</button>

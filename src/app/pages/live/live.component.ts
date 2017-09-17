@@ -6,6 +6,8 @@ import * as io from 'socket.io-client';
 
 import * as $ from 'jquery';
 
+import { Tag } from '../../models/tag.model';
+
 import { SessionManager } from '../../services/SessionManager.service';
 import { APILinker } from '../../services/APILinker.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
@@ -20,9 +22,23 @@ export class LiveComponent implements OnInit, OnDestroy {
 
     @ViewChild('chat') chat;
     private disableScrollDown = false;
+
+    public languages: Tag[];
+    public tags:Array<any>;
     
+    public activeTags:Array<any> = [];
+     
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
+        linker.getTags().then((response) => {
+            this.languages = response;
+            this.tags = []
+            for (let tag of this.languages)
+            {
+                this.tags.push({name: tag.name, icon:'', class: 'tag'});
+            }
+            console.log(this.tags);
+        });
     }
         
     public live: boolean = false;

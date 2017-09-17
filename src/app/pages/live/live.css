@@ -59,6 +59,31 @@
 	font-size : 10px;
 }
 
+.tag {
+    cursor: pointer;
+    margin-top: 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+    border-radius: 20px;
+}
+
+.tag_active {
+    cursor: pointer;
+    margin-top: 15px;
+    background-color: rgba(160, 10, 10, 0.8);
+    color: white;
+    border-radius: 20px;
+}
+
+.tag:hover {
+    cursor: pointer;
+    margin-top: 15px;
+    background-color: rgba(160, 10, 10, 0.8);
+    color: white;
+    border-radius: 20px;
+}
+
+
 footer {
     margin: 50px 0;
 }
