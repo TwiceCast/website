@@ -18,25 +18,26 @@
                 </div>
                 <div class="row" style="margin-bottom:30px;margin-top:10px;">
                     <div class="col-lg-4 col-lg-offset-4 form-group">
-                        <label style="color:black;">List of Tags</label>
+                        <label style="color:black;">Tags for your stream</label>
                     </div>
                     <div class="col-lg-10 col-lg-offset-1 text-center" *ngIf="tags">
-                        <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" (click)="tagPressed(tag.id)" aria-pressed="false" autocomplete="off">
+                        <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" (click)="tagPressed(tag.id)" aria-pressed="false" style="margin-right:10px;margin-left:10px;margin-bottom:10px;"autocomplete="off">
                             {{ tag.name }}
                         </button>
                     </div>
-                </div>            
+                </div>
             </div>
             <div class="col-sm-6 text-center">
-                <div class="" style="height:100%;width:100%;background-color:red;">
-                    <button class="getLive" (click)="goLive()">Turn on live</button>
+                <div style="background-color:red;border-radius:100px;padding-bottom:10px;">
+                    <h2 style="color:black;">You are offline</h2>
+                    <button style="background-color:green;color:white;border-radius:80px;" class="getLive btn btn-primary" (click)="goLive()">Start</button>
                 </div>
             </div>
         </div>
         <!-- /LiveOff -->
         <!-- LiveOn -->
-        <div class="row" *ngIf="live==true" style="height:600px;">
-            <div class="col-sm-6 text-center">
+        <div class="row" *ngIf="live==true" style="height:80vh;">
+            <div class="col-sm-6">
                 <div class="row">
                     <div class="col-lg-12">
                             <div *ngIf="chatService" id="Chat">
@@ -58,18 +59,13 @@
                     </div>
                 </div>                    
             </div>
-            <div class="col-sm-5 col-sm-offset-1 text-center" style="margin-top:10px;background-color:green;border-radius:5px;">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <button *ngIf="live==true" class="getLive" (click)="liveOff()">Turn off live</button>
-                        <div class="row" style="text-align:center;color:black;">
-                            Live status : <img *ngIf="live==true" src="../../../assets/GREEN.png" width="50">
-                            <img *ngIf="live==false" src="../../../assets/RED.png" width="50">
-                        </div>
-                        <div class="row" style="text-align:center;color:black;">
-                            Stream URL to put in OBS : 'http://twicecast.ovh:1935/live/'<br>
-                            With '{{sm.getId()}}' as Stream Key.
-                        </div>
+            <div class="col-sm-6 text-center">
+                <div style="background-color:green;border-radius:100px;padding-bottom:10px;">
+                    <h2 style="color:black;">You are live now !</h2>
+                    <button class="getLive btn btn-primary" type="button" style="background-color:red;color:white;border-radius:80px;" (click)="liveOff()">Stop</button>
+                    <div class="row" style="text-align:center;color:black;">
+                        Stream URL to put in OBS : 'http://twicecast.ovh:1935/live/'<br>
+                        With '{{sm.getId()}}' as Stream Key.
                     </div>
                 </div>
             </div>
