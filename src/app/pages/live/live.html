@@ -21,7 +21,7 @@
                         <label style="color:black;">List of Tags</label>
                     </div>
                     <div class="col-lg-10 col-lg-offset-1 text-center" *ngIf="tags">
-                        <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" aria-pressed="false" autocomplete="off">
+                        <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" (click)="tagPressed(tag.id)" aria-pressed="false" autocomplete="off">
                             {{ tag.name }}
                         </button>
                     </div>

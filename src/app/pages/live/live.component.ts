@@ -1,5 +1,5 @@
 // Imports
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostBinding, Input, Output } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import * as io from 'socket.io-client';
@@ -23,49 +23,68 @@ export class LiveComponent implements OnInit, OnDestroy {
     @ViewChild('chat') chat;
     private disableScrollDown = false;
 
-    public languages: Tag[];
     public tags:Array<any>;
     
-    public activeTags:Array<any> = [];
+    public activeTags: Object = {};
+    public formattedTags:Array<String> = new Array<String>();
      
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
         linker.getTags().then((response) => {
-            this.languages = response;
             this.tags = []
-            for (let tag of this.languages)
+            for (let tag of response)
             {
-                this.tags.push({name: tag.name, icon:'', class: 'tag'});
+                this.tags.push({id: tag.id, name: tag.name, icon:'', class: 'tag'});
             }
-            console.log(this.tags);
         });
     }
-        
+
     public live: boolean = false;
     public InputStreamTitle: String;
     public InputStreamDescription: String;
-    
+
     public chatService: ChatService;
-    
+
     checkLive(response:any) {
         for (let stream of response)
         {
             if (stream.owner.id == this.sm.getId()) {
                 this.live = true;
+                this.formattedTags = [];
+                this.activeTags = {};
                 this.chatService = new ChatService('#newChatMessage', '#sendChat', this.sm);
                 this.chatService.Init(stream.id);
             }
         }
     }
+
+    private hasProperties(object: Object): boolean {
+        for (let prop in object) {
+            if (object.hasOwnProperty(prop))
+                return true;
+        }
+        return false;
+    }
     
+    public tagPressed(id: number) {
+        if (id in this.activeTags)
+            delete this.activeTags[id];
+        else
+            this.activeTags[id] = true;
+    }
+     
     goLive() {
         if (!this.InputStreamTitle || this.InputStreamTitle.length < 4)
             return;
         if (!this.InputStreamDescription || this.InputStreamDescription.length < 4)
             return;
+        for(var key in this.activeTags) {
+            this.formattedTags.push(key);
+        }
+        console.log(this.formattedTags);
         this.sm.checkToken().then((response) => {
             if (response == true) {
-                this.linker.createStream(this.sm.getApiKey(), this.InputStreamTitle, this.InputStreamDescription, "FRA").then((reponse) => {
+                this.linker.createStream(this.sm.getApiKey(), this.InputStreamTitle, this.InputStreamDescription, "FRA", this.formattedTags).then((reponse) => {
                     this.linker.getStreams().then(live_response => {
                         this.checkLive(live_response);
                     });

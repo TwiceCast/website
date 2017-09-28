@@ -126,12 +126,13 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
-    createStream(token:any, title:any, description: any, language:any): Promise<any> {
+    createStream(token:any, title:any, description: any, language:any, tags:any): Promise<any> {
         let data = {
             'title': title,
             'short_description': description,
-            'lang': 'FRA',
+            'lang': language,
             'private': false,
+            'tags': tags
         }
         const headers = new Headers({ 'Content-Type': 'application/json',
                                     'Authorization': token});
