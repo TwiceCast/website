@@ -11,6 +11,22 @@
     border: 1px solid #000000;
 }
 
+.getLive:hover {
+    background-color:lightgreen !important;
+}
+
+.liveOff {
+    font-size:40px;
+    color:black;
+    background-color:#eeeeee;
+    border-radius:5px;
+    border: 1px solid #000000;
+}
+
+.liveOff:hover {
+    background-color:lightcoral !important;
+}
+
 #Chat {
 	border : 2px solid black;
 	border-radius : 5px;
