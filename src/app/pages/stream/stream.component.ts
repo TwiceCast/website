@@ -149,6 +149,8 @@ export class StreamComponent implements OnInit, OnDestroy {
                 });
             });
         });
+        this.nodes.push(this.rootNode);
+        this.tree.treeModel.update();
     }
 
     private receivedFile(content: any) {
@@ -167,15 +169,26 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     public fileSelected($event) {
         let clicked = $event.node.data;
-        let file_ref = this.receivedFiles[clicked.id];
-        this.code = file_ref.content;
+        if (clicked.type == 'file') {
+            let file_ref = this.receivedFiles[clicked.id];
+            this.code = file_ref.content;
+        }
+    }
+
+    private createSubFolders(path: any) {
+
     }
     
+    public rootNode: any = {name: '/', type: 'folder', children:[]};
     private fileCompleted(fileName: string) {
         let fileNode: any = {};
         fileNode.id = fileName;
-        fileNode.name = fileName;
-        this.nodes.push(fileNode);
+        let fileNameSplit = fileName.split('/');
+        fileNode.name = fileNameSplit[fileNameSplit.length - 1];
+        fileNode.type = 'file';
+        fileNode.children = [];
+        this.rootNode.children.push(fileNode);
+        //this.nodes.push(fileNode);
         this.tree.treeModel.update();
     }
     
