@@ -38,10 +38,10 @@
                 </li>
                 <li>
                     <a *ngIf="sm.isLogged() && !sm.getUser()" [routerLink]="['/']">{{sm.getLogin()}}</a>
-                    <a *ngIf="sm.isLogged() && sm.getUser()" [routerLink]="['/profil/'+sm.getId()]">{{sm.getUser().pseudo}}</a>
+                    <a *ngIf="sm.isLogged() && sm.getUser()" [routerLink]="['/profil/', sm.getId()]">{{sm.getUser().pseudo}}</a>
                 </li>
                 <li>
-                    <a *ngIf="sm.isLogged()" (click)="sm.Logout()" [routerLink]="['/']">Logout</a>
+                    <a *ngIf="sm.isLogged()" [routerLink]="['/logout']">Logout</a>
                 </li>
             </ul>
         </div>

@@ -6,6 +6,7 @@ import { FormsModule }   from '@angular/forms';
 
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { LogoutComponent } from './pages/logout/logout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { ProfilListComponent } from './pages/profil/profilList.component';
@@ -45,6 +46,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 		AppComponent,
 		SigninComponent,
 		SignupComponent,
+        LogoutComponent,
 		HomeComponent,
 		ProfilComponent,
 		ProfilListComponent,
