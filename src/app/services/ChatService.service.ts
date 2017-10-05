@@ -11,6 +11,13 @@ import { SessionManager } from './SessionManager.service';
 
 import 'rxjs/add/operator/toPromise';
 
+export enum Rank {
+    ADMIN = 1,
+    MOD = 2,
+    VIP = 3,
+    USER = 4
+}
+
 @Injectable()
 export class ChatService {
 
@@ -20,6 +27,8 @@ export class ChatService {
     private displayErrorConnect: boolean;
     private id: number;
     
+    private rank: Rank;
+
     // html ids
     private chatInput: string;
     private buttonSend: string;
@@ -39,13 +48,16 @@ export class ChatService {
         this.mysock.emit('mute', {username: user, duration: 60});
     }
 
+    public getRank(): Rank { return this.rank; }
+
     public Init(room_id: number) {
         console.log("init chat");
         // CHAT
+        this.rank = Rank.USER;
         this.id = room_id;
         this.chatMessages = [];
-//        this.mysock = io('http://chat.twicecast.ovh:3008');
-        this.mysock = io('http://localhost:3006');
+        this.mysock = io('http://chat.twicecast.ovh:3008');
+//        this.mysock = io('http://localhost:3006');
         
 		this.displayErrorConnect = true;
 		
@@ -115,12 +127,32 @@ export class ChatService {
     
     private auth(data: any)
     {
-        console.log('CHAT LOG (' + data.code + '): ' + data.message);
-        var logged_in_message = new ChatMessage();
-		logged_in_message.id = -1;
-		logged_in_message.author = "";
-		logged_in_message.message = "Logged in !";
-		this.chatMessages.push(logged_in_message);
+        console.log('CHAT LOG (' + data.code + '): ' + data.message + '[' + data.accessLevel + ']');
+        if (data.code == 200) {
+            switch (+data.accessLevel) {
+                case 0:
+                    this.rank = Rank.ADMIN;
+                    break;
+                case 1:
+                    this.rank = Rank.MOD;
+                    break;
+                case 2:
+                    this.rank = Rank.VIP;
+                    break;
+                case 3:
+                    this.rank = Rank.USER;
+                    break;
+                default:
+                    this.rank = Rank.USER;
+                    break;
+            }
+            console.log(this.rank);
+            let logged_in_message = new ChatMessage();
+            logged_in_message.id = -1;
+            logged_in_message.author = "";
+            logged_in_message.message = "Logged in !";
+            this.chatMessages.push(logged_in_message);
+        }
     }
     
     private cerror(error: any)
