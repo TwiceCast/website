@@ -27,17 +27,12 @@ export class LiveComponent implements OnInit, OnDestroy {
     
     public activeTags: Object = {};
     public formattedTags:Array<String> = new Array<String>();
-     
+
+    private sub: any;
+    private id: number;
+
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
-    {
-        linker.getTags().then((response) => {
-            this.tags = []
-            for (let tag of response)
-            {
-                this.tags.push({id: tag.id, name: tag.name, icon:'', class: 'tag'});
-            }
-        });
-    }
+    {}
 
     public live: boolean = false;
     public InputStreamTitle: String;
@@ -128,9 +123,23 @@ export class LiveComponent implements OnInit, OnDestroy {
     }
     
     ngOnInit() {
-        this.linker.getStreams().then(response => {
-            this.checkLive(response);
-        });
+
+        // Get Stream ID
+        this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
+        if (!this.sm.isLogged() || this.sm.getId() != this.id) {
+            this.router.navigate(['/']);
+        } else {
+            this.linker.getTags().then((response) => {
+                this.tags = []
+                for (let tag of response) {
+                    this.tags.push({id: tag.id, name: tag.name, icon:'', class: 'tag'});
+                }
+            });
+
+            this.linker.getStreams().then(response => {
+                this.checkLive(response);
+            });
+        }
     }
     
     ngOnDestroy() {
