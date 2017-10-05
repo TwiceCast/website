@@ -107,6 +107,9 @@
     border-radius: 20px;
 }
 
+button.tag-filter[aria-pressed="true"] {
+    background-color: #4CAF50;
+}
 
 footer {
     margin: 50px 0;
