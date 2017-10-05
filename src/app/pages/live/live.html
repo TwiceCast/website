@@ -44,8 +44,8 @@
                                 <!-- Chat -->
                                 <div #chat class="row" id="MessagesContainer" (scroll)="onChatScroll($event)" style="height:500px;">
                                     <div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
-                                        <div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row"><span class="author">{{ chatMessage.author }}</span></div>
-                                        <div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row">{{ chatMessage.message}}</div>
+                                        <div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row"><span class="author">{{ chatMessage.author }}</span> <i title="Mute user" class="fa fa-deaf chat-command" aria-hidden="true" (click)="this.chatService.sendMute(chatMessage.author)"></i> <i title="Ban User" class="fa fa-ban chat-command" aria-hidden="true"></i></div>
+                                        <div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row">{{ chatMessage.message}} <i *ngIf="chatMessage.author != ''" title="Delete message" class="fa fa-times chat-command" aria-hidden="true"></i></div>
                                     </div>
                                 </div>
                                 <div class="row input-group">

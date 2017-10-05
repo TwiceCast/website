@@ -32,12 +32,20 @@ export class ChatService {
         this.mysock.emit('message', {'content': content});
     }
     
+    public sendMute(user: string) {
+        if (user == '')
+            return;
+        console.log('Muting..' + user + ' (60 sec)');
+        this.mysock.emit('mute', {username: user, duration: 60});
+    }
+
     public Init(room_id: number) {
         console.log("init chat");
         // CHAT
         this.id = room_id;
         this.chatMessages = [];
-        this.mysock = io('http://chat.twicecast.ovh:3008');
+//        this.mysock = io('http://chat.twicecast.ovh:3008');
+        this.mysock = io('http://localhost:3006');
         
 		this.displayErrorConnect = true;
 		
@@ -56,6 +64,7 @@ export class ChatService {
         this.mysock.on('cerror', this.cerror.bind(this));
 		this.mysock.on('connect_error', this.connect_error.bind(this));
 		this.mysock.on('disconnect', this.disconnect.bind(this));
+        this.mysock.on('mute', this.mute.bind(this));
         
         $("#newChatMessage").keyup(function(event){
             if(event.keyCode == 13){
@@ -78,7 +87,7 @@ export class ChatService {
     /*
     ** Chat functions
     */
-    
+
     private connect(data: any)
     {
         this.displayErrorConnect = true;
@@ -119,6 +128,24 @@ export class ChatService {
         console.error('CHAT ERROR (' + error.code + '): ' + error.message);
     }
     
+    private mute(data: any) {
+        if (data.duration) {
+            console.log('(CHAT MUTE)' + data.duration);
+            let mute_message = new ChatMessage();
+            mute_message.id = -1;
+            mute_message.author = "";
+            mute_message.message = 'You are mute for ' + data.duration + ' seconds!';
+            this.chatMessages.push(mute_message);
+        } else if (data.message && data.message == 'Success') {
+            console.log('(CHAT MUTE)' + data.reason);
+            let mute_message = new ChatMessage();
+            mute_message.id = -1;
+            mute_message.author = "";
+            mute_message.message = data.reason;
+            this.chatMessages.push(mute_message);
+        }
+    }
+
     private connect_error(error: any)
     {
         if (this.displayErrorConnect == true) {
