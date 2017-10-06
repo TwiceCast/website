@@ -64,12 +64,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     private player: any;
     public streamPlaying = false;
 
-    constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
-    {
-        this.player = false;
-        this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
-        this.fl.ReceivedFile.subscribe(this.receivedFile.bind(this));
-    }
+    constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker) { }
 
     private receivedFiles: File[] = [];
 
@@ -87,7 +82,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setMode("c_cpp");
         this.editor.setOptions({minLines: 15, maxLines: 15});
 
-        this.linker.getStreams().then(response => {
+        this.linker.getStreams().then(  response => {
             let foundStream = false;
             for (let stream of response)
             {
@@ -110,6 +105,10 @@ export class StreamComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.player = false;
+        this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
+        this.fl.ReceivedFile.subscribe(this.receivedFile.bind(this));
+
         // Get Stream ID
         this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
 
@@ -162,9 +161,10 @@ export class StreamComponent implements OnInit, OnDestroy {
             resizeVideoJS();
             window.onresize = resizeVideoJS;
             if (isOnline) {
+                console.log('stream is in BDD');
                 myPlayer.src({type:"rtmp/mp4",src:this.streamUrl});
                 myPlayer.autoplay(true);
-
+                myPlayer.play();
                 this.player.on('playing', function() {
                     this.streamPlaying = true;
                 }.bind(this));
