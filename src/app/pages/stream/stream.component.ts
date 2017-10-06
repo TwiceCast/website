@@ -62,6 +62,7 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     // declare player var
     private player: any;
+    public streamPlaying = false;
 
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {
@@ -85,17 +86,21 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp");
         this.editor.setOptions({minLines: 15, maxLines: 15});
-        this.player = videojs(document.getElementById('stream_videojs'), {techOrder: ['flash']}, function() {
-            var myPlayer = this, id = myPlayer.id();
-            var aspectRatio = 9/16;
-            myPlayer.autoplay(true);
-            function resizeVideoJS(){
-                var width = document.getElementById(id).parentElement.offsetWidth;
-                myPlayer.width(width);
-                myPlayer.height( width * aspectRatio );
+
+        this.linker.getStreams().then(response => {
+            let foundStream = false;
+            for (let stream of response)
+            {
+                if (this.id == stream.id)
+                {
+                    this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(stream.owner.id);
+                    this.initPlayer(true);
+                    foundStream = true;
+                }
             }
-            resizeVideoJS();
-            window.onresize = resizeVideoJS;
+            if (!foundStream) {
+                this.initPlayer(false);
+            }
         });
     }
     
@@ -107,23 +112,11 @@ export class StreamComponent implements OnInit, OnDestroy {
     ngOnInit() {
         // Get Stream ID
         this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
-        this.linker.getStreams().then(response => {
-            for (let stream of response)
-            {
-                if (this.id == stream.id)
-                {
-                    this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(stream.owner.id);
-                    this.player.src({type:"rtmp/mp4",src:this.streamUrl});
-                    this.player.play();
-                    $('window').trigger("resize");
-                }
-            }
-        });
 
         this.codeEditorOptions = {
-                maxLines: 10, 
-                printMargin: true
-            };
+            maxLines: 10,
+            printMargin: true
+        };
 
         ///
         /// Init chat system
@@ -151,6 +144,32 @@ export class StreamComponent implements OnInit, OnDestroy {
         });
         this.nodes.push(this.rootNode);
         this.tree.treeModel.update();
+    }
+
+    private initPlayer(isOnline: boolean) {
+        console.log('player init go');
+        this.player = videojs(document.getElementById('stream_videojs'), {techOrder: ['flash']}, function() {});
+
+        this.player.ready(function() {
+            let myPlayer = this.player, id = myPlayer.id();
+            myPlayer.poster('./assets/stream_offline.png');
+            let aspectRatio = 9/16;
+            function resizeVideoJS(){
+                var width = document.getElementById(id).parentElement.offsetWidth;
+                myPlayer.width(width);
+                myPlayer.height( width * aspectRatio );
+            }
+            resizeVideoJS();
+            window.onresize = resizeVideoJS;
+            if (isOnline) {
+                myPlayer.src({type:"rtmp/mp4",src:this.streamUrl});
+                myPlayer.autoplay(true);
+
+                this.player.on('playing', function() {
+                    this.streamPlaying = true;
+                }.bind(this));
+            }
+        }.bind(this));
     }
 
     private receivedFile(content: any) {
@@ -208,7 +227,9 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.chatService.Destroy();
         this.fl.disconnect();
         this.sub.unsubscribe();
-        this.player.dispose();
+        if (this.player) {
+            this.player.dispose();
+        }
         window.onresize = undefined;
     }
 

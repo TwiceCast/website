@@ -4,10 +4,11 @@
         <!-- Stream -->
         <div class="col-lg-8" style="margin-bottom:20px;">
             <div class="row">
+                <img *ngIf="!streamPlaying" id="offline_stream" src="./assets/stream_offline.png" />
                 <video id="stream_videojs"
                         class="video-js vjs-default-skin vjs-big-play-centered"
                         controls preload="auto" data-setup='{}' width="800" height="600">
-                <source id="stream_source" src='rtmp://37.187.99.70:1935/live/' type="rtmp/mp4" />
+
             </video>
             </div>
         </div>
