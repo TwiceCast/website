@@ -190,6 +190,8 @@ export class StreamComponent implements OnInit, OnDestroy {
         let clicked = $event.node.data;
         if (clicked.type == 'file') {
             let file_ref = this.receivedFiles[clicked.id];
+            console.log(file_ref.isComplete());
+            console.log(file_ref.content);
             this.code = file_ref.content;
         }
     }
