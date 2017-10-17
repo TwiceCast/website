@@ -1,5 +1,6 @@
 // Imports
-import { Component, HostBinding, Input, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, Input, Output } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Stream } from '../../models/stream.model';
 import { Tag } from '../../models/tag.model';
@@ -14,15 +15,17 @@ import { Logger } from '../../services/Logger.service';
 })
 
 // Component class
-export class StreamListComponent {
+export class StreamListComponent implements OnInit, OnDestroy {
     private streams: Stream[];
     public tags: Tag[];
+    private clicked: number;
+    private sub: any;
     
     public displayedStreams: Stream[];
     
     public TagsPressed: Object = {};
     
-    constructor(private api:APILinker, private logg:Logger) {
+    constructor(private api:APILinker, private logg:Logger, private route: ActivatedRoute, private router: Router) {
         api.getStreams().then((response) => { this.streams = response; console.log(response); this.displayedStreams = this.streams; });
         api.getTags().then(response => this.tags = response);
     }
@@ -74,6 +77,23 @@ export class StreamListComponent {
             }
         }
         return false;
+    }
+        
+    ngOnInit()
+    {
+        // Get Stream ID
+        this.sub = this.route.params.subscribe(params => { this.clicked = params['clicked'] });
+        console.log(this.clicked);
+        if (this.clicked != undefined)
+        {
+            this.UpdateStreams(this.clicked)
+            this.sortStreams();    
+        }
+    }
+    
+    ngOnDestroy()
+    {
+        
     }
     
     public encodeURL(val: string): string {

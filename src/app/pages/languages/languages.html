@@ -1,30 +1,9 @@
 <div id="languages_body">
     <!-- Page Content -->
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-lg-6 col-lg-offset-3">
-                <div class="input-group">
-                    <input type="text" class="search_field form-control" placeholder="Streamer's Name, Language, Framework, Library" name="srch-term" id="srch-term">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default search-btn" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="text-center">
-                <div *ngFor="let tag of tags">
-                    <div class="col-lg-2">
-                        <div class="col-lg-10 col-lg-offset-1 {{ tag.class }}" (click)='toggleTag(tag);'>
-                            <i class="glyphicon {{ tag.icon }}"></i> {{ tag.name }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container" style="padding-top:30px;">
         <div class="row">
             <div *ngFor="let language of languages">
-                <div class="col-lg-3">
+                <div class="col-lg-3" [routerLink]="['/streams/'+language.id]">
                     <div class="language col-lg-12">
                         <img src="https://api.twicecast.ovh/tags/{{urlencode(language.name)}}.png" style="width:180px;height:180px;"><br />
                         {{ language.name }}

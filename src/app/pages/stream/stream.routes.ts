@@ -9,5 +9,6 @@ import { StreamListComponent }  from './streamList.component';
 // Route Configuration
 export const streamRoutes: Routes = [
     { path: 'stream/:id', component: StreamComponent },
-    { path: 'streams', component: StreamListComponent }
+    { path: 'streams', component: StreamListComponent },
+    { path: 'streams/:clicked', component: StreamListComponent }
 ];
