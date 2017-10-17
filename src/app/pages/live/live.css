@@ -4,27 +4,35 @@
 }
 
 .getLive {
-    font-size:40px;
-    color:black;
-    background-color:#eeeeee;
-    border-radius:5px;
-    border: 1px solid #000000;
+    font-size:25px;
+	background-color:red;
+	color:white;
+    border-radius:50%;
+	width:120px;
+	height:120px;
+	text-align:center;
+    border: 1px solid black;
+	box-shadow: 2px 3px 2px black;
 }
 
 .getLive:hover {
-    background-color:lightgreen !important;
+    background-color:lightcoral !important;
 }
 
 .liveOff {
-    font-size:40px;
-    color:black;
-    background-color:#eeeeee;
-    border-radius:5px;
-    border: 1px solid #000000;
+    font-size:25px;
+    color:white;
+    background-color:green;
+    border-radius:50%;
+	width:120px;
+	height:120px;
+	text-align:center;
+    border: 1px solid black;
+	box-shadow: inset 1px 2px 1px black;
 }
 
 .liveOff:hover {
-    background-color:lightcoral !important;
+    background-color:springgreen !important;
 }
 
 #Chat {
@@ -97,6 +105,7 @@
     background-color: rgba(160, 10, 10, 0.8);
     color: white;
     border-radius: 20px;
+	box-shadow: inset 1px 2px 1px black;
 }
 
 .tag:hover {

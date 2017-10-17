@@ -71,7 +71,7 @@ export class LiveComponent implements OnInit, OnDestroy {
     goLive() {
         if (!this.InputStreamTitle || this.InputStreamTitle.length < 4)
             return;
-        if (!this.InputStreamDescription || this.InputStreamDescription.length < 4)
+        if (this.InputStreamDescription && this.InputStreamDescription.length < 4)
             return;
         for(var key in this.activeTags) {
             this.formattedTags.push(key);
