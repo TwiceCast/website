@@ -5,8 +5,18 @@
             <div class="col-sm-6 col-xs-12" style="background-image:url('../assets/profile_background.png');background-size:cover;background-repeat:no-repeat">
                 <!-- Profile -->
                 <div class="profile panel col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3" style="background-color:rgba(255,255,255,0.4);min-width:300px;">
-                    <div class="row panel-heading">
-                        <img src="https://api.twicecast.ovh/users/{{ id }}/avatar" width="250" height="250" class="img-circle" alt="...">
+                    <div class="row panel-heading picture_container">
+                        <input type="file" (change)="fileChangeEvent($event)" id="upload-photo" *ngIf="isCurrentUser==true" />
+                        <figure class="clickable">
+                            <img src="https://api.twicecast.ovh/users/{{ id }}/avatar" width="250" height="250" class="img-circle" id="picture" alt="...">
+                            <figcaption *ngIf="isCurrentUser==true" >
+                                <h4 style="color:white;">
+                                    <label for="upload-photo">
+                                        Upload new avatar
+                                    </label>
+                                </h4>
+                            </figcaption>
+                        </figure>
                     </div>
                     <div class="row panel-body text-center">
                         <h1 style="word-break:break-all;color:white;text-shadow:2px 2px #000000;">{{user.pseudo}}</h1>
@@ -15,7 +25,7 @@
             </div>
             <div class="col-sm-6 col-xs-12 text-center personal_info">
                 <h3 style="text-shadow:4px 4px #eeeeee">Who is {{user.pseudo}} ?</h3><br />
-                <label for="inputPasswordChanger" style="font-size:15px;">Email</label><br />
+                <label for="" style="font-size:15px;">Email</label><br />
                     <input style="font-size:20px;text-align:center;" type="text" value="{{user.email}}" disabled><br />
                 <form *ngIf="isCurrentUser==true" class="form-horizontal"><br />
                     <label for="inputPasswordChanger" style="font-size:15px;">Change Password</label><br />

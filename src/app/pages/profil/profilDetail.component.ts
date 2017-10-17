@@ -5,7 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '../../models/user.model';
 import { APILinker } from '../../services/APILinker.service';
 import { Logger } from '../../services/Logger.service';
-import { SessionManager } from '../../services/SessionManager.service'
+import { SessionManager } from '../../services/SessionManager.service';
+
+import * as $ from 'jquery';
 
 @Component({
   selector: 'component-profilDetail',
@@ -30,6 +32,22 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
         this.inputPasswordChanger = "";
     }
     
+    public fileChangeEvent(fileInput: any){
+        if (fileInput.target.files && fileInput.target.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = (e:any) => {
+                var imageUrl = e.target.result;
+                $('#picture').attr('src', imageUrl);
+                console.log(imageUrl);
+                this.api.changeAvatar(this.sm.getApiKey(), this.sm.getId(), imageUrl);
+            }
+
+            reader.readAsDataURL(fileInput.target.files[0]);
+        }
+    }
+
+    
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];
@@ -47,5 +65,4 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.sub.unsubscribe();
     }
-
 }
