@@ -1,26 +1,29 @@
 <div id="profildetail_body">
     <!-- Page Content -->
-    <div class="container" *ngIf="user">
-		<div class="row"> <!-- Profile -->
-			<div class="profile panel panel-primary col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3">
-				<div class="row panel-heading">
-					<img src="https://api.twicecast.ovh/users/{{ id }}/avatar" width="250" height="250" class="img-circle" alt="...">
-				</div>
-				<div class="row panel-body text-center">
-					<h1 style="word-break:break-all;">{{user.pseudo}}</h1>
-				</div>
-			</div>
-		</div>
-        <div class="row text-center personal_info">
-            <h4>Email : {{user.email}}</h4>
-            <form *ngIf="isCurrentUser==true" class="form-horizontal">
-                <input style="font-size:24px" type="password" [(ngModel)]="inputPasswordChanger" id="inputPasswordChanger" placeholder="New Password" name="inputPasswordChanger" #name="ngModel" required >
-                <button class="btn btn-danger" (click)="changePassword()">Change</button>
-            </form>
+    <div class="container-fluid" *ngIf="user">
+		<div class="row">
+            <div class="col-sm-6 col-xs-12" style="background-image:url('../assets/profile_background.png');background-size:cover;background-repeat:no-repeat">
+                <!-- Profile -->
+                <div class="profile panel col-xs-10 col-xs-offset-1 col-md-6 col-md-offset-3" style="background-color:rgba(255,255,255,0.4);min-width:300px;">
+                    <div class="row panel-heading">
+                        <img src="https://api.twicecast.ovh/users/{{ id }}/avatar" width="250" height="250" class="img-circle" alt="...">
+                    </div>
+                    <div class="row panel-body text-center">
+                        <h1 style="word-break:break-all;color:white;">{{user.pseudo}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12 text-center personal_info">
+                <h3>Who is {{user.pseudo}} ?</h3><br />
+                <label for="inputPasswordChanger" style="font-size:15px;">Email</label><br />
+                    <input style="font-size:20px;text-align:center;" type="text" value="{{user.email}}" disabled><br />
+                <form *ngIf="isCurrentUser==true" class="form-horizontal"><br />
+                    <label for="inputPasswordChanger" style="font-size:15px;">Change Password</label><br />
+                    <input style="font-size:20px;text-align:center;" type="password" [(ngModel)]="inputPasswordChanger" id="inputPasswordChanger" placeholder="" name="inputPasswordChanger" #name="ngModel" required ><br /><br />
+                    <button class="btn btn-danger" (click)="changePassword()">Change</button>
+                </form>
+            </div>
         </div>
     </div>
     <!-- /.container -->
-
-    <div class="container">
-
 </div>
