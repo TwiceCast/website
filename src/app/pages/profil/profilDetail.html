@@ -9,12 +9,12 @@
                         <img src="https://api.twicecast.ovh/users/{{ id }}/avatar" width="250" height="250" class="img-circle" alt="...">
                     </div>
                     <div class="row panel-body text-center">
-                        <h1 style="word-break:break-all;color:white;">{{user.pseudo}}</h1>
+                        <h1 style="word-break:break-all;color:white;text-shadow:2px 2px #000000;">{{user.pseudo}}</h1>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 col-xs-12 text-center personal_info">
-                <h3>Who is {{user.pseudo}} ?</h3><br />
+                <h3 style="text-shadow:4px 4px #eeeeee">Who is {{user.pseudo}} ?</h3><br />
                 <label for="inputPasswordChanger" style="font-size:15px;">Email</label><br />
                     <input style="font-size:20px;text-align:center;" type="text" value="{{user.email}}" disabled><br />
                 <form *ngIf="isCurrentUser==true" class="form-horizontal"><br />
