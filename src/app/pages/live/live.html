@@ -11,9 +11,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-lg-offset-4 form-group">
-                        <label for="InputStreamDescription" style="color:black;">Stream Description</label>
-                        <input [(ngModel)]="InputStreamDescription" type="text" class="form-control" id="InputStreamDescription" name="InputStreamDescription" placeholder="Enter description" required>
+                    <div class="form-group">
+                        <label for="InputStreamDescription" class="col-lg-4 col-lg-offset-4" style="color:black;">Stream Description</label>
+                        <textarea [(ngModel)]="InputStreamDescription" class="col-lg-4 col-lg-offset-3 form-control" id="InputStreamDescription" name="InputStreamDescription" placeholder="Enter description" maxlength="100" style="resize:none; width:300px; height:80px"></textarea>
                     </div>
                 </div>
                 <div class="row" style="margin-bottom:30px;margin-top:10px;">
@@ -28,9 +28,9 @@
                 </div>
             </div>
             <div class="col-sm-6 text-center">
-                <div style="background-color:red;border-radius:100px;padding-bottom:10px;">
+                <div style="background-color:rgba(255, 105, 97, 0.5);border:3px solid black;border-radius:5px;padding-bottom:10px;">
                     <h2 style="color:black;">You are offline</h2>
-                    <button style="background-color:green;color:white;border-radius:80px;" class="getLive btn btn-primary" (click)="goLive()">Start</button>
+                    <button class="getLive btn btn-primary" (click)="goLive()">Start</button>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <div class="col-sm-6">
                 <div class="row">
                     <div class="col-lg-12">
-                            <div *ngIf="chatService" id="Chat">
+                            <div *ngIf="chatService" id="Chat" style="margin-top:0px">
                                 <!-- Chat -->
                                 <div #chat class="row" id="MessagesContainer" (scroll)="onChatScroll($event)" style="height:500px;">
                                     <div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
@@ -60,14 +60,14 @@
                 </div>                    
             </div>
             <div class="col-sm-6 text-center">
-                <div style="background-color:green;border-radius:100px;padding-bottom:10px;">
+                <div style="background-color:rgba(176, 242, 182, 0.5);border:3px solid black;border-radius:5px;padding-bottom:10px;">
                     <h2 style="color:black;">You are live now !</h2>
-                    <button class="liveOff btn btn-primary" type="button" style="background-color:red;color:white;border-radius:80px;" (click)="liveOff()">Stop</button>
-                    <div class="row" style="text-align:center;color:black;">
-                        Stream URL to put in OBS : 'http://twicecast.ovh:1935/live/'<br>
-                        With '{{sm.getId()}}' as Stream Key.
-                    </div>
+                    <button class="liveOff btn btn-primary" type="button" (click)="liveOff()">Stop</button>
                 </div>
+				<div class="row" style="text-align:center;color:black;">
+					Stream URL to put in OBS : 'http://twicecast.ovh:1935/live/'<br>
+					With '{{sm.getId()}}' as Stream Key.
+				</div>
             </div>
         </div>
         <!-- /LiveOn -->
