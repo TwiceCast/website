@@ -26,8 +26,6 @@ export class StreamListComponent implements OnInit, OnDestroy {
     public TagsPressed: Object = {};
     
     constructor(private api:APILinker, private logg:Logger, private route: ActivatedRoute, private router: Router) {
-        api.getStreams().then((response) => { this.streams = response; console.log(response); this.displayedStreams = this.streams; });
-        api.getTags().then(response => this.tags = response);
     }
 
     
@@ -79,15 +77,19 @@ export class StreamListComponent implements OnInit, OnDestroy {
         return false;
     }
         
-    ngOnInit()
-    {
-        // Get Stream ID
+    ngOnInit() {
         this.sub = this.route.params.subscribe(params => { this.clicked = params['clicked'] });
-        console.log(this.clicked);
+        this.api.getStreams().then((response) => {
+            this.streams = response; console.log(response); this.displayedStreams = this.streams;
+            this.api.getTags().then((response) => { this.tags = response; this.UpdatePreCheck(); });
+        });
+    }
+
+    private UpdatePreCheck()
+    {
         if (this.clicked != undefined)
         {
-            this.UpdateStreams(this.clicked)
-            this.sortStreams();    
+            this.UpdateStreams(this.clicked);
         }
     }
     

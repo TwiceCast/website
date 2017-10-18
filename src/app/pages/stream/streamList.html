@@ -6,7 +6,7 @@
         <!-- Filter -->
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1" *ngIf="tags">
-                <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" aria-pressed="false" id="TAG{{tag.id}}" (click)="UpdateStreams(tag.id)" autocomplete="off">
+                <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" [class.active]="clicked == tag.id" [attr.aria-pressed]="clicked == tag.id" id="TAG{{tag.id}}" (click)="UpdateStreams(tag.id)" autocomplete="off">
                     {{ tag.name }}
                 </button>
             </div>
