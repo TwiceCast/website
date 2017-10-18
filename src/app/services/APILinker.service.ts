@@ -175,13 +175,10 @@ export class APILinker {
     }
 
     changeAvatar(token:any, id:any, picture:any): Promise<any> {
-        let data = {
-            'avatar': picture
-        }
-        const headers = new Headers({ 'Content-Type': 'application/json',
+        const headers = new Headers({ 'Content-Type': 'image/png',
                                     'Authorization': token});
         const options = new RequestOptions({headers: headers});
-        return this.http.put(this.API_URL + 'users/' + id + '/avatar', JSON.stringify(data), options)
+        return this.http.put(this.API_URL + 'users/' + id + '/avatar', picture, options)
                         .toPromise()
                         .then((response) => {
                             console.log(response);

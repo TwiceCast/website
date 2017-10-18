@@ -39,11 +39,10 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
             reader.onload = (e:any) => {
                 var imageUrl = e.target.result;
                 $('#picture').attr('src', imageUrl);
-                console.log(imageUrl);
-                this.api.changeAvatar(this.sm.getApiKey(), this.sm.getId(), imageUrl);
             }
 
             reader.readAsDataURL(fileInput.target.files[0]);
+            this.api.changeAvatar(this.sm.getApiKey(), this.sm.getId(), fileInput.target.files[0]);
         }
     }
 
