@@ -48,6 +48,13 @@ export class ChatService {
         this.mysock.emit('mute', {username: user, duration: 60});
     }
 
+    public sendBan(user: string) {
+        if (user == '')
+            return;
+        console.log('Banning..' + user);
+        this.mysock.emit('ban', {username: user});
+    }
+
     public getRank(): Rank { return this.rank; }
 
     public Init(room_id: number) {
@@ -77,6 +84,7 @@ export class ChatService {
 		this.mysock.on('connect_error', this.connect_error.bind(this));
 		this.mysock.on('disconnect', this.disconnect.bind(this));
         this.mysock.on('mute', this.mute.bind(this));
+        this.mysock.on('ban', this.ban.bind(this));
         
         $("#newChatMessage").keyup(function(event){
             if(event.keyCode == 13){
@@ -175,6 +183,24 @@ export class ChatService {
             mute_message.author = "";
             mute_message.message = data.reason;
             this.chatMessages.push(mute_message);
+        }
+    }
+
+    private ban(data: any) {
+        if (data.message && data.message == 'Disconnected') {
+            console.log('(CHAT BAN)');
+            let ban_message = new ChatMessage();
+            ban_message.id = -1;
+            ban_message.author = "";
+            ban_message.message = 'You have been banned!';
+            this.chatMessages.push(ban_message);
+        } else if (data.message && data.message == 'Success') {
+            console.log('(CHAT BAN)' + data.reason);
+            let ban_message = new ChatMessage();
+            ban_message.id = -1;
+            ban_message.author = "";
+            ban_message.message = data.reason;
+            this.chatMessages.push(ban_message);
         }
     }
 
