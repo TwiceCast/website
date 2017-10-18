@@ -55,7 +55,7 @@
                         </div>
                         <div class="tab-pane" id="Chat">
                             <!-- Chat -->
-							<div *ngIf="chatService" #chat class="row" id="MessagesContainer" (scroll)="onChatScroll($event)">
+							<div *ngIf="chatService" #chat class="row" id="MessagesContainer">
 								<div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
 									<div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row"><span class="author">{{ chatMessage.author }}</span></div>
 									<div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row">{{ chatMessage.message}}</div>

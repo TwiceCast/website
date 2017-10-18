@@ -85,7 +85,9 @@ export class ChatService {
 		this.mysock.on('disconnect', this.disconnect.bind(this));
         this.mysock.on('mute', this.mute.bind(this));
         this.mysock.on('ban', this.ban.bind(this));
-        
+    }
+
+    public InitKey() {
         $("#newChatMessage").keyup(function(event){
             if(event.keyCode == 13){
                 $("#sendChat").click();
@@ -93,6 +95,11 @@ export class ChatService {
         });
     }
     
+    public ScrollDownContainer() {
+        var d = $("#MessagesContainer");
+        d.scrollTop(d.prop("scrollHeight"));
+    }
+
     public Destroy() {
         this.mysock.close(true);
     }
@@ -119,6 +126,7 @@ export class ChatService {
             logging_in_message.message = "Logging in...";
             this.chatMessages.push(logging_in_message);
             this.mysock.emit('auth', {'username': this.sm.getLogin(), 'password':this.sm.getPassword(), 'room':this.id});
+            this.InitKey();
         }
         else
         {
@@ -131,6 +139,7 @@ export class ChatService {
     {
         console.log('(CHAT MESSAGE): ' + data.user + ': ' + data.content);
         this.chatMessages.push(new ChatMessage().deserialize(data));
+        this.ScrollDownContainer();
     }
     
     private auth(data: any)

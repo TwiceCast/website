@@ -234,8 +234,4 @@ export class StreamComponent implements OnInit, OnDestroy {
         }
         window.onresize = undefined;
     }
-
-    public onChatScroll(event) {
-		this.disableScrollDown = (this.chat.nativeElement.scrollTop + this.chat.nativeElement.clientHeight !== this.chat.nativeElement.scrollHeight);
-    }
 }

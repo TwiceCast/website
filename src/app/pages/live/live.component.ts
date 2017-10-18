@@ -146,8 +146,4 @@ export class LiveComponent implements OnInit, OnDestroy {
         if (this.chatService)
             this.chatService.Destroy();
     }
-    
-    public onChatScroll(event) {
-		this.disableScrollDown = (this.chat.nativeElement.scrollTop + this.chat.nativeElement.clientHeight !== this.chat.nativeElement.scrollHeight);
-    }
 }
