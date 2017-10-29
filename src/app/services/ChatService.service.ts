@@ -70,8 +70,8 @@ export class ChatService {
         this.rank = Rank.USER;
         this.id = room_id;
         this.chatMessages = [];
-//        this.mysock = io('http://chat.twicecast.ovh:3008');
-        this.mysock = io('http://localhost:3006');
+        this.mysock = io('http://chat.twicecast.ovh:3008');
+//        this.mysock = io('http://localhost:3006');
         
 		this.displayErrorConnect = true;
 		
