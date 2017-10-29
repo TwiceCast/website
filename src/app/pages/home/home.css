@@ -9,6 +9,10 @@
     background: #333;
 }
 
+.badge-danger {
+    background-color: #d9534f;
+}
+
 .slide-image {
     width: 100%;
     border-radius: 5px;
