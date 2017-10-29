@@ -55,6 +55,13 @@ export class ChatService {
         this.mysock.emit('ban', {username: user});
     }
 
+    public sendDeleteMessage(msgId: number) {
+        if (msgId < 0)
+            return;
+        console.log('removing message ' + msgId);
+        this.mysock.emit('deleteMessage', {id: msgId});
+    }
+
     public getRank(): Rank { return this.rank; }
 
     public Init(room_id: number) {
@@ -63,8 +70,8 @@ export class ChatService {
         this.rank = Rank.USER;
         this.id = room_id;
         this.chatMessages = [];
-        this.mysock = io('http://chat.twicecast.ovh:3008');
-//        this.mysock = io('http://localhost:3006');
+//        this.mysock = io('http://chat.twicecast.ovh:3008');
+        this.mysock = io('http://localhost:3006');
         
 		this.displayErrorConnect = true;
 		
@@ -79,6 +86,7 @@ export class ChatService {
         */
         this.mysock.on('connect', this.connect.bind(this));
         this.mysock.on('message', this.message.bind(this));
+        this.mysock.on('deleteMessage', this.delete_message.bind(this));
         this.mysock.on('auth', this.auth.bind(this));
         this.mysock.on('cerror', this.cerror.bind(this));
 		this.mysock.on('connect_error', this.connect_error.bind(this));
@@ -210,6 +218,20 @@ export class ChatService {
             ban_message.author = "";
             ban_message.message = data.reason;
             this.chatMessages.push(ban_message);
+        }
+    }
+
+    private delete_message(data: any) {
+        console.log('(DELETE MESSAGE) ' + data);
+        let to_rem = this.chatMessages.find(x => (x.id == data.id));
+        console.log(to_rem);
+        if (to_rem) {
+            let index_to_rem = this.chatMessages.indexOf(to_rem);
+            if (index_to_rem >= 0) {
+                to_rem.id = -1;
+                to_rem.author = "";
+                to_rem.message = "This message has been deleted !";
+            }
         }
     }
 

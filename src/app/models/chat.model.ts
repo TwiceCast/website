@@ -4,7 +4,7 @@ export class ChatMessage implements Serializable<ChatMessage> {
     message: string;
     
     deserialize(input) {
-        this.id = input.ID;
+        this.id = input.id;
         this.author = input.user;
         this.message = input.content;
 

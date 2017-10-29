@@ -47,6 +47,8 @@ export class LiveComponent implements OnInit, OnDestroy {
                 this.live = true;
                 this.formattedTags = [];
                 this.activeTags = {};
+                if (this.chatService != null)
+                    this.chatService.Destroy();
                 this.chatService = new ChatService('#newChatMessage', '#sendChat', this.sm);
                 this.chatService.Init(stream.id);
             }
