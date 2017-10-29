@@ -35,6 +35,14 @@
 	font-size : 11px;
 }
 
+#Chat .chat-command {
+    cursor: pointer;
+    font-size: 11px;
+}
+#Chat .chat-command:hover {
+    color: #E67E30;
+}
+
 #Chat .system {
 	border-radius: 5px;
 	color : #1FA055;
