@@ -14,6 +14,7 @@ import { ProfilDetailComponent } from './pages/profil/profilDetail.component';
 import { LanguagesComponent } from './pages/languages/languages.component';
 import { StreamComponent } from './pages/stream/stream.component';
 import { ChatComponent } from './pages/stream/standaloneChat/chat.component';
+import { CodeEditorComponent } from './pages/stream/standaloneCodeEditor/codeEditor.component';
 import { StreamListComponent } from './pages/stream/streamList.component';
 import { LiveComponent } from './pages/live/live.component'
 import { routing } from './app.routes';
@@ -55,6 +56,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
         LanguagesComponent,
         StreamComponent,
         ChatComponent,
+        CodeEditorComponent,
         StreamListComponent,
         LiveComponent
 	],

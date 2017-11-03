@@ -1,0 +1,56 @@
+<div id="codeEditor_body">
+    <!-- OneTwo Layout -->
+    <div class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
+        <!-- Right Col -->
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-3">
+
+                    <div class="row" id="tree">
+                                <tree-root #tree [nodes]="nodes" (activate)="fileSelected($event)" class="tree_style"></tree-root>
+                            </div>
+                </div>
+                <div class="col-lg-9">
+
+                    <ul  class="nav nav-pills">
+                        <li class="active"><a href="#IDE" data-toggle="tab">Code</a></li>
+                        <li><a href="#Chat" data-toggle="tab">Chat</a></li>
+                        <li class="pull-right" *ngIf="showLanguage">
+                            <a>
+                                Language: <span class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ language }} <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li *ngFor="let lang of Languages"><a (click)="switchLanguage(lang)" class="pointer">{{lang.title}}</a></li>
+                                    </ul>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content clearfix">
+                      <div class="tab-pane active" id="File">
+
+                            <!-- FileSystem -->
+                            <div class="row">
+                                <ace-editor #editor class="code-editor" [text]="code" [options]="codeEditorOptions"
+                                    (textChanged)="onChangeCodeInsideEditor($event)" style="border-radius: 5px">
+                                </ace-editor>
+                            </div>
+                            <div class="row">
+                                <div class="form-group text-center">
+                                    <label for="commitMessage" style="margin-top:10px; user-select: none;">Commit Message</label>
+                                    <input style="color: white;" type="email" class="form-control" id="commitMessage" aria-describedby="commitHelp" placeholder="Commit message...">
+                                    <small id="commitHelp" class="form-text text-muted" style="cursor: default; user-select: none;">Explicit commit messages will help the streamer to accept your work.</small>
+                                </div>
+                                <button (click)="logCode()" type="button" class="btn btn-success" style="width:100%">Pull Request</button>
+                            </div>
+                            <!-- /FileSystem -->
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Right Col -->
+    </div>
+    <!-- /OneTwo Layout -->
+</div>

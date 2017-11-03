@@ -1,0 +1,30 @@
+#codeEditor_body
+{
+    background-color: #272727;
+    height: 100vh;
+    color: white;
+}
+
+#tree
+{
+    background-color: #383838;
+    color: white;
+    margin-bottom:10px;
+    margin-top:10px;
+    border-radius: 5px;
+    height: calc(100vh - 90px);
+}
+
+#offline_stream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+}
+
+footer
+{
+    margin: 50px 0;
+}
