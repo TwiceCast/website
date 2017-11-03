@@ -1,0 +1,73 @@
+#chat_body
+{
+    color: white;
+    overflow: hidden;
+}
+
+#Chat {
+	background-color : #2D241E;
+    overflow: hidden;
+}
+
+#MessagesContainer {
+    height: calc(100vh - 42px);
+    margin : 2px;
+    margin-right: 0;
+    margin-bottom: 40px;
+    max-height: 100vh;
+    position: relative;
+	overflow : auto;
+    box-sizing: border-box;
+}
+
+#Chat .author {
+	margin-left : 5px;
+	color : #E67E30;
+	border-bottom : 1px solid #E67E30;
+	font-size : 11px;
+}
+
+#Chat .chat-command {
+    cursor: pointer;
+    font-size: 11px;
+}
+#Chat .chat-command:hover {
+    color: #E67E30;
+}
+
+#Chat .system {
+	border-radius: 5px;
+	color : #1FA055;
+	font-size : 9px;
+}
+
+#Chat .message {
+	border-radius: 5px;
+	color : white;
+	font-size : 9px;
+}
+
+#Chat .input-group {
+    height: 37px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin : 2px;
+}
+
+#Chat .chatmsg {
+	margin : 2px;
+}
+
+#Chat #sendChat {
+	padding : 5px;
+	font-size : 10px;
+	margin-bottom : 0px;
+}
+
+#Chat #newChatMessage {
+	color : white;
+	font-size : 10px;
+}
