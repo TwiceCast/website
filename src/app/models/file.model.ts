@@ -22,8 +22,9 @@ export class File implements Serializable<File> {
         this.content = '';
         if (this.receivedPart == this.maxPart) {
             for (let i = 1; i <= this.maxPart; i++) {
-                this.content += atob(this.splittedContent[i]);
+                this.content += this.splittedContent[i];
             }
+			this.content = atob(this.content);
         }
 
         return this;
