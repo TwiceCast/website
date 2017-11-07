@@ -145,7 +145,18 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
-    
+    setStreamCover(token:any, id:number, cover:any): Promise<any> {
+        const headers = new Headers({ 'Content-Type': 'image/png',
+                                    'Authorization': token});
+        const options = new RequestOptions({headers: headers});
+        return this.http.put(this.API_URL + 'streams/' + id + '/cover', cover, options)
+                        .toPromise()
+                        .then((response) => {
+                            return (response);
+                        })
+                        .catch(this.handleError);            
+    }
+
     deleteStream(token:any, id: any): Promise<any> {
         const headers = new Headers({ 'Content-Type': 'application/json',
                                      'Authorization': token});
@@ -168,7 +179,6 @@ export class APILinker {
         return this.http.patch(this.API_URL + 'users/' + id, JSON.stringify(data), options)
                         .toPromise()
                         .then((response) => {
-                            console.log(response);
                             return (response);
                         })
                         .catch(this.handleError);
@@ -181,7 +191,6 @@ export class APILinker {
         return this.http.put(this.API_URL + 'users/' + id + '/avatar', picture, options)
                         .toPromise()
                         .then((response) => {
-                            console.log(response);
                             return (response);
                         })
                         .catch(this.handleError);        

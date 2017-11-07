@@ -81,7 +81,10 @@ export class LiveComponent implements OnInit, OnDestroy {
         console.log(this.formattedTags);
         this.sm.checkToken().then((response) => {
             if (response == true) {
-                this.linker.createStream(this.sm.getApiKey(), this.InputStreamTitle, this.InputStreamDescription, "FRA", this.formattedTags).then((reponse) => {
+                this.linker.createStream(this.sm.getApiKey(), this.InputStreamTitle, this.InputStreamDescription, "FRA", this.formattedTags).then((response) => {
+                    // SET STREAM COVER //
+//                    this.linker.setStreamCover(this.sm.getApiKey(), response.id, cover);
+                    // Need Cover Picture Here //
                     this.linker.getStreams().then(live_response => {
                         this.checkLive(live_response);
                     });
