@@ -31,7 +31,7 @@ import { APILinker } from '../../../services/APILinker.service';
 export class CodeEditorComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
     public codeEditorOptions:any;
-    public code:String;
+    public code:string;
     private id: number;
     private sub: any;
 
@@ -60,9 +60,16 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     private tree: TreeComponent;
     public nodes = [];
 
+    public openedFiles: File[] = [];
+    public _selectedFile: File = null;
+
     onChangeCodeInsideEditor(code)
     {
         this.code = code;
+        if (this._selectedFile != null) {
+            this._selectedFile.lockFile(true);
+            this._selectedFile.content = this.code;
+        }
     }
 
     ngAfterViewInit(){
@@ -124,13 +131,60 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         }
     }
 
+    public closeOpenedFile(openedfile: File): void {
+        let index = this.openedFiles.indexOf(openedfile);
+        let selectNew = false;
+        console.log("remove");
+        if (index > -1) {
+            if (this._selectedFile == this.openedFiles[index]) {
+                console.log("select new");
+                selectNew = true;
+            }
+            if (index == 0 || index == this.openedFiles.length - 1) {
+                this.openedFiles.pop();
+            } else {
+                this.openedFiles = this.openedFiles.splice(index, 1);
+            }
+            if (selectNew) {
+                if (index - 1 <= 0 && this.openedFiles.length > 0) {
+                    console.log("s1");
+                    this.SelectOpenedFile(this.openedFiles[0]);
+                } else if (this.openedFiles.length >= index - 1 && this.openedFiles.length > 0) {
+                    console.log("s2");
+                    this.SelectOpenedFile(this.openedFiles[index - 1]);
+                } else if (this.openedFiles.length > 0) {
+                    console.log("s3");
+                    this.SelectOpenedFile(this.openedFiles[this.openedFiles.length - 1]);
+                } else {
+                    console.log("s4");
+                    this._selectedFile = null;
+                    this.code = "";
+                }
+            }
+        }
+    }
+
+    public SelectOpenedFile(openedfile: File): void {
+        if (openedfile != null) {
+            this._selectedFile = openedfile;
+            this.code = openedfile.content;
+        }
+    }
+
+    public reloadFile(openedfile: File): void {
+        openedfile.content = openedfile.originalContent;
+        openedfile.lockFile(false);
+        this.SelectOpenedFile(openedfile);
+    }
+
     public fileSelected($event) {
         let clicked = $event.node.data;
         if (clicked.type == 'file') {
             let file_ref = this.receivedFiles[clicked.id];
-            console.log(file_ref.isComplete());
-            console.log(file_ref.content);
-            this.code = file_ref.content;
+            if (this.openedFiles.indexOf(file_ref) < 0) {
+                this.openedFiles.push(file_ref);
+            }
+            this.SelectOpenedFile(file_ref);
         }
     }
 

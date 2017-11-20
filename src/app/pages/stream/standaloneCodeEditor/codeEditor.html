@@ -13,8 +13,7 @@
                 <div class="col-lg-9">
 
                     <ul  class="nav nav-pills">
-                        <li class="active"><a href="#IDE" data-toggle="tab">Code</a></li>
-                        <li><a href="#Chat" data-toggle="tab">Chat</a></li>
+                        <li *ngFor="let openedfile of openedFiles" [class.modifiedFile]="openedfile.isModified()" class="fileTab" [class.active]="_selectedFile == openedfile" (click)="SelectOpenedFile(openedfile)"><a>{{openedfile.name}} <i class="fa fa-refresh" *ngIf="openedfile.isModified()" aria-hidden="true" (click)="reloadFile(openedfile)"></i> <i class="fa fa-times-circle" aria-hidden="true" (click)="closeOpenedFile(openedfile)"></i></a></li>
                         <li class="pull-right" *ngIf="showLanguage">
                             <a>
                                 Language: <span class="dropdown">
