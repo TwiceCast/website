@@ -2,6 +2,7 @@ export class File implements Serializable<File> {
     maxPart: number;
     receivedPart: number = 0;
     name: string;
+    realName: string;
     private splittedContent: string[] = [];
 
     content: string;
@@ -22,22 +23,25 @@ export class File implements Serializable<File> {
 
     deserialize(input) {
         this.maxPart = input.maxPart;
-        this.name = input.name;
+        this.realName = input.name;
+        let splitName = this.realName.split('/');
+        this.name = splitName[splitName.length - 1];
         this.fileLocked = false;
 
         if (input.name == '/.gitignore')
             console.log(input);
+        console.log(input);
         this.splittedContent[+input.part] = input.content;
         this.receivedPart++;
 
-        this.content = '';
+        this.originalContent = '';
         if (this.receivedPart >= this.maxPart) {
             for (let i = 1; i <= this.maxPart; i++) {
-                this.content += this.splittedContent[i];
+                this.originalContent += atob(this.splittedContent[i]);
             }
-			this.originalContent = atob(this.content);
+			this.originalContent = this.originalContent;
             if (!this.fileLocked) {
-                this.content = atob(this.content);
+                this.content = this.originalContent;
             }
             this.receivedPart = this.maxPart;
         }

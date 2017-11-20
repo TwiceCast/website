@@ -2,15 +2,20 @@
     <!-- OneTwo Layout -->
     <div class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
         <!-- Right Col -->
-        <div class="col-lg-12">
+        <div class="col-xs-12">
             <div class="row">
-                <div class="col-lg-3">
-
+                <div class="col-xs-3">
                     <div class="row" id="tree">
-                                <tree-root #tree [nodes]="nodes" (activate)="fileSelected($event)" class="tree_style"></tree-root>
-                            </div>
+                        <tree-root #tree [nodes]="nodes" (activate)="fileSelected($event)" class="tree_style">
+                            <ng-template #treeNodeTemplate let-node let-index="index">
+                                <span *ngIf="node.data.type == 'folder'"><i class="fa fa-folder-o" aria-hidden="true"></i> </span>
+                                <span *ngIf="node.data.type == 'file'"><i class="fa fa-file-o" aria-hidden="true"></i> </span>
+                                <span>{{ node.data.name }}</span>
+                            </ng-template>
+                        </tree-root>
+                    </div>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-xs-9">
 
                     <ul  class="nav nav-pills">
                         <li *ngFor="let openedfile of openedFiles" [class.modifiedFile]="openedfile.isModified()" class="fileTab" [class.active]="_selectedFile == openedfile" (click)="SelectOpenedFile(openedfile)"><a>{{openedfile.name}} <i class="fa fa-refresh" *ngIf="openedfile.isModified()" aria-hidden="true" (click)="reloadFile(openedfile)"></i> <i class="fa fa-times-circle" aria-hidden="true" (click)="closeOpenedFile(openedfile)"></i></a></li>

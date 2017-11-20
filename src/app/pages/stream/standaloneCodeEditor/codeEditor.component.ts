@@ -143,7 +143,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
             if (index == 0 || index == this.openedFiles.length - 1) {
                 this.openedFiles.pop();
             } else {
-                this.openedFiles = this.openedFiles.splice(index, 1);
+                this.openedFiles.splice(index, 1);
             }
             if (selectNew) {
                 if (index - 1 <= 0 && this.openedFiles.length > 0) {
@@ -188,8 +188,40 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         }
     }
 
-    private createSubFolders(path: any) {
+    private addFolder(rootNode: any, folder: string): any {
+        let foundFolder = false;
+        let result = rootNode;
+        if (rootNode != null && rootNode.children != null) {
+            for (let i = 0; i < rootNode.children.length; i++) {
+                if (rootNode.children[i].name == folder) {
+                    foundFolder = true;
+                    result = rootNode.children[i];
+                }
+            }
+        }
 
+        if (!foundFolder) {
+            result = {name: folder, type: 'folder', children:[]};
+            rootNode.children.push(result);
+        }
+
+        return result;
+    }
+
+    private createSubFolders(path: string) {
+        let divided = path.split('/');
+        let folder = this.rootNode;
+        if (divided.length > 2) {
+            for (let i = 1; i < divided.length - 1; i++) {
+                console.log(divided);
+                if (divided[i] == '') {
+                    divided[i] = '/';
+                }
+                folder = this.addFolder(folder, divided[i]);
+            }
+        }
+
+        return folder;
     }
 
     public rootNode: any = {name: '/', type: 'folder', children:[]};
@@ -200,7 +232,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         fileNode.name = fileNameSplit[fileNameSplit.length - 1];
         fileNode.type = 'file';
         fileNode.children = [];
-        this.rootNode.children.push(fileNode);
+        let folder = this.createSubFolders(fileName);
+        folder.children.push(fileNode);
         //this.nodes.push(fileNode);
         this.tree.treeModel.update();
     }
