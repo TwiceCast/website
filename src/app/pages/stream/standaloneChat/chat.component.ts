@@ -34,6 +34,17 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.chatService.Init(this.id);
     }
 
+    setColor(chatMessage:any, i:number) 
+    {
+        console.log("id : " + i);
+        if (this.chatService.chatMessages[i].author != '' && (i == 3 || this.chatService.chatMessages[i - 1].author != chatMessage.author))
+        {
+            console.log("IF OK");
+            return (true);
+        }
+        return (true);
+    }
+     
     ngAfterViewChecked() {
         $('nav').remove();
         $('footer').remove();

@@ -24,12 +24,12 @@
 	margin-left : 5px;
 	color : #E67E30;
 	border-bottom : 1px solid #E67E30;
-	font-size : 11px;
+	font-size : 24px;
 }
 
 #Chat .chat-command {
     cursor: pointer;
-    font-size: 11px;
+    font-size: 22px;
 }
 #Chat .chat-command:hover {
     color: #E67E30;
@@ -38,13 +38,12 @@
 #Chat .system {
 	border-radius: 5px;
 	color : #1FA055;
-	font-size : 9px;
+	font-size : 20px;
 }
 
 #Chat .message {
-	border-radius: 5px;
 	color : white;
-	font-size : 9px;
+	font-size : 18px;
 }
 
 #Chat .input-group {
@@ -58,16 +57,22 @@
 }
 
 #Chat .chatmsg {
+    background: rgba(255,255,255,0.2);
+	border-radius: 5px;
 	margin : 2px;
+}
+
+#Chat .chatmsg>.chatmsg {
+    background:rgba(0,0,0,0);
 }
 
 #Chat #sendChat {
 	padding : 5px;
-	font-size : 10px;
+	font-size : 18px;
 	margin-bottom : 0px;
 }
 
 #Chat #newChatMessage {
 	color : white;
-	font-size : 10px;
+	font-size : 18px;
 }
