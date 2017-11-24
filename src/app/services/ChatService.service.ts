@@ -146,6 +146,7 @@ export class ChatService {
     private message(data: any)
     {
         console.log('(CHAT MESSAGE): ' + data.user + ': ' + data.content);
+        console.log(data);
         this.chatMessages.push(new ChatMessage().deserialize(data));
         this.ScrollDownContainer();
     }

@@ -21,6 +21,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     public chatService: ChatService;
 
+    private chatColors = [
+        '#338dc7',
+        '#06a806',
+        '#993baf',
+        '#bebe52',
+        '#edcc8f',
+        '#60e2b4'
+    ];
+
     constructor(private sm:SessionManager, private route: ActivatedRoute, private router: Router) { }
 
     ngOnInit() {
@@ -34,15 +43,31 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.chatService.Init(this.id);
     }
 
-    setColor(chatMessage:any, i:number) 
-    {
-        console.log("id : " + i);
-        if (this.chatService.chatMessages[i].author != '' && (i == 3 || this.chatService.chatMessages[i - 1].author != chatMessage.author))
-        {
-            console.log("IF OK");
-            return (true);
+    getDisplayImage(msg: any) {
+        if (msg.rank == 0) {
+            return 'assets/icon-chomp.png';
+        } else if (msg.rank == 1) {
+            return 'assets/icon-redshell.png';
         }
-        return (true);
+        return null;
+    }
+
+    getPseudoColorValue(data: string): number {
+        let result = 0;
+        for (let l of data) {
+            result += +l.charCodeAt(0);
+        }
+        return result;
+    }
+
+    getColor(author: string): string {
+        if (author == "") {
+            return 'rgba(0, 0, 0, 0.28)';
+        } else if (author != this.sm.getLogin()) {
+            let colorValue = this.getPseudoColorValue(author);
+            return this.chatColors[colorValue % this.chatColors.length];
+        }
+        return '';
     }
      
     ngAfterViewChecked() {
