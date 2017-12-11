@@ -5,6 +5,8 @@ import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { signinRoutes }    from './pages/signin/signin.routes';
+import { forgotRoutes }    from './pages/forgot/forgot.routes';
+import { resetRoutes }    from './pages/reset/reset.routes';
 import { signupRoutes }    from './pages/signup/signup.routes';
 import { logoutRoutes }    from './pages/logout/logout.routes';
 import { homeRoutes }    from './pages/home/home.routes';
@@ -22,6 +24,8 @@ export const routes: Routes = [
   },
     // Add routes from all files
   ...signinRoutes,
+  ...forgotRoutes,
+  ...resetRoutes,
   ...signupRoutes,
   ...logoutRoutes,
   ...homeRoutes,

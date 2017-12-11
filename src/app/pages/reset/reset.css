@@ -1,0 +1,127 @@
+#reset_body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+/*
+.navbar {
+    background-color: firebrick;
+}
+
+.logo_container {
+    background-color: white;
+    color: firebrick;
+    border-radius: 15px;
+}
+
+.logo {
+    float: left;
+    margin-top: -15px;
+    height: 50px;
+}
+
+.login {
+    color: white !important;
+}
+
+.login:hover {
+    color:black !important;
+}
+
+.language_icon {
+    vertical-align: middle !important;
+    float: left;
+    width: 32px;
+    margin-top: -7px;
+}
+
+.javascript {
+    color: black;
+    background-color: #ddcf0d;
+}
+
+.javascript:hover {
+    color: white;
+    background-color: #ddcf0d;
+}
+
+.cpp {
+    color: white;
+    background-color: #2763c4;
+}
+
+.cpp:hover {
+    color:black;
+    background-color: #2763c4;
+}
+
+.ruby {
+    color: white;
+    background-color: #bf0d0d;
+}
+
+.ruby:hover {
+    color:black;
+    background-color: #bf0d0d;
+}
+
+.csharp {
+    color: white;
+    background-color:darkslateblue
+}
+
+.csharp:hover {
+    color: black;
+    background-color:darkslateblue
+}
+
+a {
+    color:firebrick;
+}
+
+a:hover {
+    color:red;
+}
+
+.slide-image {
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+.caption {
+    height: 130px;
+    overflow: hidden;
+}
+
+.caption h4 {
+    white-space: nowrap;
+}
+
+.thumbnail img {
+    width: 100%;
+}
+
+.ratings {
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #d17581;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+*/
+footer {
+    margin: 50px 0;
+}
