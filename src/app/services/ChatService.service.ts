@@ -55,6 +55,20 @@ export class ChatService {
         this.mysock.emit('ban', {username: user});
     }
 
+    public sendSetMod(user: string) {
+        if (user == '')
+            return;
+        console.log('Setting mod..' + user);
+        this.mysock.emit('setMod', {username: user});
+    }
+
+    public sendDelMod(user: string) {
+        if (user == '')
+            return;
+        console.log('Removing mod..' + user);
+        this.mysock.emit('delMod', {username: user});
+    }
+
     public sendDeleteMessage(msgId: number) {
         if (msgId < 0)
             return;
@@ -93,6 +107,8 @@ export class ChatService {
 		this.mysock.on('disconnect', this.disconnect.bind(this));
         this.mysock.on('mute', this.mute.bind(this));
         this.mysock.on('ban', this.ban.bind(this));
+        this.mysock.on('setMod', this.setMod.bind(this));
+        this.mysock.on('delMod', this.delMod.bind(this));
     }
 
     public InitKey() {
@@ -219,6 +235,26 @@ export class ChatService {
             ban_message.author = "";
             ban_message.message = data.reason;
             this.chatMessages.push(ban_message);
+        }
+    }
+
+    private setMod(data: any) {
+        if (data.message && data.message == 'Success') {
+            let setmod_message = new ChatMessage();
+            setmod_message.id = -1;
+            setmod_message.author = "";
+            setmod_message.message = data.reason;
+            this.chatMessages.push(setmod_message);
+        }
+    }
+
+    private delMod(data: any) {
+        if (data.message && data.message == 'Success') {
+            let delmod_message = new ChatMessage();
+            delmod_message.id = -1;
+            delmod_message.author = "";
+            delmod_message.message = data.reason;
+            this.chatMessages.push(delmod_message);
         }
     }
 
