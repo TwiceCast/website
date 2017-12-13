@@ -17,6 +17,10 @@ export class File implements Serializable<File> {
         return this.content != this.originalContent;
     }
 
+    isLocked(): boolean {
+        return this.fileLocked;
+    }
+
     lockFile(lock: boolean): void {
         this.fileLocked = lock;
     }
@@ -37,9 +41,9 @@ export class File implements Serializable<File> {
         this.originalContent = '';
         if (this.receivedPart >= this.maxPart) {
             for (let i = 1; i <= this.maxPart; i++) {
-                this.originalContent += atob(this.splittedContent[i]);
+                this.originalContent += (this.splittedContent[i]);
             }
-			this.originalContent = this.originalContent;
+			this.originalContent = atob(this.originalContent);
             if (!this.fileLocked) {
                 this.content = this.originalContent;
             }

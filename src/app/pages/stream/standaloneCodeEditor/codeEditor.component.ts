@@ -119,8 +119,11 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
 
     private receivedFile(content: any) {
         if (content.name in this.receivedFiles) {
+            let wasComplete = this.receivedFiles[content.name].isComplete();
             this.receivedFiles[content.name].deserialize(content);
-            if (this.receivedFiles[content.name].isComplete()) {
+            if (wasComplete) {
+                this.fileUpdated(this.receivedFiles[content.name]);
+            } else if (this.receivedFiles[content.name].isComplete()) {
                 this.fileCompleted(content.name);
             }
         } else {
@@ -224,6 +227,12 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         return folder;
     }
 
+    private fileUpdated(file: File) {
+        if (this._selectedFile == file && !file.isLocked()) {
+            this.SelectOpenedFile(file);
+        }
+    }
+    
     public rootNode: any = {name: '/', type: 'folder', children:[]};
     private fileCompleted(fileName: string) {
         let fileNode: any = {};
