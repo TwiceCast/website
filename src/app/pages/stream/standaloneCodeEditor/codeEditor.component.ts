@@ -11,6 +11,14 @@ import 'brace/mode/html';
 import 'brace/mode/java';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
+import 'brace/mode/ini';
+import 'brace/mode/lua';
+import 'brace/mode/makefile';
+import 'brace/mode/markdown';
+import 'brace/mode/php';
+import 'brace/mode/plain_text';
+import 'brace/mode/ruby';
+import 'brace/mode/rust';
 
 import * as $ from 'jquery';
 
@@ -31,22 +39,33 @@ import { APILinker } from '../../../services/APILinker.service';
 export class CodeEditorComponent implements OnInit, OnDestroy {
     @ViewChild('editor') editor;
     public codeEditorOptions:any;
-    public code:string;
+    public code: string;
     private id: number;
     private sub: any;
 
     public stream: Stream;
 
+    public commitMessage: string;
+    public commitTitle: string;
+
     public showLanguage = true;
     public language = "C/C++";
     public Languages = [
-        {'title': 'C/C++', 'file': 'c_cpp'},
-        {'title': 'YAML', 'file': 'yaml'},
-        {'title': 'CSS', 'file': 'css'},
-        {'title': 'HTML', 'file': 'html'},
-        {'title': 'JavaScript', 'file': 'javascript'},
-        {'title': 'JSON', 'file': 'json'},
-        {'title': 'Java', 'file': 'java'}
+        {'title': 'C/C++', 'file': 'c_cpp', 'ext': 'c:cpp:h:hpp'},
+        {'title': 'YAML', 'file': 'yaml', 'ext': 'yaml:yml'},
+        {'title': 'CSS', 'file': 'css', 'ext': 'css'},
+        {'title': 'HTML', 'file': 'html', 'ext': 'html'},
+        {'title': 'PHP', 'file': 'php', 'ext': 'php'},
+        {'title': 'JavaScript', 'file': 'javascript', 'ext': 'js:ts'},
+        {'title': 'JSON', 'file': 'json', 'ext': 'json'},
+        {'title': 'Java', 'file': 'java', 'ext': 'java'},
+        {'title': 'Ini file', 'file': 'ini', 'ext': 'ini'},
+        {'title': 'LUA', 'file': 'lua', 'ext': 'lua'},
+        {'title': 'Makefile', 'file': 'lua', 'ext': 'lua'},
+        {'title': 'Markdown', 'file': 'markdown', 'ext': ''},
+        {'title': 'Ruby', 'file': 'ruby', 'ext': 'rs'},
+        {'title': 'Rust', 'file': 'rust', 'ext': 'md'},
+        {'title': 'Text', 'file': 'plain_text', 'ext': 'txt'}
     ];
 
     // reference to the element itself, we use this to access events and methods
@@ -54,7 +73,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
 
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker) { }
 
-    private receivedFiles: File[] = [];
+    private receivedFiles: object = {};
 
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
@@ -81,6 +100,27 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     logCode()
     {
         console.log(this.code);
+    }
+
+    sendPullRequest() {
+        console.log(this.commitTitle);
+        console.log(this.commitMessage);
+
+        let to_send: any[] = [];
+
+        for (let prop in this.receivedFiles) {
+            if (this.receivedFiles.hasOwnProperty(prop)) {
+                let file: File = this.receivedFiles[prop];
+                console.log(file.name + ' - ' + file.isModified());
+                if (file.isModified()) {
+                    to_send.push(file);
+                }
+            }
+        }
+
+        if (this.commitTitle) {
+            this.fl.pullRequest(this.commitTitle, this.commitMessage, to_send);
+        }
     }
 
     ngOnInit() {
@@ -171,6 +211,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         if (openedfile != null) {
             this._selectedFile = openedfile;
             this.code = openedfile.content;
+            this.switchLanguageOnExtension();
+            setTimeout(function() {this.editor.getEditor().clearSelection();}.bind(this), 10);
         }
     }
 
@@ -251,6 +293,28 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         console.log(lang);
         this.editor.setMode('' + lang.file);
         this.language = lang.title;
+    }
+
+    private switchLanguageOnExtension() {
+        let extsToFind = this._selectedFile.name.split('.');
+        if (extsToFind.length > 1) {
+            let extToFind = extsToFind[extsToFind.length - 1];
+            console.log(extToFind);
+            for (let prop in this.Languages) {
+                if (this.Languages.hasOwnProperty(prop)) {
+                    let lang = this.Languages[prop];
+                    let exts = lang.ext.split(':');
+                    console.log(lang);
+                    console.log(exts);
+                    for (let ext in exts) {
+                        if (exts[ext].toLowerCase() == extToFind.toLowerCase()) {
+                            this.switchLanguage(lang);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     ngAfterViewChecked() {

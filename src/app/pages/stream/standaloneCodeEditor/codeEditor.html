@@ -1,4 +1,5 @@
 <div id="codeEditor_body">
+    <div id="codeEditor_bg"></div>
     <!-- OneTwo Layout -->
     <div class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
         <!-- Right Col -->
@@ -41,12 +42,20 @@
                                 </ace-editor>
                             </div>
                             <div class="row">
-                                <div class="form-group text-center">
-                                    <label for="commitMessage" style="margin-top:10px; user-select: none;">Commit Message</label>
-                                    <input style="color: white;" type="email" class="form-control" id="commitMessage" aria-describedby="commitHelp" placeholder="Commit message...">
-                                    <small id="commitHelp" class="form-text text-muted" style="cursor: default; user-select: none;">Explicit commit messages will help the streamer to accept your work.</small>
+                                <div class="col-xs-4">
+                                    <div class="form-group text-center">
+                                        <label for="commitTitle" style="margin-top:10px; user-select: none;">Commit Title</label>
+                                        <input style="color: white;" type="text" class="form-control text-center" id="commitTitle" aria-describedby="commitTitleHelp" placeholder="Commit Title..." [(ngModel)]="commitTitle">
+                                    </div>
                                 </div>
-                                <button (click)="logCode()" type="button" class="btn btn-success" style="width:100%">Pull Request</button>
+                                <div class="col-xs-8">
+                                    <div class="form-group text-center">
+                                        <label for="commitMessage" style="margin-top:10px; user-select: none;">Commit Message</label>
+                                        <input style="color: white;" type="text" class="form-control text-center" id="commitMessage" aria-describedby="commitHelp" placeholder="Commit message..." [(ngModel)]="commitMessage">
+                                        <small id="commitHelp" class="form-text text-muted" style="cursor: default; user-select: none;">Explicit commit title and messages will help the streamer to accept your work.</small>
+                                    </div>
+                                </div>
+                                <button (click)="sendPullRequest()" type="button" class="btn btn-success" style="width:100%">Pull Request</button>
                             </div>
                             <!-- /FileSystem -->
                         </div>

@@ -2,6 +2,7 @@ import * as Rx from 'rxjs/Rx';
 import { Injectable, EventEmitter, Output } from '@angular/core';
 
 import { User } from '../models/user.model';
+import { File } from '../models/file.model';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -103,6 +104,58 @@ export class FileSystemLinker {
         console.log(authrequest);
     }
     
+    public pullRequest(title: string, desc: string, files: File[]) {
+        if (files.length > 0) {
+            this.pullRequestCreate(title, desc);
+
+            let i = 0;
+            while (i < files.length) {
+                this.pullRequestSendFile(files[i]);
+                ++i;
+            }
+
+            this.pullRequestValidate();
+        }
+    }
+
+    private pullRequestCreate(title: string, desc: string) {
+        let prRequest: object = {
+            "type": "pullrequest",
+            "subtype": "creation",
+            "data": {
+                "title": title,
+                "description": desc
+            }
+        };
+        this.socket.send(JSON.stringify(prRequest));
+        console.log('Pull Request "' + title + '" created');
+    }
+
+    private pullRequestSendFile(file: File) {
+        console.log('sending file..' + file.name);
+        let to_send: string = file.content;
+
+        let prRequest: object = {
+            "type": "file",
+            "subtype": "post",
+            "data": {
+                "name": file.realName,/*PATH*/
+                "content": btoa(to_send)
+            }
+        };
+
+        this.socket.send(JSON.stringify(prRequest));
+    }
+
+    private pullRequestValidate() {
+        let prRequest: object = {
+            "type": "pullrequest",
+            "subtype": "finish"
+        };
+        this.socket.send(JSON.stringify(prRequest));
+        console.log('Pull Request validated');
+    }
+
     public disconnect() {
         if (this.socket) {
             this.socket.close();
