@@ -128,6 +128,58 @@
                 </div>
                 <!-- !Stream CHAT -->
 
+                <!-- Stream COVER -->
+                <div class="col-md-6 text-center">
+                    <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#streamcover_collapse">Stream Cover</a>
+                                <button type="button"
+                                        class="btn btn-success btn-xs pull-right"
+                                        style="vertical-align: middle;"
+                                        *ngIf="processingLive == false && imageData != null"
+                                        (click)="UpdateCover()">Update Cover</button>
+                                <button type="button"
+                                        class="btn btn-success btn-xs pull-right"
+                                        style="vertical-align: middle;"
+                                        *ngIf="processingLive == true"
+                                        disabled><i class='fa fa-spinner fa-spin '></i> Processing</button>
+                            </h4>
+                        </div>
+                        <div id="streamcover_collapse" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row" *ngIf="!stream">
+                                <div class="col-xs-12">
+                                    <div class="alert alert-warning">
+                                        <strong>Warning!</strong> You need to start your stream to change your cover !
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="stream">
+                                <div class="col-xs-6">
+                                    <h4>Actual:</h4>
+                                    <img id="actualCoverPreview" src="https://api.twicecast.ovh/streams/{{ stream.id }}/cover" onError="this.src='assets/default_cover.png'" class="img-responsive img-thumbnail" alt="Actual cover preview">
+                                </div>
+                                <div class="col-xs-6">
+                                    <h4>Preview:</h4>
+                                    <img id="newCoverPreview" src="https://api.twicecast.ovh/streams/{{ stream.id }}/cover" onError="this.src='assets/default_cover.png'" class="img-responsive img-thumbnail" alt="New cover preview">
+                                </div>
+                            </div>
+                        </div>
+                            <div class="panel-footer" *ngIf="stream">
+                            <div class="row" *ngIf="stream">
+                                <div class="col-xs-12">
+                                    <input type="file" (change)="fileChangeEvent($event)" class="btn btn-default btn-lg btn-block"/>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- !Stream COVER -->
+
             </div>
 
         </div>

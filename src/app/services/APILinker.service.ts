@@ -138,8 +138,6 @@ export class APILinker {
                                     'Authorization': token});
         const options = new RequestOptions({ headers: headers });
 
-        console.log(JSON.stringify(data));
-
         return this.http.post(this.API_URL + 'streams', JSON.stringify(data), options)
                         .toPromise()
                         .then((response) => {

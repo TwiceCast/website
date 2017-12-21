@@ -31,6 +31,8 @@ export class LiveComponent implements OnInit, OnDestroy {
     private sub: any;
     private id: number;
 
+    public stream: any;
+
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {}
 
@@ -47,6 +49,7 @@ export class LiveComponent implements OnInit, OnDestroy {
             if (stream.owner.id == this.sm.getId()) {
                 this.live = true;
                 this.formattedTags = [];
+                this.stream = stream;
                 this.activeTags = {};
                 if (this.chatService != null)
                     this.chatService.Destroy();
@@ -125,6 +128,7 @@ export class LiveComponent implements OnInit, OnDestroy {
                         {
                             this.linker.deleteStream(this.sm.getApiKey(), String(stream.id));
                             this.live = false;
+                            this.stream = null;
                             if (this.chatService) {
                                 this.chatService.Destroy();
                                 this.chatService = null;
@@ -173,4 +177,39 @@ export class LiveComponent implements OnInit, OnDestroy {
         if (this.chatService)
             this.chatService.Destroy();
     }
+
+    public newImage = null;
+    public imageData = null;
+    public fileChangeEvent(fileInput: any){
+        if (fileInput.target.files && fileInput.target.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = (e:any) => {
+                this.newImage = e.target.result;
+                $('#newCoverPreview').attr('src', this.newImage);
+            }
+
+            reader.readAsDataURL(fileInput.target.files[0]);
+            this.imageData = fileInput.target.files[0];
+            //this.api.changeAvatar(this.sm.getApiKey(), this.sm.getId(), fileInput.target.files[0]);
+        }
+    }
+
+    public UpdateCover() {
+        if (this.newImage && this.imageData && this.stream) {
+            this.processingLive = true;
+            this.linker.setStreamCover(this.sm.getApiKey(), this.stream.id, this.imageData)
+                .catch((error) => {
+                    console.error(error);
+                    this.processingLive = false;
+                }).then((response) => {
+                    if (response.status == 200) {
+                        $('#actualCoverPreview').attr('src', this.newImage);
+                    }
+                    console.log(response);
+                    this.processingLive = false;
+            });
+        }
+    }
+
 }
