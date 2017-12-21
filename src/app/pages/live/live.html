@@ -1,46 +1,108 @@
 <div id="live_body" *ngIf="this.sm.isLogged()">
-    <!-- OneTwo Layout -->
     <div class="container" style="padding-top:20px;padding-bottom:20px;">
-        <!-- LiveOff -->
-        <div class="row" *ngIf="live==false" style="height:80vh;">
-            <div class="col-sm-6 text-center">
-                <div class="row">
-                    <div class="col-lg-4 col-lg-offset-4 form-group">
-                        <label for="InputStreamTitle" style="color:black;">Stream title</label>
-                        <input [(ngModel)]="InputStreamTitle" type="text" class="form-control" id="InputStreamTitle" name="InputStreamTitle" placeholder="Enter title" required>
+        <div class="well live_status">
+
+            <div class="row">
+                <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>
+                            Status : <span [class.text-danger]="live" [class.text-warning]="!live">{{ (live) ? 'LIVE': 'OFFLINE' }}</span>
+                            <button type="button"
+                                    class="btn btn-success pull-right"
+                                    style="vertical-align: middle;"
+                                    *ngIf="processingLive == false"
+                                    (click)="ProcessLive()">Turn {{ live ? 'OFF' : 'ON' }}</button>
+                            <button type="button"
+                                    class="btn btn-success pull-right"
+                                    style="vertical-align: middle;"
+                                    *ngIf="processingLive == true"
+                                    disabled><i class='fa fa-spinner fa-spin '></i> Processing</button>
+                        </h4>
+                    </div>
+                    <div class="panel-footer" style="color: black;">
+                        <p>Stream URL : <b>http://twicecast.ovh:1935/live/</b></p>
+                        <span>Stream Key : <b>{{sm.getId()}}</b></span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="InputStreamDescription" class="col-lg-4 col-lg-offset-4" style="color:black;">Stream Description</label>
-                        <textarea [(ngModel)]="InputStreamDescription" class="col-lg-4 col-lg-offset-3 form-control" id="InputStreamDescription" name="InputStreamDescription" placeholder="Enter description" maxlength="100" style="resize:none; width:300px; height:80px"></textarea>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom:30px;margin-top:10px;">
-                    <div class="col-lg-4 col-lg-offset-4 form-group">
-                        <label style="color:black;">Tags for your stream</label>
-                    </div>
-                    <div class="col-lg-10 col-lg-offset-1 text-center" *ngIf="tags">
-                        <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" (click)="tagPressed(tag.id)" aria-pressed="false" style="margin-right:10px;margin-left:10px;margin-bottom:10px;"autocomplete="off">
-                            {{ tag.name }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 text-center">
-                <div style="background-color:rgba(255, 105, 97, 0.5);border:3px solid black;border-radius:5px;padding-bottom:10px;">
-                    <h2 style="color:black;">You are offline</h2>
-                    <button class="getLive btn btn-primary" (click)="goLive()">Start</button>
                 </div>
             </div>
-        </div>
-        <!-- /LiveOff -->
-        <!-- LiveOn -->
-        <div class="row" *ngIf="live==true" style="height:80vh;">
-            <div class="col-sm-6">
-                <div class="row">
+
+            <div class="row">
+
+                <!-- Stream INFOS -->
+                <div class="col-md-6 text-center">
+                    <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#streaminfos_collapse">Stream Infos</a>
+                                <button type="button"
+                                    class="btn btn-success btn-xs pull-right"
+                                    style="vertical-align: middle;"
+                                    *ngIf="processingLive == false && !live"
+                                    (click)="ProcessLive()">Turn ON</button>
+                                <button type="button"
+                                        class="btn btn-success btn-xs pull-right"
+                                        style="vertical-align: middle;"
+                                        *ngIf="processingLive == false && live"
+                                        >Update</button>
+                                <button type="button"
+                                        class="btn btn-success btn-xs pull-right"
+                                        style="vertical-align: middle;"
+                                        *ngIf="processingLive == true"
+                                        disabled><i class='fa fa-spinner fa-spin '></i> Processing</button>
+                            </h4>
+                        </div>
+                        <div id="streaminfos_collapse" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-10 col-lg-offset-1 form-group">
+                                    <label for="InputStreamTitle" style="color:black;">Stream title</label>
+                                    <input [(ngModel)]="InputStreamTitle" type="text" class="form-control" id="InputStreamTitle" name="InputStreamTitle" placeholder="Enter title" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-10 col-lg-offset-1 form-group">
+                                    <label for="InputStreamDescription" class="" style="color:black;">Stream Description</label>
+                                    <textarea [(ngModel)]="InputStreamDescription" class="form-control" id="InputStreamDescription" name="InputStreamDescription" placeholder="Enter description" maxlength="100" style="resize:none; height:80px"></textarea>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:30px;margin-top:10px;">
+                                <div class="col-lg-10 col-lg-offset-1 form-group">
+                                    <label style="color:black;">Tags for your stream</label>
+                                </div>
+                                <div class="col-lg-10 col-lg-offset-1 text-center" *ngIf="tags">
+                                    <button *ngFor="let tag of tags" type="button" class="btn btn-primary tag-filter" data-toggle="button" (click)="tagPressed(tag.id)" aria-pressed="false" style="margin-right:10px;margin-left:10px;margin-bottom:10px;"autocomplete="off">
+                                        {{ tag.name }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- !Stream INFOS -->
+
+                <!-- Stream CHAT -->
+                <div class="col-md-6">
+                    <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-center">
+                                <a data-toggle="collapse" href="#chat_collapse">Chat</a>
+                            </h4>
+                        </div>
+                        <div id="chat_collapse" class="panel-collapse collapse in">
+                        <div class="panel-body">
+
+                            <div class="row">
                     <div class="col-lg-12">
-                            <div id="Chat" style="margin-top:0px">
+                            <div *ngIf="!chatService" class="alert alert-warning">
+                                <strong>Warning!</strong> You need to start your stream to see your chat !
+                            </div>
+                            <div *ngIf="chatService" id="Chat" style="margin-top:0px">
                                 <!-- Chat -->
                                 <div *ngIf="chatService" #chat class="row" id="MessagesContainer">
                                     <div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
@@ -48,7 +110,7 @@
                                         <div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row">{{ chatMessage.message}} <i *ngIf="chatMessage.author != '' && this.chatService.getRank() <= 2" title="Delete message" class="fa fa-times chat-command" aria-hidden="true" (click)="this.chatService.sendDeleteMessage(chatMessage.id)"></i></div>
                                     </div>
                                 </div>
-                                <div class="row input-group">
+                                <div *ngIf="chatService" class="row input-group">
                                     <input #newChatMessage id="newChatMessage" type="text" class="form-control" placeholder="Message...">
                                     <span class="input-group-btn">
                                         <button (click)="chatService.sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
@@ -57,20 +119,17 @@
                                 <!-- /Chat -->
                             </div>
                     </div>
-                </div>                    
-            </div>
-            <div class="col-sm-6 text-center">
-                <div style="background-color:rgba(176, 242, 182, 0.5);border:3px solid black;border-radius:5px;padding-bottom:10px;">
-                    <h2 style="color:black;">You are live now !</h2>
-                    <button class="liveOff btn btn-primary" type="button" (click)="liveOff()">Stop</button>
                 </div>
-				<div class="row" style="text-align:center;color:black;">
-					Stream URL to put in OBS : 'http://twicecast.ovh:1935/live/'<br>
-					With '{{sm.getId()}}' as Stream Key.
-				</div>
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- !Stream CHAT -->
+
             </div>
+
         </div>
-        <!-- /LiveOn -->
     </div>
-    <!-- /OneTwo Layout -->
 </div>

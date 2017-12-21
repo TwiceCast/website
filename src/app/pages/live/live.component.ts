@@ -43,6 +43,7 @@ export class LiveComponent implements OnInit, OnDestroy {
     checkLive(response:any) {
         for (let stream of response)
         {
+            console.log(stream);
             if (stream.owner.id == this.sm.getId()) {
                 this.live = true;
                 this.formattedTags = [];
@@ -71,10 +72,14 @@ export class LiveComponent implements OnInit, OnDestroy {
     }
      
     goLive() {
-        if (!this.InputStreamTitle || this.InputStreamTitle.length < 4)
+        if (!this.InputStreamTitle || this.InputStreamTitle.length < 4) {
+            this.processingLive = false;
             return;
-        if (this.InputStreamDescription && this.InputStreamDescription.length < 4)
+        }
+        if (this.InputStreamDescription && this.InputStreamDescription.length < 4) {
+            this.processingLive = false;
             return;
+        }
         for(var key in this.activeTags) {
             this.formattedTags.push(key);
         }
@@ -87,20 +92,26 @@ export class LiveComponent implements OnInit, OnDestroy {
                     // Need Cover Picture Here //
                     this.linker.getStreams().then(live_response => {
                         this.checkLive(live_response);
+                        this.processingLive = false;
                     });
                 }).catch((error) => {
                     if (error["status"] == 401) {
                         this.sm.Login(this.sm.getLogin(), this.sm.getPassword()).then((resp) => {
                             if (resp == true) {
                                 this.goLive();
+                            } else {
+                                this.processingLive = false;
                             }
                         });
                     }
+                    else
+                        this.processingLive = false;
                 });
             } else {
                 console.log("Please relog");
+                this.processingLive = false;
             }
-        }).catch((response) => { console.log("not logged"); });
+        }).catch((response) => { console.log("not logged"); this.processingLive = false; });
     }
     
     liveOff() {
@@ -120,11 +131,22 @@ export class LiveComponent implements OnInit, OnDestroy {
                             }
                         }
                     }
+                    this.processingLive = false;
                 });
             } else {
                 console.log("Please relog");
+                this.processingLive = false;
             }
-        }).catch((response) => { console.log("not logged"); });
+        }).catch((response) => { console.log("not logged"); this.processingLive = false; });
+    }
+
+    public processingLive: boolean = false;
+    ProcessLive() {
+        this.processingLive = true;
+        if (this.live)
+            this.liveOff();
+        else
+            this.goLive();
     }
     
     ngOnInit() {
