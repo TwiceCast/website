@@ -25,6 +25,30 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
+    forgot(email: string): Promise<string> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        let data = {'email': email};
+        return this.http.post(this.API_URL + 'passwordreset', JSON.stringify(data), options)
+                        .toPromise()
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .catch(this.handleError);
+    }
+
+    reset(token: string, new_password: string): Promise<string> {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        let data = {'password': new_password};
+        return this.http.post(this.API_URL + 'passwordreset/' + token, JSON.stringify(data), options)
+                        .toPromise()
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .catch(this.handleError);
+    }
+    
     register(email: string, password: string, name: string) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });

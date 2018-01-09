@@ -1,6 +1,7 @@
 // Imports
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { APILinker } from '../../services/APILinker.service';
 
 import { Logger } from '../../services/Logger.service';
 import { SessionManager } from '../../services/SessionManager.service';
@@ -22,7 +23,7 @@ export class ResetComponent implements OnInit, OnDestroy {
     
     public password: string;
     
-    constructor(private logg:Logger, public sm:SessionManager, private router: Router, private route: ActivatedRoute) {
+    constructor(private linker:APILinker, private logg:Logger, public sm:SessionManager, private router: Router, private route: ActivatedRoute) {
         this.password = "";
         this.error = "";
     }
@@ -43,8 +44,7 @@ export class ResetComponent implements OnInit, OnDestroy {
         {
             this.error = "";
             this.password = this.inputPasswordOne;
-            console.log("Token : " + this.token);
-            console.log("Password : " + this.password)
+            this.linker.reset(this.token, this.password);
         }
     }
     

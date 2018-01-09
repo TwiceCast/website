@@ -2,6 +2,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { APILinker } from '../../services/APILinker.service';
 import { Logger } from '../../services/Logger.service';
 import { SessionManager } from '../../services/SessionManager.service';
 
@@ -19,7 +20,7 @@ export class ForgotComponent implements OnInit, OnDestroy {
     
     public mailSent: string;
     
-    constructor(private logg:Logger, public sm:SessionManager, private router: Router) {
+    constructor(private linker:APILinker, private logg:Logger, public sm:SessionManager, private router: Router) {
         this.mailSent = "";
     }
     
@@ -30,6 +31,7 @@ export class ForgotComponent implements OnInit, OnDestroy {
     TryForgot() {
         this.mailSent = this.inputEmailForgot;
         console.log(this.mailSent);
+        this.linker.forgot(this.mailSent);
     }
     
     ngOnDestroy() {
