@@ -29,7 +29,7 @@ export class APILinker {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         let data = {'email': email};
-        return this.http.post(this.API_URL + 'passwordreset', JSON.stringify(data), options)
+        return this.http.post(this.API_URL + 'users/passwordreset', JSON.stringify(data), options)
                         .toPromise()
                         .then((response) => {
                             return response.json();
@@ -41,7 +41,7 @@ export class APILinker {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
         let data = {'password': new_password};
-        return this.http.post(this.API_URL + 'passwordreset/' + token, JSON.stringify(data), options)
+        return this.http.post(this.API_URL + 'users/passwordreset/' + token, JSON.stringify(data), options)
                         .toPromise()
                         .then((response) => {
                             return response.json();
