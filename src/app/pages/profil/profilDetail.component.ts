@@ -19,6 +19,7 @@ import * as $ from 'jquery';
 export class ProfilDetailComponent implements OnInit, OnDestroy {
     public id: number;
     public isCurrentUser: boolean = false;
+    public isEditing : boolean = false;
     private sub: any;
     public inputPasswordChanger: string;
     
@@ -46,6 +47,17 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
         }
     }
 
+    startEditing()
+    {
+        // MAKING FORM AVAILABLE
+        this.isEditing = true;
+    }
+    
+    endEditing()
+    {
+        // SUBMIT FORM AND DISABLE INPUTS
+        this.isEditing = false;
+    }
     
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {

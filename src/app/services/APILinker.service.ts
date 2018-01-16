@@ -90,6 +90,7 @@ export class APILinker {
         return this.http.get(this.API_URL + 'users/' + id.toString(), options)
                         .toPromise()
                         .then((response) => {
+                            console.log(response.json());
                             return new User().deserialize(response.json());
                         })
                         .catch(this.handleError);
