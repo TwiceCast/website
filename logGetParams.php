@@ -1,7 +1,12 @@
 <?php
 
+$myfile = fopen("GET_log.txt", "w");
+
+
 foreach($_GET as $key => $value){
-  echo $key . " : " . $value . "<br />\r\n";
+  fwrite($myfile, $key . " : " . $value . "\r\n");
 }
+
+fclose($myfile);
 
 ?>
