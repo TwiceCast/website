@@ -40,42 +40,17 @@ import { ChatService } from '../../services/ChatService.service';
   styleUrls: ['./stream.css', '../../app.component.css'],
 })
 export class StreamComponent implements OnInit, OnDestroy {
-    @ViewChild('editor') editor;
 	@ViewChild('chat') chat;
     public codeEditorOptions:any;
     public streamUrl:string = "";
-    public code:string;
     private id: number;
     private sub: any;
 	private disableScrollDown = false;
     
     public stream: Stream;
-    
-    public commitMessage: string;
-    public commitTitle: string;
 
     public chatService: ChatService;
     
-    public showLanguage = true;
-    public language = "C/C++";
-    public Languages = [
-        {'title': 'C/C++', 'file': 'c_cpp', 'ext': 'c:cpp:h:hpp'},
-        {'title': 'YAML', 'file': 'yaml', 'ext': 'yaml:yml'},
-        {'title': 'CSS', 'file': 'css', 'ext': 'css'},
-        {'title': 'HTML', 'file': 'html', 'ext': 'html'},
-        {'title': 'PHP', 'file': 'php', 'ext': 'php'},
-        {'title': 'JavaScript', 'file': 'javascript', 'ext': 'js:ts'},
-        {'title': 'JSON', 'file': 'json', 'ext': 'json'},
-        {'title': 'Java', 'file': 'java', 'ext': 'java'},
-        {'title': 'Ini file', 'file': 'ini', 'ext': 'ini'},
-        {'title': 'LUA', 'file': 'lua', 'ext': 'lua'},
-        {'title': 'Makefile', 'file': 'lua', 'ext': 'lua'},
-        {'title': 'Markdown', 'file': 'markdown', 'ext': ''},
-        {'title': 'Ruby', 'file': 'ruby', 'ext': 'rs'},
-        {'title': 'Rust', 'file': 'rust', 'ext': 'md'},
-        {'title': 'Text', 'file': 'plain_text', 'ext': 'txt'}
-    ];
-
     // reference to the element itself, we use this to access events and methods
     private _elementRef: ElementRef;
 
@@ -85,45 +60,6 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker) { }
 
-    private receivedFiles: object = {};
-
-    @ViewChild(TreeComponent)
-    private tree: TreeComponent;
-    public nodes = [];
-
-    public openedFiles: File[] = [];
-    public _selectedFile: File = null;
-
-    onChangeCodeInsideEditor(code)
-    {
-        this.code = code;
-        if (this._selectedFile != null) {
-            this._selectedFile.lockFile(true);
-            this._selectedFile.content = this.code;
-        }
-    }
-
-    sendPullRequest() {
-        console.log(this.commitTitle);
-        console.log(this.commitMessage);
-
-        let to_send: any[] = [];
-
-        for (let prop in this.receivedFiles) {
-            if (this.receivedFiles.hasOwnProperty(prop)) {
-                let file: File = this.receivedFiles[prop];
-                console.log(file.name + ' - ' + file.isModified());
-                if (file.isModified()) {
-                    to_send.push(file);
-                }
-            }
-        }
-
-        if (this.commitTitle) {
-            this.fl.pullRequest(this.commitTitle, this.commitMessage, to_send);
-        }
-    }     
-     
     ngAfterViewInit(){
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp");
@@ -218,6 +154,85 @@ export class StreamComponent implements OnInit, OnDestroy {
                 }.bind(this));
             }
         }.bind(this));
+    }
+
+    ngAfterViewChecked() {
+        if (!this.disableScrollDown) {
+			this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
+        }
+	}
+
+    ngOnDestroy() {
+        this.chatService.Destroy();
+        this.fl.disconnect();
+        this.sub.unsubscribe();
+        if (this.player) {
+            this.player.dispose();
+        }
+        window.onresize = undefined;
+    }
+
+    // FROM HERE : CODE EDITOR
+
+    @ViewChild('editor') editor;
+    @ViewChild(TreeComponent) private tree: TreeComponent;
+
+    public code:string;
+    public commitMessage: string;
+    public commitTitle: string;
+    public _selectedFile: File = null;
+    public showLanguage = true;
+    public language = "C/C++";
+    public Languages = [
+        {'title': 'C/C++', 'file': 'c_cpp', 'ext': 'c:cpp:h:hpp'},
+        {'title': 'YAML', 'file': 'yaml', 'ext': 'yaml:yml'},
+        {'title': 'CSS', 'file': 'css', 'ext': 'css'},
+        {'title': 'HTML', 'file': 'html', 'ext': 'html'},
+        {'title': 'PHP', 'file': 'php', 'ext': 'php'},
+        {'title': 'JavaScript', 'file': 'javascript', 'ext': 'js:ts'},
+        {'title': 'JSON', 'file': 'json', 'ext': 'json'},
+        {'title': 'Java', 'file': 'java', 'ext': 'java'},
+        {'title': 'Ini file', 'file': 'ini', 'ext': 'ini'},
+        {'title': 'LUA', 'file': 'lua', 'ext': 'lua'},
+        {'title': 'Makefile', 'file': 'lua', 'ext': 'lua'},
+        {'title': 'Markdown', 'file': 'markdown', 'ext': ''},
+        {'title': 'Ruby', 'file': 'ruby', 'ext': 'rs'},
+        {'title': 'Rust', 'file': 'rust', 'ext': 'md'},
+        {'title': 'Text', 'file': 'plain_text', 'ext': 'txt'}
+    ];
+    public nodes = [];
+    public openedFiles: File[] = [];
+
+    private receivedFiles: object = {};
+
+    onChangeCodeInsideEditor(code)
+    {
+        this.code = code;
+        if (this._selectedFile != null) {
+            this._selectedFile.lockFile(true);
+            this._selectedFile.content = this.code;
+        }
+    }
+
+    sendPullRequest() {
+        console.log(this.commitTitle);
+        console.log(this.commitMessage);
+
+        let to_send: any[] = [];
+
+        for (let prop in this.receivedFiles) {
+            if (this.receivedFiles.hasOwnProperty(prop)) {
+                let file: File = this.receivedFiles[prop];
+                console.log(file.name + ' - ' + file.isModified());
+                if (file.isModified()) {
+                    to_send.push(file);
+                }
+            }
+        }
+
+        if (this.commitTitle) {
+            this.fl.pullRequest(this.commitTitle, this.commitMessage, to_send);
+        }
     }
 
     private fileUpdated(file: File) {
@@ -400,20 +415,5 @@ export class StreamComponent implements OnInit, OnDestroy {
             }
         }
     }
-
-    ngAfterViewChecked() {
-        if (!this.disableScrollDown) {
-			this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
-        }
-	}
-
-    ngOnDestroy() {
-        this.chatService.Destroy();
-        this.fl.disconnect();
-        this.sub.unsubscribe();
-        if (this.player) {
-            this.player.dispose();
-        }
-        window.onresize = undefined;
-    }
+    // END OF CODE EDITOR
 }
