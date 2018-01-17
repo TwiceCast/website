@@ -93,7 +93,6 @@ export class LiveComponent implements OnInit, OnDestroy {
     parseEmojisType(text: string) {
         this.emojisPropositions = [];
         let toCheck = this.caretPos - 1;
-        console.log(toCheck);
         while (toCheck > 0 && text[toCheck] != ' ' && text[toCheck] != ':') {
             toCheck--;
         }
@@ -106,7 +105,6 @@ export class LiveComponent implements OnInit, OnDestroy {
                 lengthCheck++;
             if (lengthCheck > 0) {
                 var possibleEmojiText = text.substr(toCheck, lengthCheck - toCheck);
-                console.log(possibleEmojiText);
 
                 for (var emojiId in allEmojis()) {
                     if (emojiId.startsWith(possibleEmojiText))
