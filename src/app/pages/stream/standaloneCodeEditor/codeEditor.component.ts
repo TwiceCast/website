@@ -32,7 +32,7 @@ import { FileSystemLinker } from '../../../services/FileSystemLinker.service';
 import { APILinker } from '../../../services/APILinker.service';
 
 @Component({
-  selector: 'component-streamLayout',
+  selector: 'component-codeEditor',
   templateUrl: './codeEditor.html',
   styleUrls: ['./codeEditor.css', '../../../app.component.css'],
 })
