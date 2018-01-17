@@ -22,6 +22,11 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     public isEditing : boolean = false;
     private sub: any;
     public inputPasswordChanger: string;
+    public inputGender: string;
+    public inputBio: string;
+    public inputBirth: string;
+    public inputGitHub: string;
+    public inputLinkedIn: string;
     
     user: User;
     
@@ -49,14 +54,14 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
 
     startEditing()
     {
-        // MAKING FORM AVAILABLE
         this.isEditing = true;
     }
     
     endEditing()
     {
-        // SUBMIT FORM AND DISABLE INPUTS
         this.isEditing = false;
+        let infos = {"gender": this.inputGender,"biography": this.inputBio,"birthdate": this.inputBirth, "github": this.inputGitHub, "linkdin": this.inputLinkedIn};
+        this.api.patchUser(this.sm.getApiKey(), this.sm.getId(), infos);
     }
     
     ngOnInit() {
@@ -64,6 +69,11 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
             this.id = params['id'];
             this.api.getUser(this.id).then(response => {
                 this.user = response;
+                this.inputBio = this.user.bio;
+                this.inputBirth = this.user.birthdate;
+                this.inputGender = this.user.gender;
+                this.inputGitHub = this.user.github;
+                this.inputLinkedIn = this.user.linkedin;
                 this.sm.RetrieveUser()
                 if (this.sm.getUser().id == this.id)
                 {

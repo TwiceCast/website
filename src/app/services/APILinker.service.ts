@@ -222,6 +222,19 @@ export class APILinker {
                         .catch(this.handleError);        
     }
     
+    patchUser(token:any, id:any, infos:any): Promise<any> {
+        const headers = new Headers({ 'Content-Type': 'application/json',
+                                    'Authorization': token});
+        const options = new RequestOptions({ headers: headers });
+        return this.http.patch(this.API_URL + 'users/' + id, JSON.stringify(infos), options)
+                        .toPromise()
+                        .then((response) => {
+                            console.log(response.json());
+                            return response.json();
+                        })
+                        .catch(this.handleError);        
+    }
+    
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);

@@ -33,23 +33,27 @@
                     <button class="btn btn-danger" (click)="changePassword()">Change</button>
                 </form>
                 <br /><br />
-                <!-- BIO BIRTHDATE GENDER GITHUB LINKDIN -->
                 <div style="display:inline-block">
-                <div *ngIf="isCurrentUser==true" style="display:inline-block">
-                <h3>Personal informations &nbsp;<img *ngIf="isEditing==false" (click)="startEditing()" src="assets/edit.png"><img *ngIf="isEditing==true" (click)="endEditing()" src="assets/done.png"></h3>
+                <div style="display:inline-block">
+                <h3>Personal informations &nbsp;<img *ngIf="isEditing==false && isCurrentUser==true" (click)="startEditing()" src="assets/edit.png"><img *ngIf="isEditing==true && isCurrentUser==true" (click)="endEditing()" src="assets/done.png"></h3>
                 </div>
                 <form class="form-horizontal" id="formPersonalInfo" name="formPersonalInfo">
-                    <label for="inputBio" style="font-size:15px">Bio</label><br />
-                    <textarea style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputBio" id="inputBio" placeholder="" name="inputBio" #name="ngModel" disabled>{{user.biography}}</textarea><br /><br />
-                    <label for="inputBirth" style="font-size:15px">Birth Date</label><br />
-                    <input style="font-size:20px;text-align:center;" type="date" [(ngModel)]="inputBirth" id="inputBio" placeholder="" name="inputBirth" #name="ngModel" disabled value="{{user.birthDate}}"><br /><br />
                     <label for="inputGender" style="font-size:15px">Gender</label><br />
-                    <input style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputGender" id="inputGender" placeholder="" name="inputGender" #name="ngModel" disabled value="{{user.gender}}"><br /><br />
+                    <input style="font-size:20px;text-align:center;" type="text" list="genderList" [(ngModel)]="inputGender" id="inputGender" placeholder="" name="inputGender" #name="ngModel" [disabled]="!isEditing"><br /><br />
+                    <label for="inputBio" style="font-size:15px">Bio</label><br />
+                    <textarea style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputBio" id="inputBio" placeholder="" name="inputBio" #name="ngModel" [disabled]="!isEditing"></textarea><br /><br />
+                    <label for="inputBirth" style="font-size:15px">Birth Date</label><br />
+                    <input style="font-size:20px;text-align:center;" type="date" [(ngModel)]="inputBirth" id="inputBirth" placeholder="" name="inputBirth" #name="ngModel" [disabled]="!isEditing" ><br /><br />
                     <label for="inputGitHub" style="font-size:15px">GitHub</label><br />
-                    <input style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputGitHub" id="inputGitHub" placeholder="" name="inputGitHub" #name="ngModel" disabled value="{{user.github}}"><br /><br />
+                    <input style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputGitHub" id="inputGitHub" placeholder="" name="inputGitHub" #name="ngModel" [disabled]="!isEditing"><br /><br />
                     <label for="inputLinkedIn" style="font-size:15px">LinkedIn</label><br />
-                    <input style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputLinkedIn" id="inputLinkedIn" placeholder="" name="inputLinkedIn" #name="ngModel" disabled value="{{user.linkdin}}"><br /><br />
-                </form>
+                    <input style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputLinkedIn" id="inputLinkedIn" placeholder="" name="inputLinkedIn" #name="ngModel" [disabled]="!isEditing" ><br /><br />
+                    <datalist id="genderList">
+                      <option value="Male">
+                      <option value="Female">
+                      <option value="Unspecified">
+                    </datalist>
+                    </form>
             </div>
         </div>
     </div>
