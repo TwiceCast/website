@@ -84,3 +84,52 @@ footer
 {
     margin: 50px 0 0 0;
 }
+
+#codeEditor_body
+{
+    background-color: #272727;
+    height: 100vh;
+    color: white;
+}
+
+#codeEditor_bg
+{
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: block;
+    background-color: #272727;
+    height: 100vh;
+    width: 100vw;
+}
+
+#tree
+{
+    background-color: #383838;
+    color: white;
+    margin-bottom:10px;
+    margin-top:10px;
+    border-radius: 5px;
+    height: calc(100vh - 90px);
+}
+
+#offline_stream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+}
+
+.fileTab {
+    cursor: pointer;
+}
+
+.modifiedFile:not(.active) > a {
+    background-color: rgba(255, 0, 0, 0.24);
+}
+
+.modifiedFile.active > a {
+    background-color: red;
+}
