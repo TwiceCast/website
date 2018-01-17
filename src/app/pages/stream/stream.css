@@ -25,15 +25,18 @@
 }
 
 #MessagesContainer {
-	max-height : 350px;
+    min-height: 450px;
+	max-height : 450px;
 	overflow : auto;
 }
 
 #Chat .author {
 	margin-left : 5px;
 	color : #E67E30;
-	border-bottom : 1px solid #E67E30;
-	font-size : 11px;
+	font-size : 24px;
+}
+#Chat .author.me {
+    border-bottom : 1px solid #E67E30;
 }
 
 #Chat .chat-command {
@@ -47,13 +50,13 @@
 #Chat .system {
 	border-radius: 5px;
 	color : #1FA055;
-	font-size : 9px;
+	font-size : 20px;
 }
 
 #Chat .message {
 	border-radius: 5px;
 	color : white;
-	font-size : 9px;
+	font-size : 18px;
 }
 
 #Chat .row {
@@ -68,7 +71,38 @@
 
 #Chat #newChatMessage {
 	color : white;
-	font-size : 10px;
+	font-size : 18px;
+}
+
+#Chat .gh-emoji {
+    height: 32px;
+}
+
+.textcomplete-dropdown {
+    position: absolute;
+    z-index: 10000;
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    list-style: none;
+}
+
+.textcomplete-dropdown .gh-emoji {
+    height: 32px;
+}
+
+.textcomplete-item:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.textcomplete-item {
+    color: black;
+    padding: 10px;
 }
 
 #offline_stream {

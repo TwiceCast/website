@@ -1,4 +1,5 @@
 <div id="stream_body">
+    <span #ruler id="ruler" style="display: block; visibility: hidden; position: absolute; white-space: nowrap; font-size : 18px;"></span>
     <!-- OneTwo Layout -->
     <div class="container-fluid" style="padding-top:20px;padding-bottom:20px;">
         <!-- Stream -->
@@ -53,12 +54,14 @@
                             <!-- Chat -->
 							<div *ngIf="chatService" #chat class="row" id="MessagesContainer">
 								<div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
-									<div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row"><img src="assets/icon-chomp.png" height="16" *ngIf="this.chatService.getRank() == 1" /><img src="assets/icon-redshell.png" height="16" *ngIf="this.chatService.getRank() == 2" /><span class="author">{{ chatMessage.author }}</span> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Mute user" class="fa fa-deaf chat-command" aria-hidden="true" (click)="this.chatService.sendMute(chatMessage.author)"></i> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Ban User" class="fa fa-ban chat-command" aria-hidden="true" (click)="this.chatService.sendBan(chatMessage.author)"></i></div>
-                                    <div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row">{{ chatMessage.message}} <i *ngIf="chatMessage.author != '' && this.chatService.getRank() <= 2" title="Delete message" class="fa fa-times chat-command" aria-hidden="true" (click)="this.chatService.sendDeleteMessage(chatMessage.id)"></i></div>
+                                    <div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row">
+                                        <img [src]="getDisplayImage(chatMessage)" height="32" *ngIf="getDisplayImage(chatMessage)" />
+                                        <span class="author" [class.me]="chatMessage.author == sm.getLogin()" [style.color]="getColor(chatMessage.author)">{{ chatMessage.displayName }}</span> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Mute user" class="fa fa-deaf chat-command" aria-hidden="true" (click)="this.chatService.sendMute(chatMessage.author)"></i> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Ban User" class="fa fa-ban chat-command" aria-hidden="true" (click)="this.chatService.sendBan(chatMessage.author)"></i> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin() && chatMessage.rank > 1" title="Make User Moderator" class="fa fa-level-up chat-command" aria-hidden="true" (click)="this.chatService.sendSetMod(chatMessage.author)"></i><i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin() && chatMessage.rank == 1" title="Make User Moderator" class="fa fa-level-down chat-command" aria-hidden="true" (click)="this.chatService.sendDelMod(chatMessage.author)"></i></div>
+                                    <div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row chatmsg" [innerHTML]="parseEmojis(chatMessage.message) | safeHtml"> <i *ngIf="chatMessage.author != '' && this.chatService.getRank() <= 2" title="Delete message" class="fa fa-times chat-command" aria-hidden="true" (click)="this.chatService.sendDeleteMessage(chatMessage.id)"></i></div>
 								</div>
 							</div>
 							<div class="row input-group">
-								<input #newChatMessage id="newChatMessage" type="text" class="form-control" placeholder="Message...">
+                                <input #newChatMessage (click)="getCaretPos(newChatMessage, ruler)" (keyup)="getCaretPos(newChatMessage, ruler); parseEmojisType($event.target.value)" id="newChatMessage" type="text" class="form-control" placeholder="Message...">
 								<span class="input-group-btn">
 									<button (click)="chatService.sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
 								</span>
@@ -96,4 +99,8 @@
 
     </div>
     <!-- /OneTwo Layout -->
+
+    <ul #textcompleteDropdownEmojis id="textcomplete-dropdown-emojis" class="dropdown-menu textcomplete-dropdown" [style.top]="emojiPorpositionPosition.y + 'px'" [style.left]="emojiPorpositionPosition.x + 'px'" *ngIf="emojisPropositions.length > 0">
+        <li class="textcomplete-item" *ngFor="let emoji of emojisPropositions" [innerHTML]="displayEmoji(emoji) | safeHtml"></li>
+    </ul>
 </div>
