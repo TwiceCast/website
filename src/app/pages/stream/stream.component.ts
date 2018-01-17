@@ -11,6 +11,14 @@ import 'brace/mode/html';
 import 'brace/mode/java';
 import 'brace/mode/javascript';
 import 'brace/mode/json';
+import 'brace/mode/ini';
+import 'brace/mode/lua';
+import 'brace/mode/makefile';
+import 'brace/mode/markdown';
+import 'brace/mode/php';
+import 'brace/mode/plain_text';
+import 'brace/mode/ruby';
+import 'brace/mode/rust';
 
 import * as $ from 'jquery';
 
@@ -34,18 +42,16 @@ import { ChatService } from '../../services/ChatService.service';
   styleUrls: ['./stream.css', '../../app.component.css'],
 })
 export class StreamComponent implements OnInit, OnDestroy {
-    @ViewChild('editor') editor;
 	@ViewChild('chat') chat;
     @ViewChild('textcompleteDropdownEmojis') emojiHolder;
     public codeEditorOptions:any;
     public streamUrl:string = "";
-    public code:String;
     private id: number;
     private sub: any;
 	private disableScrollDown = false;
     
     public stream: Stream;
-    
+
     public chatService: ChatService;
     public caretPos: number = 0;
 
@@ -57,19 +63,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         '#edcc8f',
         '#60e2b4'
     ];
-    
-    public showLanguage = true;
-    public language = "C/C++";
-    public Languages = [
-        {'title': 'C/C++', 'file': 'c_cpp'},
-        {'title': 'YAML', 'file': 'yaml'},
-        {'title': 'CSS', 'file': 'css'},
-        {'title': 'HTML', 'file': 'html'},
-        {'title': 'JavaScript', 'file': 'javascript'},
-        {'title': 'JSON', 'file': 'json'},
-        {'title': 'Java', 'file': 'java'}
-    ];
-    
+
     // reference to the element itself, we use this to access events and methods
     private _elementRef: ElementRef;
 
@@ -78,17 +72,6 @@ export class StreamComponent implements OnInit, OnDestroy {
     public streamPlaying = false;
 
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker) { }
-
-    private receivedFiles: File[] = [];
-
-    @ViewChild(TreeComponent)
-    private tree: TreeComponent;
-    public nodes = [];
-
-    onChangeCodeInsideEditor(code)
-    {
-        this.code = code;
-    }
 
     ngAfterViewInit(){
         this.editor.setTheme("tomorrow_night_eighties");
@@ -121,6 +104,7 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.player = false;
         this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
         this.fl.ReceivedFile.subscribe(this.receivedFile.bind(this));
+        this.fl.DeletedFile.subscribe(this.deletedFile.bind(this));
 
         // Get Stream ID
         this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
@@ -187,10 +171,82 @@ export class StreamComponent implements OnInit, OnDestroy {
         }.bind(this));
     }
 
+    // FROM HERE : CODE EDITOR
+
+    @ViewChild('editor') editor;
+    @ViewChild(TreeComponent) private tree: TreeComponent;
+
+    public code:string;
+    public commitMessage: string;
+    public commitTitle: string;
+    public _selectedFile: File = null;
+    public showLanguage = true;
+    public language = "C/C++";
+    public Languages = [
+        {'title': 'C/C++', 'file': 'c_cpp', 'ext': 'c:cpp:h:hpp'},
+        {'title': 'YAML', 'file': 'yaml', 'ext': 'yaml:yml'},
+        {'title': 'CSS', 'file': 'css', 'ext': 'css'},
+        {'title': 'HTML', 'file': 'html', 'ext': 'html'},
+        {'title': 'PHP', 'file': 'php', 'ext': 'php'},
+        {'title': 'JavaScript', 'file': 'javascript', 'ext': 'js:ts'},
+        {'title': 'JSON', 'file': 'json', 'ext': 'json'},
+        {'title': 'Java', 'file': 'java', 'ext': 'java'},
+        {'title': 'Ini file', 'file': 'ini', 'ext': 'ini'},
+        {'title': 'LUA', 'file': 'lua', 'ext': 'lua'},
+        {'title': 'Makefile', 'file': 'lua', 'ext': 'lua'},
+        {'title': 'Markdown', 'file': 'markdown', 'ext': ''},
+        {'title': 'Ruby', 'file': 'ruby', 'ext': 'rs'},
+        {'title': 'Rust', 'file': 'rust', 'ext': 'md'},
+        {'title': 'Text', 'file': 'plain_text', 'ext': 'txt'}
+    ];
+    public nodes = [];
+    public openedFiles: File[] = [];
+
+    private receivedFiles: object = {};
+
+    onChangeCodeInsideEditor(code)
+    {
+        this.code = code;
+        if (this._selectedFile != null) {
+            this._selectedFile.lockFile(true);
+            this._selectedFile.content = this.code;
+        }
+    }
+
+    sendPullRequest() {
+        console.log(this.commitTitle);
+        console.log(this.commitMessage);
+
+        let to_send: any[] = [];
+
+        for (let prop in this.receivedFiles) {
+            if (this.receivedFiles.hasOwnProperty(prop)) {
+                let file: File = this.receivedFiles[prop];
+                console.log(file.name + ' - ' + file.isModified());
+                if (file.isModified()) {
+                    to_send.push(file);
+                }
+            }
+        }
+
+        if (this.commitTitle) {
+            this.fl.pullRequest(this.commitTitle, this.commitMessage, to_send);
+        }
+    }
+
+    private fileUpdated(file: File) {
+        if (this._selectedFile == file && !file.isLocked()) {
+            this.SelectOpenedFile(file);
+        }
+    }
+
     private receivedFile(content: any) {
         if (content.name in this.receivedFiles) {
+            let wasComplete = this.receivedFiles[content.name].isComplete();
             this.receivedFiles[content.name].deserialize(content);
-            if (this.receivedFiles[content.name].isComplete()) {
+            if (wasComplete) {
+                this.fileUpdated(this.receivedFiles[content.name]);
+            } else if (this.receivedFiles[content.name].isComplete()) {
                 this.fileCompleted(content.name);
             }
         } else {
@@ -201,18 +257,113 @@ export class StreamComponent implements OnInit, OnDestroy {
         }
     }
 
+    private deletedFile(content: any) {
+        if (content.file in this.receivedFiles) {
+            for (let of of this.openedFiles) {
+                if (of.realName == content.file)
+                    this.closeOpenedFile(of);
+            }
+
+            delete this.receivedFiles[content.file];
+
+            this.rootNode.children = [];
+            for (var file in this.receivedFiles) {
+                if (this.receivedFiles.hasOwnProperty(file))
+                    if (this.receivedFiles[file].isComplete())
+                        this.fileCompleted(file);
+            }
+        }
+    }
+
+
     public fileSelected($event) {
         let clicked = $event.node.data;
         if (clicked.type == 'file') {
             let file_ref = this.receivedFiles[clicked.id];
-            console.log(file_ref.isComplete());
-            console.log(file_ref.content);
-            this.code = file_ref.content;
+            if (this.openedFiles.indexOf(file_ref) < 0) {
+                this.openedFiles.push(file_ref);
+            }
+            this.SelectOpenedFile(file_ref);
         }
     }
 
-    private createSubFolders(path: any) {
+    private addFolder(rootNode: any, folder: string): any {
+        let foundFolder = false;
+        let result = rootNode;
+        if (rootNode != null && rootNode.children != null) {
+            for (let i = 0; i < rootNode.children.length; i++) {
+                if (rootNode.children[i].name == folder) {
+                    foundFolder = true;
+                    result = rootNode.children[i];
+                }
+            }
+        }
 
+        if (!foundFolder) {
+            result = {name: folder, type: 'folder', children:[]};
+            rootNode.children.push(result);
+        }
+
+        return result;
+    }
+
+    private createSubFolders(path: string) {
+        let divided = path.split('/');
+        let folder = this.rootNode;
+        if (divided.length > 2) {
+            for (let i = 1; i < divided.length - 1; i++) {
+                console.log(divided);
+                if (divided[i] == '') {
+                    divided[i] = '/';
+                }
+                folder = this.addFolder(folder, divided[i]);
+            }
+        }
+
+        return folder;
+    }
+
+    public closeOpenedFile(openedfile: File): void {
+        let index = this.openedFiles.indexOf(openedfile);
+        let selectNew = false;
+        console.log("remove");
+        if (index > -1) {
+            if (this._selectedFile == this.openedFiles[index]) {
+                console.log("select new");
+                selectNew = true;
+            }
+            if (index == this.openedFiles.length - 1) {
+                this.openedFiles.pop();
+            } else if (index >= 0) {
+                this.openedFiles.splice(index, 1);
+            }
+            if (selectNew) {
+                if (index - 1 <= 0 && this.openedFiles.length > 0) {
+                    console.log("s1");
+                    this.SelectOpenedFile(this.openedFiles[0]);
+                } else if (this.openedFiles.length >= index - 1 && this.openedFiles.length > 0) {
+                    console.log("s2");
+                    this.SelectOpenedFile(this.openedFiles[index - 1]);
+                } else if (this.openedFiles.length > 0) {
+                    console.log("s3");
+                    this.SelectOpenedFile(this.openedFiles[this.openedFiles.length - 1]);
+                } else {
+                    console.log("s4");
+                    this._selectedFile = null;
+                    this.code = "";
+                }
+            }
+        }
+    }
+
+
+    public SelectOpenedFile(openedfile: File): void {
+        if (openedfile != null) {
+            this._selectedFile = openedfile;
+            this.code = openedfile.content;
+            this.switchLanguageOnExtension();
+            setTimeout(function() {this.editor.getEditor().clearSelection();}.bind(this), 10);
+        }
     }
     
     public rootNode: any = {name: '/', type: 'folder', children:[]};
@@ -223,9 +374,17 @@ export class StreamComponent implements OnInit, OnDestroy {
         fileNode.name = fileNameSplit[fileNameSplit.length - 1];
         fileNode.type = 'file';
         fileNode.children = [];
-        this.rootNode.children.push(fileNode);
+        let folder = this.createSubFolders(fileName);
+        folder.children.push(fileNode);
         //this.nodes.push(fileNode);
         this.tree.treeModel.update();
+    }
+
+
+    public reloadFile(openedfile: File): void {
+        openedfile.content = openedfile.originalContent;
+        openedfile.lockFile(false);
+        this.SelectOpenedFile(openedfile);
     }
     
     private switchLanguage(lang:any) {
@@ -250,6 +409,29 @@ export class StreamComponent implements OnInit, OnDestroy {
         window.onresize = undefined;
     }
 
+    private switchLanguageOnExtension() {
+        let extsToFind = this._selectedFile.name.split('.');
+        if (extsToFind.length > 1) {
+            let extToFind = extsToFind[extsToFind.length - 1];
+            console.log(extToFind);
+            for (let prop in this.Languages) {
+                if (this.Languages.hasOwnProperty(prop)) {
+                    let lang = this.Languages[prop];
+                    let exts = lang.ext.split(':');
+                    console.log(lang);
+                    console.log(exts);
+                    for (let ext in exts) {
+                        if (exts[ext].toLowerCase() == extToFind.toLowerCase()) {
+                            this.switchLanguage(lang);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+            // END OF CODE EDITOR
 
     parseEmojis(text: string) {
         return parse(text);
