@@ -1,5 +1,5 @@
 // Imports
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostBinding, Input, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, HostBinding, Input, Output, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import * as io from 'socket.io-client';
@@ -13,14 +13,18 @@ import { APILinker } from '../../services/APILinker.service';
 import { FileSystemLinker } from '../../services/FileSystemLinker.service';
 import { ChatService } from '../../services/ChatService.service';
 
+import { load, parse, find as findEmojis, all as allEmojis } from 'gh-emoji'
+
 @Component({
   selector: 'component-streamLayout',
   templateUrl: './live.html',
   styleUrls: ['./live.css', '../../app.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class LiveComponent implements OnInit, OnDestroy {
 
     @ViewChild('chat') chat;
+    @ViewChild('textcompleteDropdownEmojis') emojiHolder;
     private disableScrollDown = false;
 
     public tags:Array<any>;
@@ -42,6 +46,106 @@ export class LiveComponent implements OnInit, OnDestroy {
 
     public chatService: ChatService;
 
+    public caretPos: number = 0;
+
+    private chatColors = [
+        '#338dc7',
+        '#06a806',
+        '#993baf',
+        '#bebe52',
+        '#edcc8f',
+        '#60e2b4'
+    ];
+
+    getDisplayImage(msg: any) {
+        if (msg.rank == 0) {
+            return 'assets/icon-chomp.png';
+        } else if (msg.rank == 1) {
+            return 'assets/icon-redshell.png';
+        }
+        return null;
+    }
+
+    getPseudoColorValue(data: string): number {
+        let result = 0;
+        for (let l of data) {
+            result += +l.charCodeAt(0);
+        }
+        return result;
+    }
+
+    getColor(author: string): string {
+        if (author == "") {
+            return 'rgba(0, 0, 0, 0.28)';
+        } else if (author != this.sm.getLogin()) {
+            let colorValue = this.getPseudoColorValue(author);
+            return this.chatColors[colorValue % this.chatColors.length];
+        }
+        return '';
+    }
+
+    parseEmojis(text: string) {
+        return parse(text);
+    }
+
+    public emojisPropositions = [];
+    public emojiPorpositionPosition = {x: 0, y: 0};
+    parseEmojisType(text: string) {
+        this.emojisPropositions = [];
+        let toCheck = this.caretPos - 1;
+        console.log(toCheck);
+        while (toCheck > 0 && text[toCheck] != ' ' && text[toCheck] != ':') {
+            toCheck--;
+        }
+        if (toCheck < 0)
+            return;
+        if (text[toCheck] == ':' && toCheck != text.length - 1) {
+            toCheck++;
+            let lengthCheck = toCheck;
+            while (lengthCheck < text.length && text[lengthCheck] != ' ')
+                lengthCheck++;
+            if (lengthCheck > 0) {
+                var possibleEmojiText = text.substr(toCheck, lengthCheck - toCheck);
+                console.log(possibleEmojiText);
+
+                for (var emojiId in allEmojis()) {
+                    if (emojiId.startsWith(possibleEmojiText))
+                        this.emojisPropositions.push(emojiId);
+                }
+
+                while (this.emojisPropositions.length > 3)
+                    this.emojisPropositions.pop();
+            }
+        }
+    }
+
+    displayEmoji(emoji: string) {
+        return ':' + emoji + ':' + ' ' + this.parseEmojis(':' + emoji + ':');
+    }
+
+    getCaretPos(oField, ruler) {
+        if (oField.selectionStart || oField.selectionStart == '0') {
+            this.caretPos = oField.selectionStart;
+
+            if (this.emojiHolder != null) {
+                ruler.innerHTML = oField.value;
+
+                let eTop = $(oField).offset().top;
+
+                let carac = ruler.offsetWidth / $(oField).val().toString().length;
+                this.emojiPorpositionPosition.y = eTop - 53 * (this.emojisPropositions.length);
+                this.emojiPorpositionPosition.x = carac * this.caretPos + $(oField).offset().left;
+            }
+        }
+    }
+
+    ngAfterViewChecked() {
+        if (!this.disableScrollDown && this.chat != null) {
+			this.chat.nativeElement.scrollTop = this.chat.nativeElement.scrollHeight;
+        }
+	}
+
+
     checkLive(response:any) {
         for (let stream of response)
         {
@@ -53,8 +157,11 @@ export class LiveComponent implements OnInit, OnDestroy {
                 this.activeTags = {};
                 if (this.chatService != null)
                     this.chatService.Destroy();
-                this.chatService = new ChatService('#newChatMessage', '#sendChat', this.sm);
-                this.chatService.Init(stream.id);
+                load().then(() => {
+                    this.chatService = new ChatService('#newChatMessage', '#sendChat', this.sm);
+                    this.chatService.Init(stream.id);
+                });
+                console.log(stream.id);
             }
         }
     }
