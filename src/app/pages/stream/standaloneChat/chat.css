@@ -17,6 +17,7 @@
     max-height: 100vh;
     position: relative;
 	overflow : auto;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -77,4 +78,35 @@
 #Chat #newChatMessage {
 	color : white;
 	font-size : 18px;
+}
+
+#Chat .gh-emoji {
+    height: 32px;
+}
+
+.textcomplete-dropdown {
+    position: absolute;
+    z-index: 10000;
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    list-style: none;
+}
+
+.textcomplete-dropdown .gh-emoji {
+    height: 32px;
+}
+
+.textcomplete-item:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.textcomplete-item {
+    color: black;
+    padding: 10px;
 }

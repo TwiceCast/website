@@ -4,6 +4,8 @@ import { AppComponent }   from './app.component';
 import { HttpModule }    from '@angular/http';
 import { FormsModule }   from '@angular/forms';
 
+import { SafeHtmlPipe } from './pipes/safeHtml.pipe';
+
 import { SigninComponent } from './pages/signin/signin.component';
 import { ForgotComponent } from './pages/forgot/forgot.component';
 import { ResetComponent } from './pages/reset/reset.component';
@@ -64,7 +66,9 @@ import { AlertModule } from 'ngx-bootstrap/alert';
         CodeEditorComponent,
         PlayerComponent,
         StreamListComponent,
-        LiveComponent
+        LiveComponent,
+
+        SafeHtmlPipe
 	],
   providers:[
         Logger,
