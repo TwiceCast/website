@@ -78,6 +78,12 @@
     height: 32px;
 }
 
+#Chat .open-external {
+    position: absolute;
+    top: 15px;
+    right: 5px;
+}
+
 .textcomplete-dropdown {
     position: absolute;
     z-index: 10000;
