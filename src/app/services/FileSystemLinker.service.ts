@@ -28,6 +28,7 @@ export class FileSystemLinker {
     */
     @Output('AuthStateChanged') AuthStateChanged: EventEmitter<boolean> = new EventEmitter(false);
     @Output('ReceivedFile') ReceivedFile: EventEmitter<string> = new EventEmitter(false);
+    @Output('DeletedFile') DeletedFile: EventEmitter<string> = new EventEmitter(false);
     
     /*
     ** States
@@ -58,6 +59,8 @@ export class FileSystemLinker {
             this.AuthStateChanged.emit(this.authStatus);
         } else if (response.code == 200 && response.type == "fileGet") {
             this.ReceivedFile.emit(response.data);
+        } else if (response.code == 200 && response.type == "fileDeleted") {
+            this.DeletedFile.emit(response.data);
         } else {
             console.log(response);
         }

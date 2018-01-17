@@ -126,6 +126,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
         this.fl.ReceivedFile.subscribe(this.receivedFile.bind(this));
+        this.fl.DeletedFile.subscribe(this.deletedFile.bind(this));
 
         // Get Stream ID
         this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
@@ -157,6 +158,24 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         this.tree.treeModel.update();
     }
 
+    private deletedFile(content: any) {
+        if (content.file in this.receivedFiles) {
+            for (let of of this.openedFiles) {
+                if (of.realName == content.file)
+                    this.closeOpenedFile(of);
+            }
+
+            delete this.receivedFiles[content.file];
+
+            this.rootNode.children = [];
+            for (var file in this.receivedFiles) {
+                if (this.receivedFiles.hasOwnProperty(file))
+                    if (this.receivedFiles[file].isComplete())
+                        this.fileCompleted(file);
+            }
+        }
+    }
+
     private receivedFile(content: any) {
         if (content.name in this.receivedFiles) {
             let wasComplete = this.receivedFiles[content.name].isComplete();
@@ -183,9 +202,9 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
                 console.log("select new");
                 selectNew = true;
             }
-            if (index == 0 || index == this.openedFiles.length - 1) {
+            if (index == this.openedFiles.length - 1) {
                 this.openedFiles.pop();
-            } else {
+            } else if (index >= 0) {
                 this.openedFiles.splice(index, 1);
             }
             if (selectNew) {
