@@ -51,6 +51,7 @@
                             <!-- /FileSystem -->
 <!--                        </div>-->
                         <div id="Chat">
+                            <a href="./stream/{{ id }}/chat" target="_blank"><button class="btn btn-primary open-external"><i class="fa fa-external-link"></i></button></a>
                             <!-- Chat -->
 							<div *ngIf="chatService" #chat class="row" id="MessagesContainer">
 								<div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
