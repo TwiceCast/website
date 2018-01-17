@@ -1,6 +1,7 @@
 // Imports
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { User } from '../../models/user.model';
 import { APILinker } from '../../services/APILinker.service';
@@ -30,7 +31,7 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     
     user: User;
     
-    constructor(private route: ActivatedRoute, private api:APILinker, private logg:Logger, private sm:SessionManager) {
+    constructor(private route: ActivatedRoute, private api:APILinker, private logg:Logger, private sm:SessionManager, private router: Router) {
     }
     
     changePassword() {
@@ -72,7 +73,7 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
             {
                 this.api.removeUser(this.sm.getApiKey(), this.sm.getId());
                 this.sm.Logout();
-                // Redirect to homepage
+                this.router.navigate(['/home'])
             }
         }
     }
