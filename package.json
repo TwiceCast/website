@@ -26,6 +26,7 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.5.1",
     "font-awesome": "^4.7.0",
+    "gh-emoji": "^0.2.5",
     "jquery": "^3.2.1",
     "ng2-ace-editor": "^0.1.9",
     "ngx-bootstrap": "^1.7.1",
