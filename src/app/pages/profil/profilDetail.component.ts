@@ -1,6 +1,7 @@
 // Imports
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { User } from '../../models/user.model';
 import { APILinker } from '../../services/APILinker.service';
@@ -22,10 +23,15 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     public isEditing : boolean = false;
     private sub: any;
     public inputPasswordChanger: string;
+    public inputGender: string;
+    public inputBio: string;
+    public inputBirth: string;
+    public inputGitHub: string;
+    public inputLinkedIn: string;
     
     user: User;
     
-    constructor(private route: ActivatedRoute, private api:APILinker, private logg:Logger, private sm:SessionManager) {
+    constructor(private route: ActivatedRoute, private api:APILinker, private logg:Logger, private sm:SessionManager, private router: Router) {
     }
     
     changePassword() {
@@ -49,14 +55,27 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
 
     startEditing()
     {
-        // MAKING FORM AVAILABLE
         this.isEditing = true;
     }
     
     endEditing()
     {
-        // SUBMIT FORM AND DISABLE INPUTS
         this.isEditing = false;
+        let infos = {"gender": this.inputGender,"biography": this.inputBio,"birthdate": this.inputBirth, "github": this.inputGitHub, "linkdin": this.inputLinkedIn};
+        this.api.patchUser(this.sm.getApiKey(), this.sm.getId(), infos);
+    }
+    
+    removeUser()
+    {
+        if (confirm("The action you are about to take is going to DELETE PERMANENTLY your TwiceCast Account, Are you sure you want to do that ?"))
+        {
+            if (confirm("Are you definitely sure ? There is no going back after this time. Your informations are going to be deleted forever."))
+            {
+                this.api.removeUser(this.sm.getApiKey(), this.sm.getId());
+                this.sm.Logout();
+                this.router.navigate(['/home'])
+            }
+        }
     }
     
     ngOnInit() {
@@ -64,6 +83,11 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
             this.id = params['id'];
             this.api.getUser(this.id).then(response => {
                 this.user = response;
+                this.inputBio = this.user.bio;
+                this.inputBirth = this.user.birthdate;
+                this.inputGender = this.user.gender;
+                this.inputGitHub = this.user.github;
+                this.inputLinkedIn = this.user.linkedin;
                 this.sm.RetrieveUser()
                 if (this.sm.getUser().id == this.id)
                 {
