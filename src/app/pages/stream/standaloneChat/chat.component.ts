@@ -1,5 +1,5 @@
 // Imports
-import { Component, OnInit, OnDestroy, ViewChild, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, EventEmitter, ViewEncapsulation, Input } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
@@ -94,21 +94,30 @@ export class ChatComponent implements OnInit, OnDestroy {
     public emojiPorpositionPosition = {x: 0, y: 0};
     parseEmojisType(text: string) {
         this.emojisPropositions = [];
-        let toCheck = text.length - 1;
+        let toCheck = this.caretPos - 1;
+        console.log(toCheck);
         while (toCheck > 0 && text[toCheck] != ' ' && text[toCheck] != ':') {
             toCheck--;
         }
+        if (toCheck < 0)
+            return;
         if (text[toCheck] == ':' && toCheck != text.length - 1) {
             toCheck++;
-            var possibleEmojiText = text.substr(toCheck);
+            let lengthCheck = toCheck;
+            while (lengthCheck < text.length && text[lengthCheck] != ' ')
+                lengthCheck++;
+            if (lengthCheck > 0) {
+                var possibleEmojiText = text.substr(toCheck, lengthCheck - toCheck);
+                console.log(possibleEmojiText);
 
-            for (var emojiId in allEmojis()) {
-                if (emojiId.startsWith(possibleEmojiText))
-                    this.emojisPropositions.push(emojiId);
+                for (var emojiId in allEmojis()) {
+                    if (emojiId.startsWith(possibleEmojiText))
+                        this.emojisPropositions.push(emojiId);
+                }
+
+                while (this.emojisPropositions.length > 3)
+                    this.emojisPropositions.pop();
             }
-
-            while (this.emojisPropositions.length > 3)
-                this.emojisPropositions.pop();
         }
     }
 
@@ -117,23 +126,25 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     getCaretPos(oField, ruler) {
-        if ((oField.selectionStart || oField.selectionStart == '0') && this.emojiHolder != null) {
-            ruler.innerHTML = oField.value;
-
-            let eTop = $(oField).offset().top;
+        if (oField.selectionStart || oField.selectionStart == '0') {
             this.caretPos = oField.selectionStart;
-            this.emojiPorpositionPosition.y = eTop - 53 * (this.emojisPropositions.length);
-            this.emojiPorpositionPosition.x = ruler.offsetWidth + oField.offsetLeft + 32;
 
-            console.log($(this.emojiHolder));
-            console.log(this.emojiPorpositionPosition);
+            if (this.emojiHolder != null) {
+                ruler.innerHTML = oField.value;
 
+                let eTop = $(oField).offset().top;
+
+                let carac = ruler.offsetWidth / $(oField).val().toString().length;
+                this.emojiPorpositionPosition.y = eTop - 53 * (this.emojisPropositions.length);
+                this.emojiPorpositionPosition.x = carac * this.caretPos + $(oField).offset().left;
+            }
         }
     }
 
     ngOnDestroy() {
         this.chatService.Destroy();
-        this.sub.unsubscribe();
+        if (this.sub)
+            this.sub.unsubscribe();
         window.onresize = undefined;
     }
 }

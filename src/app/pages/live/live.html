@@ -1,4 +1,5 @@
 <div id="live_body" *ngIf="this.sm.isLogged()">
+    <span #ruler id="ruler" style="display: block; visibility: hidden; position: absolute; white-space: nowrap;"></span>
     <div class="container" style="padding-top:20px;padding-bottom:20px;">
         <div class="well live_status">
 
@@ -104,17 +105,22 @@
                             </div>
                             <div *ngIf="chatService" id="Chat" style="margin-top:0px">
                                 <!-- Chat -->
+
+
+
                                 <div *ngIf="chatService" #chat class="row" id="MessagesContainer">
                                     <div *ngFor="let chatMessage of chatService.chatMessages; let i = index" class="row">
-                                        <div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row"><img src="assets/icon-chomp.png" height="16" *ngIf="this.chatService.getRank() == 1" /><img src="assets/icon-redshell.png" height="16" *ngIf="this.chatService.getRank() == 2" /><span class="author">{{ chatMessage.author }}</span> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Mute user" class="fa fa-deaf chat-command" aria-hidden="true" (click)="this.chatService.sendMute(chatMessage.author)"></i> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Ban User" class="fa fa-ban chat-command" aria-hidden="true" (click)="this.chatService.sendBan(chatMessage.author)"></i></div>
-                                        <div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row">{{ chatMessage.message}} <i *ngIf="chatMessage.author != '' && this.chatService.getRank() <= 2" title="Delete message" class="fa fa-times chat-command" aria-hidden="true" (click)="this.chatService.sendDeleteMessage(chatMessage.id)"></i></div>
+                                        <div *ngIf="chatService.chatMessages[i].author != '' && (i == 0 || chatService.chatMessages[i - 1].author != chatMessage.author)" class="row chatmsg">
+                                        <img [src]="getDisplayImage(chatMessage)" height="32" *ngIf="getDisplayImage(chatMessage)" />
+                                        <span class="author" [class.me]="chatMessage.author == sm.getLogin()" [style.color]="getColor(chatMessage.author)">{{ chatMessage.displayName }}</span> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Mute user" class="fa fa-deaf chat-command" aria-hidden="true" (click)="this.chatService.sendMute(chatMessage.author)"></i> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin()" title="Ban User" class="fa fa-ban chat-command" aria-hidden="true" (click)="this.chatService.sendBan(chatMessage.author)"></i> <i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin() && chatMessage.rank > 1" title="Make User Moderator" class="fa fa-level-up chat-command" aria-hidden="true" (click)="this.chatService.sendSetMod(chatMessage.author)"></i><i *ngIf="this.chatService.getRank() <= 2 && chatMessage.author != sm.getLogin() && chatMessage.rank == 1" title="Make User Moderator" class="fa fa-level-down chat-command" aria-hidden="true" (click)="this.chatService.sendDelMod(chatMessage.author)"></i></div>
+                                    <div [ngClass]="{system : chatMessage.author == '', message : chatMessage.author != ''}" class="row chatmsg" [innerHTML]="parseEmojis(chatMessage.message) | safeHtml"> <i *ngIf="chatMessage.author != '' && this.chatService.getRank() <= 2" title="Delete message" class="fa fa-times chat-command" aria-hidden="true" (click)="this.chatService.sendDeleteMessage(chatMessage.id)"></i></div>
                                     </div>
                                 </div>
                                 <div *ngIf="chatService" class="row input-group">
-                                    <input #newChatMessage id="newChatMessage" type="text" class="form-control" placeholder="Message...">
-                                    <span class="input-group-btn">
-                                        <button (click)="chatService.sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
-                                    </span>
+                                    <input #newChatMessage (click)="getCaretPos(newChatMessage, ruler)" (keyup)="getCaretPos(newChatMessage, ruler); parseEmojisType($event.target.value)" id="newChatMessage" type="text" class="form-control" placeholder="Message...">
+								<span class="input-group-btn">
+									<button (click)="chatService.sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
+								</span>
                                 </div>
                                 <!-- /Chat -->
                             </div>
@@ -191,7 +197,7 @@
                         </div>
                         <div id="streamvisibility_collapse" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <div class="row" *ngIf="!stream">
+                            <div class="row">
                                 <div class="col-xs-12">
                                     <div class="alert alert-info" style="background: #D9EDF7; color: #31709C; border-color: #BCE8F1;">
                                         You have premium visibility for <strong>X days</strong>!
@@ -200,22 +206,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
+                                    <div class="embed-responsive embed-responsive-4by3">
 <!-- Begin Allopass Checkout Code -->
-<iframe width="550" height="480" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="https://payment.allopass.com/buy/buy.apu?ids=345982&amp;idd=1516572">
+<iframe class="embed-responsive-item" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="https://payment.allopass.com/buy/buy.apu?ids=345982&amp;idd=1516572">
 </iframe>
 <!-- Begin Allopass Checkout Code -->
-
+</div>
 
                                 </div>
                             </div>
                         </div>
-                            <div class="panel-footer" *ngIf="stream">
-                            <div class="row" *ngIf="stream">
-                                <div class="col-xs-12">
-                                    <input type="file" (change)="fileChangeEvent($event)" class="btn btn-default btn-lg btn-block"/>
-                                </div>
-                            </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -226,5 +226,11 @@
 
         </div>
     </div>
+
+
+    <ul #textcompleteDropdownEmojis id="textcomplete-dropdown-emojis" class="dropdown-menu textcomplete-dropdown" [style.top]="emojiPorpositionPosition.y + 'px'" [style.left]="emojiPorpositionPosition.x + 'px'" *ngIf="emojisPropositions.length > 0">
+        <li class="textcomplete-item" *ngFor="let emoji of emojisPropositions" [innerHTML]="displayEmoji(emoji) | safeHtml"></li>
+    </ul>
+
 </div>
 

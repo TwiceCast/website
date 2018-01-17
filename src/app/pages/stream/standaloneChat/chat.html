@@ -1,5 +1,5 @@
 <div id="chat_body">
-    <span #ruler id="ruler" style="display: block; visibility: hidden; position: absolute; white-space: nowrap;"></span>
+    <span #ruler id="ruler" style="display: block; visibility: hidden; position: absolute; white-space: nowrap; font-size : 18px;"></span>
     <!-- OneTwo Layout -->
     <div class="container-fluid" style="margin: 0; padding: 0;">
         <div class="col-lg-12" style="margin-right: 0; padding-right: 0;" id="Chat">
@@ -13,7 +13,7 @@
 								</div>
 							</div>
 							<div class="row input-group">
-								<input #newChatMessage (click)="getCaretPos(newChatMessage, ruler)" (keyup)="getCaretPos(newChatMessage, ruler)" id="newChatMessage" type="text" class="form-control" placeholder="Message..." (input)="parseEmojisType($event.target.value)">
+								<input #newChatMessage (click)="getCaretPos(newChatMessage, ruler)" (keyup)="getCaretPos(newChatMessage, ruler); parseEmojisType($event.target.value)" id="newChatMessage" type="text" class="form-control" placeholder="Message...">
 								<span class="input-group-btn">
 									<button (click)="chatService.sendChatMessage(newChatMessage.value)" id="sendChat" class="btn btn-default" type="button">Send!</button>
 								</span>
