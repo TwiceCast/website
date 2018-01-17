@@ -64,6 +64,19 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
         this.api.patchUser(this.sm.getApiKey(), this.sm.getId(), infos);
     }
     
+    removeUser()
+    {
+        if (confirm("The action you are about to take is going to DELETE PERMANENTLY your TwiceCast Account, Are you sure you want to do that ?"))
+        {
+            if (confirm("Are you definitely sure ? There is no going back after this time. Your informations are going to be deleted forever."))
+            {
+                this.api.removeUser(this.sm.getApiKey(), this.sm.getId());
+                this.sm.Logout();
+                // Redirect to homepage
+            }
+        }
+    }
+    
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];

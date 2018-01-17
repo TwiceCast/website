@@ -33,7 +33,7 @@
                     <button class="btn btn-danger" (click)="changePassword()">Change</button>
                 </form>
                 <br /><br />
-                <div style="display:inline-block">
+                <div>
                 <div style="display:inline-block">
                 <h3>Personal informations &nbsp;<img *ngIf="isEditing==false && isCurrentUser==true" (click)="startEditing()" src="assets/edit.png"><img *ngIf="isEditing==true && isCurrentUser==true" (click)="endEditing()" src="assets/done.png"></h3>
                 </div>
@@ -53,7 +53,8 @@
                       <option value="Female">
                       <option value="Unspecified">
                     </datalist>
-                    </form>
+                </form>
+                <button class="btn btn-danger" (click)="removeUser()">DELETE ACCOUNT PERMANENTLY</button>
             </div>
         </div>
     </div>

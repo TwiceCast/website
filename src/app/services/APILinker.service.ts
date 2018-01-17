@@ -229,7 +229,18 @@ export class APILinker {
         return this.http.patch(this.API_URL + 'users/' + id, JSON.stringify(infos), options)
                         .toPromise()
                         .then((response) => {
-                            console.log(response.json());
+                            return response.json();
+                        })
+                        .catch(this.handleError);        
+    }
+    
+    removeUser(token:any, id:any): Promise<any> {
+        const headers = new Headers({ 'Content-Type': 'application/json',
+                                    'Authorization': token});
+        const options = new RequestOptions({ headers: headers });
+        return this.http.delete(this.API_URL + 'users/' + id, options)
+                        .toPromise()
+                        .then((response) => {
                             return response.json();
                         })
                         .catch(this.handleError);        
