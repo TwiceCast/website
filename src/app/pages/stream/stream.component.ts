@@ -76,7 +76,7 @@ export class StreamComponent implements OnInit, OnDestroy {
     ngAfterViewInit(){
         this.editor.setTheme("tomorrow_night_eighties");
         this.editor.setMode("c_cpp");
-        this.editor.setOptions({minLines: 15, maxLines: 15});
+        this.editor.setOptions({minLines: 25, maxLines: 25, printMargin: false});
 
         this.linker.getStreams().then(  response => {
             let foundStream = false;
@@ -110,8 +110,9 @@ export class StreamComponent implements OnInit, OnDestroy {
         this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
 
         this.codeEditorOptions = {
-            maxLines: 10,
-            printMargin: true
+            minLines: 35,
+            maxLines: 35,
+            printMargin: false
         };
 
         ///
