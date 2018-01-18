@@ -22,14 +22,18 @@
       "styles": [
           "bootstrap.css",
           "../node_modules/video.js/dist/video-js.min.css",
+          "../node_modules/videojs-ima/dist/videojs.ima.css",          
           "../node_modules/font-awesome/css/font-awesome.css",
+          "assets/videojs-contrib-ads.css",
           "styles.css"
       ],
       "scripts": [
           "../node_modules/jquery/dist/jquery.min.js",
           "../node_modules/bootstrap/dist/js/bootstrap.min.js",
           "../node_modules/video.js/dist/video.min.js",
-          "../node_modules/videojs-flash/dist/videojs-flash.min.js"
+          "../node_modules/videojs-flash/dist/videojs-flash.min.js",
+          "../node_modules/videojs-ima/dist/videojs.ima.min.js",
+          "assets/videojs-contrib-ads.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
