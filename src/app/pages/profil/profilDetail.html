@@ -39,7 +39,10 @@
                 </div>
                 <form class="form-horizontal" id="formPersonalInfo" name="formPersonalInfo">
                     <label for="inputGender" style="font-size:15px">Gender</label><br />
-                    <input style="font-size:20px;text-align:center;" type="text" list="genderList" [(ngModel)]="inputGender" id="inputGender" placeholder="" name="inputGender" #name="ngModel" [disabled]="!isEditing"><br /><br />
+                    <select style="font-size:20px;text-align:center;" id="inputGender" name="inputGender" [(ngModel)]="inputGender" [disabled]="!isEditing">
+                        <option [value]="true" [selected]="iinputGender == true">Male</option>
+                        <option [value]="false" [selected]="inputGender == false">Female</option>
+                    </select><br /><br />
                     <label for="inputBio" style="font-size:15px">Bio</label><br />
                     <textarea style="font-size:20px;text-align:center;" type="text" [(ngModel)]="inputBio" id="inputBio" placeholder="" name="inputBio" #name="ngModel" [disabled]="!isEditing"></textarea><br /><br />
                     <label for="inputBirth" style="font-size:15px">Birth Date</label><br />

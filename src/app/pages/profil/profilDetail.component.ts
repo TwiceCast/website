@@ -61,7 +61,7 @@ export class ProfilDetailComponent implements OnInit, OnDestroy {
     endEditing()
     {
         this.isEditing = false;
-        let infos = {"gender": this.inputGender,"biography": this.inputBio,"birthdate": this.inputBirth, "github": this.inputGitHub, "linkdin": this.inputLinkedIn};
+        let infos = {"gender": (this.inputGender == 'true'),"biography": this.inputBio,"birthdate": this.inputBirth, "github": this.inputGitHub, "linkdin": this.inputLinkedIn};
         this.api.patchUser(this.sm.getApiKey(), this.sm.getId(), infos);
     }
     
