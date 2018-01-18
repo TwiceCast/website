@@ -24,6 +24,7 @@
           "../node_modules/video.js/dist/video-js.min.css",
           "../node_modules/videojs-ima/dist/videojs.ima.css",          
           "../node_modules/font-awesome/css/font-awesome.css",
+          "../node_modules/silvermine-videojs-quality-selector/dist/css/quality-selector.css",
           "assets/videojs-contrib-ads.css",
           "styles.css"
       ],
@@ -33,6 +34,7 @@
           "../node_modules/video.js/dist/video.min.js",
           "../node_modules/videojs-flash/dist/videojs-flash.min.js",
           "../node_modules/videojs-ima/dist/videojs.ima.min.js",
+          "../node_modules/silvermine-videojs-quality-selector/dist/js/silvermine-videojs-quality-selector.min.js",
           "assets/videojs-contrib-ads.js"
       ],
       "environmentSource": "environments/environment.ts",

@@ -169,6 +169,7 @@ export class StreamComponent implements OnInit, OnDestroy {
             if (isOnline) {
                 console.log('stream is in BDD');
                 myPlayer.src({type:"rtmp/mp4",src:this.streamUrl});
+//                myPlayer.src([{type:"rtmp/mp4",src:this.streamUrl + "/low",label:"Low"},{type:"rtmp/mp4",src:this.streamUrl + "/medium",label:"Medium",selected:true},{type:"rtmp/mp4",src:this.streamUrl + "/high",label:"High"}]);
                 myPlayer.autoplay(true);
                 myPlayer.play();
                 this.player.on('playing', function() {
