@@ -97,12 +97,21 @@ export class PlayerComponent implements OnInit, OnDestroy {
                 console.log('stream is in BDD');
                 myPlayer.src({type:"rtmp/mp4",src:this.streamUrl});
                 myPlayer.autoplay(true);
-                myPlayer.play();
-                this.player.on('playing', function() {
-                    this.streamPlaying = true;
-                }.bind(this));
+                //myPlayer.play();
+                setTimeout(() => {this.permanentCheck();}, 9000);
             }
         }.bind(this));
+    }
+
+    permanentCheck() {
+        console.log(this.player.tech({ IWillNotUseThisInPlugins: true }).hls.duration());
+        if (this.player.tech({ IWillNotUseThisInPlugins: true }).hls.duration() == Infinity)
+            this.streamPlaying = true;
+        else
+            this.streamPlaying = false;
+        if (this.streamPlaying == false) {
+            setTimeout(() => {this.permanentCheck();}, 1000);
+        }
     }
 
     ngOnDestroy() {

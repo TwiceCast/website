@@ -183,12 +183,21 @@ export class StreamComponent implements OnInit, OnDestroy {
                 console.log('stream is in BDD');
                 myPlayer.src([{type:"application/x-mpegURL", src:this.streamUrl + "low/index.m3u8", label:"Low", selected:true},{type:"application/x-mpegURL", src:this.streamUrl + "medium/index.m3u8", label:"Medium"}, {type:"application/x-mpegURL", src:this.streamUrl + "high/index.m3u8", label:"High"}, {type:"application/x-mpegURL", src:"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8", label:"Demo"}]);
                 myPlayer.autoplay(true);
-                myPlayer.play();
-                this.player.on('playing', function() {
-                    this.streamPlaying = true;
-                }.bind(this));
+                //myPlayer.play();
+                setTimeout(() => {this.permanentCheck();}, 9000);
             }
         }.bind(this));
+    }
+
+    permanentCheck() {
+        console.log(this.player.tech({ IWillNotUseThisInPlugins: true }).hls.duration());
+        if (this.player.tech({ IWillNotUseThisInPlugins: true }).hls.duration() == Infinity)
+            this.streamPlaying = true;
+        else
+            this.streamPlaying = false;
+        if (this.streamPlaying == false) {
+            setTimeout(() => {this.permanentCheck();}, 1000);
+        }
     }
 
     // FROM HERE : CODE EDITOR
