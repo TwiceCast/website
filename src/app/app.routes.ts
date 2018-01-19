@@ -14,6 +14,7 @@ import { profilRoutes }    from './pages/profil/profil.routes';
 import { languagesRoutes }    from './pages/languages/languages.routes'
 import { streamRoutes }     from './pages/stream/stream.routes';
 import { liveRoutes }       from './pages/live/live.routes';
+import { premiumRoutes }     from './pages/premium/premium.routes';
 
 // Route Configuration
 export const routes: Routes = [
@@ -33,6 +34,7 @@ export const routes: Routes = [
   ...languagesRoutes,
   ...streamRoutes,
   ...liveRoutes,
+  ...premiumRoutes,
   // Redirection all unknow routes to home page
   {
     path: '**',

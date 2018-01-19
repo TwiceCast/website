@@ -21,8 +21,9 @@ import { ChatComponent } from './pages/stream/standaloneChat/chat.component';
 import { CodeEditorComponent } from './pages/stream/standaloneCodeEditor/codeEditor.component';
 import { PlayerComponent } from './pages/stream/standalonePlayer/player.component';
 import { StreamListComponent } from './pages/stream/streamList.component';
-import { LiveComponent } from './pages/live/live.component'
+import { LiveComponent } from './pages/live/live.component';
 import { routing } from './app.routes';
+import { PremiumComponent } from './pages/premium/premium.component';
 
 import { Logger } from './services/Logger.service';
 import { APILinker } from './services/APILinker.service';
@@ -67,6 +68,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
         PlayerComponent,
         StreamListComponent,
         LiveComponent,
+        PremiumComponent,
 
         SafeHtmlPipe
 	],

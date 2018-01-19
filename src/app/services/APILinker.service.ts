@@ -123,6 +123,32 @@ export class APILinker {
                         .catch(this.handleError);
     }
 
+    addUserPremium(id: number, duration: number, token: string): Promise<any> {
+        const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.API_URL + 'users/prenium/add?USER=' + id + '&DURATION=' + duration, options)
+                        .toPromise()
+                        .then((response) => {
+                            return response;
+                        })
+                        .catch(this.handleError);
+    }
+
+    getUserPremium(id: number, token: string): Promise<any> {
+        let headers: Headers;
+        if (token != null)
+            headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': token });
+        else
+            headers = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.API_URL + 'users/' + id + '/prenium', options)
+                        .toPromise()
+                        .then((response) => {
+                            return response;
+                        })
+                        .catch(this.handleError);
+    }
+
     getTags(): Promise<Tag[]> {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const options = new RequestOptions({ headers: headers });
