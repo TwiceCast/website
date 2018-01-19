@@ -33,6 +33,7 @@
     "rxjs": "^5.1.0",
     "silvermine-videojs-quality-selector": "^1.1.2",
     "video.js": "^6.2.8",
+    "videojs-contrib-hls": "^5.12.2",
     "videojs-flash": "^2.0.0",
     "videojs-ima": "^1.0.4",
     "zone.js": "^0.8.4"
