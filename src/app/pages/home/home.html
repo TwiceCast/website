@@ -49,6 +49,44 @@
 </div>
 <!-- /Recommanded streams -->
 
+<!-- Premiums -->
+<div class="row-container" id="premium_stream">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4 class="page-header">Backers</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row" *ngIf="premium_streams">
+                    <div *ngFor="let stream of premium_streams; let i = index" class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/stream/'+stream.id]">
+                        <div class="thumbnail">
+                            <img src="https://api.twicecast.ovh/streams/{{ stream.id }}/cover" onError="this.src='assets/default_cover.png'" width="250" height="250" id="cover{{ stream.id }}" alt="...">
+                            <div class="caption">
+                                <h4 class="pull-right"></h4>
+                                <h4 class="text-primary">{{ stream.title }}</h4>
+                                <p>{{ stream.description }}</p>
+                            </div>
+                            <div class="live">
+                                <p class="text-center">
+                                    • Currently live !
+                                </p>
+                            </div>
+                            <div class="ratings">
+                                <p class="text-center">
+                                    <span *ngFor="let tag of stream.tags"><span class="badge badge-danger">{{ tag.name }}</span> </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- !Premiums -->
+
 <!-- Currently popular -->
 <div class="row-container" id="most_viewed_stream">
     <div class="container">

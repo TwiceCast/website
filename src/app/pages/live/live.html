@@ -197,10 +197,13 @@
                         </div>
                         <div id="streamvisibility_collapse" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <div class="row">
+                            <div class="row" *ngIf="premiumInfos != null">
                                 <div class="col-xs-12">
-                                    <div class="alert alert-info" style="background: #D9EDF7; color: #31709C; border-color: #BCE8F1;">
-                                        You have premium visibility for <strong>X days</strong>!
+                                    <div *ngIf="premiumInfos.prenium == true" class="alert alert-info" style="background: #D9EDF7; color: #31709C; border-color: #BCE8F1;">
+                                        You have premium visibility until <strong>{{ premiumInfos.prenium_until | date }}</strong>!
+                                    </div>
+                                    <div *ngIf="premiumInfos.prenium == false" class="alert alert-warning">
+                                        You don't have premium visibility!
                                     </div>
                                 </div>
                             </div>

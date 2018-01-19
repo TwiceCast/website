@@ -16,9 +16,9 @@ import { APILinker } from '../../services/APILinker.service';
 export class HomeComponent {
 
     private all_stream: Stream[];
-    public popular_streams: Stream[];
-    public random_streams: Stream[];
-    public premium_streams: Stream[];
+    public popular_streams: Stream[] = [];
+    public random_streams: Stream[] = [];
+    public premium_streams: Stream[] = [];
 
     constructor(private logg:Logger, public linker:APILinker, public sm:SessionManager) {}
 
@@ -42,9 +42,10 @@ export class HomeComponent {
                     token = this.sm.getApiKey();
                 this.linker.getUserPremium(stream.owner.id, token).then((response) => {
                     if (response.status == 200 && response.json().prenium == true) {
-                        console.log(response.url);
+                        if (this.premium_streams.find(x => x == stream) == null) {
+                            this.premium_streams.push(stream);
+                        }
                     }
-                    console.log(response);
                 });
             }
         }

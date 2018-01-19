@@ -37,6 +37,8 @@ export class LiveComponent implements OnInit, OnDestroy {
 
     public stream: any;
 
+    public premiumInfos: any;
+
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {}
 
@@ -265,6 +267,14 @@ export class LiveComponent implements OnInit, OnDestroy {
         if (!this.sm.isLogged() || this.sm.getId() != this.id) {
             this.router.navigate(['/']);
         } else {
+            this.linker.getUserPremium(this.sm.getId(), this.sm.getApiKey()).then((resp) => {
+                console.log(resp);
+                if (resp.status == 200) {
+                    this.premiumInfos = resp.json();
+                    console.log(this.premiumInfos);
+                }
+            });
+
             this.linker.getTags().then((response) => {
                 this.tags = []
                 for (let tag of response) {
