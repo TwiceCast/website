@@ -45,7 +45,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
             {
                 if (this.id == stream.id)
                 {
-                    this.streamUrl = "rtmp://37.187.99.70:1935/live/" + String(stream.owner.id);
+                    this.streamUrl = "https://stream.twicecast.ovh:444/hls/" + String(stream.owner.id) + "_";
                     this.initPlayer(true);
                     foundStream = true;
                 }
@@ -66,9 +66,21 @@ export class PlayerComponent implements OnInit, OnDestroy {
         this.sub = this.route.params.subscribe(params => { this.id = params['id'] });
     }
 
+    private playerOptions = {
+        controlBar: {
+            children: [
+                'playToggle',
+                'progressControl',
+                'volumePanel',
+                'qualitySelector',
+                'fullscreenToggle',
+            ],
+        },
+    };
+
     private initPlayer(isOnline: boolean) {
         console.log('player init go');
-        this.player = videojs(document.getElementById('stream_videojs'), {techOrder: ['flash']}, function() {});
+        this.player = videojs(document.getElementById('stream_videojs'), this.playerOptions, function() {});
         var options = {
             id: 'stream_videojs',
             adTagUrl: 'https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/single_ad_samples&ciu_szs=300x250&impl=s&gdfp_req=1&env=vp&output=vast&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ct%3Dlinear&correlator='
@@ -95,7 +107,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
             window.onresize = resizeVideoJS;
             if (isOnline) {
                 console.log('stream is in BDD');
-                myPlayer.src({type:"rtmp/mp4",src:this.streamUrl});
+                myPlayer.src([{type:"application/x-mpegURL", src:this.streamUrl + "low/index.m3u8", label:"Low", selected:true},{type:"application/x-mpegURL", src:this.streamUrl + "medium/index.m3u8", label:"Medium"}, {type:"application/x-mpegURL", src:this.streamUrl + "high/index.m3u8", label:"High"}, {type:"application/x-mpegURL", src:"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8", label:"Demo"}]);
                 myPlayer.autoplay(true);
                 //myPlayer.play();
                 setTimeout(() => {this.permanentCheck();}, 9000);
