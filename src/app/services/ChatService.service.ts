@@ -188,7 +188,6 @@ export class ChatService {
                     this.rank = Rank.USER;
                     break;
             }
-            console.log(this.rank);
             let logged_in_message = new ChatMessage();
             logged_in_message.id = -1;
             logged_in_message.author = "";

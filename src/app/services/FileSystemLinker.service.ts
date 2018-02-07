@@ -43,7 +43,6 @@ export class FileSystemLinker {
             if (this.socket) {
                 this.socket.onmessage = this.message.bind(this);
                 this.socket.onopen = function() {
-                    console.log("connected to FS");
                     resolve(true);
                 };
             } else {
@@ -56,13 +55,17 @@ export class FileSystemLinker {
         var response = JSON.parse(data["data"]);
         if (response.code == 200 && response.type == "pullRequestAuth") {
             this.authStatus = true;
-            this.AuthStateChanged.emit(this.authStatus);
+            if (this.AuthStateChanged != null)
+                this.AuthStateChanged.emit(this.authStatus);
         } else if (response.code == 200 && response.type == "fileGet") {
             this.ReceivedFile.emit(response.data);
         } else if (response.code == 200 && response.type == "fileDeleted") {
             this.DeletedFile.emit(response.data);
+        } else if (response.code == 400 && response.type == "badParametersError" && response.message == "The streamer is not connected or the project is wrong") {
+            if (this.AuthStateChanged != null)
+                this.AuthStateChanged.emit(this.authStatus);
         } else {
-            console.log(response);
+            console.error(response);
         }
     }
     
@@ -104,7 +107,6 @@ export class FileSystemLinker {
             }
         };
         this.socket.send(JSON.stringify(authrequest));
-        console.log(authrequest);
     }
     
     public pullRequest(title: string, desc: string, files: File[]) {

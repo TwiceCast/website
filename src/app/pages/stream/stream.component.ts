@@ -103,6 +103,7 @@ export class StreamComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.player = false;
+        this.fl.AuthStateChanged.subscribe(this.fileSystemAuthChanged.bind(this));
         this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
         this.fl.ReceivedFile.subscribe(this.receivedFile.bind(this));
         this.fl.DeletedFile.subscribe(this.deletedFile.bind(this));
@@ -124,30 +125,47 @@ export class StreamComponent implements OnInit, OnDestroy {
             this.chatService.Init(this.id);
         });
 
+        this.linker.getStream(this.id).then((resp_stream) => {
+            this.stream = resp_stream;
+            this.initFileSystem();
+        });
+    }
+
+    private initFileSystem()
+    {
         ///
         /// Init file system
         ///
-        this.linker.getStream(this.id).then((resp_stream) => {
-            console.log(resp_stream);
-            this.stream = resp_stream;
-            this.sm.checkToken().then((token_valid) => {
-                this.linker.getRepository(this.sm.getApiKey(), this.id).then((response) => {
-                    console.log(response);
-                    let rep_info = JSON.parse(response['_body']);
-                    this.fl.connect(rep_info.url).then((resp) => {
-                        if (resp) {
-                            this.fl.auth(rep_info.token, this.sm.getUser().pseudo, this.stream.owner.pseudo, this.stream.title);
-                        }
-                    });
+        this.sm.checkToken().then((token_valid) => {
+            this.linker.getRepository(this.sm.getApiKey(), this.id).then((response) => {
+                let rep_info = JSON.parse(response['_body']);
+                this.fl.connect(rep_info.url).then((resp) => {
+                    if (resp) {
+                        console.info('Connected to file system !');
+                        this.fl.auth(rep_info.token, this.sm.getUser().pseudo, this.stream.owner.pseudo, this.stream.title);
+                    } else {
+                        console.warn('Failed to connect to file system. Retrying in 3s...');
+                        setTimeout(() => { this.initFileSystem(); }, 3000);
+                    }
                 });
             });
         });
-        this.nodes.push(this.rootNode);
-        this.tree.treeModel.update();
+    }
+
+    private fileSystemAuthChanged(isAuth: boolean) {
+        if (isAuth) {
+            this.fl.getFiles();
+            this.nodes.push(this.rootNode);
+            this.tree.treeModel.update();
+        } else {
+            console.warn('Failed to auth to File System. Retrying in 3s...');
+            setTimeout(() => { this.initFileSystem(); }, 3000);
+            this.nodes = [];
+            this.tree.treeModel.update();
+        }
     }
 
     private initPlayer(isOnline: boolean) {
-        console.log('player init go');
         var playerOptions = {
            controlBar: {
               children: [
@@ -180,17 +198,15 @@ export class StreamComponent implements OnInit, OnDestroy {
             resizeVideoJS();
             window.onresize = resizeVideoJS;
             if (isOnline) {
-                console.log('stream is in BDD');
                 myPlayer.src([{type:"application/x-mpegURL", src:this.streamUrl + "low/index.m3u8", label:"Low", selected:true},{type:"application/x-mpegURL", src:this.streamUrl + "medium/index.m3u8", label:"Medium"}, {type:"application/x-mpegURL", src:this.streamUrl + "high/index.m3u8", label:"High"}, {type:"application/x-mpegURL", src:"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8", label:"Demo"}]);
                 myPlayer.autoplay(true);
                 //myPlayer.play();
-                setTimeout(() => {this.permanentCheck();}, 9000);
+                setTimeout(() => {this.permanentCheck();}, 5000);
             }
         }.bind(this));
     }
 
     permanentCheck() {
-        console.log(this.player.tech({ IWillNotUseThisInPlugins: true }).hls.duration());
         if (this.player.tech({ IWillNotUseThisInPlugins: true }).hls.duration() == Infinity)
             this.streamPlaying = true;
         else
