@@ -23,7 +23,7 @@ export class ProfilListComponent {
 
     constructor(private api:APILinker, private logg:Logger) {
         api.getStreams().then(response => this.streams = response);
-        api.getUsers().then((response) => { this.users = response; this.maxPage = Math.floor(this.users.length / this.maxDisplay) + (this.users.length % this.maxDisplay == 0 ? 0 : 1); console.log(this.maxPage); });
+        api.getUsers().then((response) => { this.users = response; this.maxPage = Math.floor(this.users.length / this.maxDisplay) + (this.users.length % this.maxDisplay == 0 ? 0 : 1); });
     }
     
     public isLive(id: number): boolean {
