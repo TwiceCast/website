@@ -24,6 +24,8 @@ export class SignupComponent implements OnInit, OnDestroy {
     
     private timeoutRedir: any;
 
+    public signupErrorMessage: string = "Sign Up Error!";
+
     constructor(private logg:Logger, public sm:SessionManager, private router: Router) {}
 
     ngOnInit() {
@@ -37,13 +39,15 @@ export class SignupComponent implements OnInit, OnDestroy {
         {
             this.registerState = "trying";
             this.sm.Register(this.inputEmailSignup, this.inputPasswordSignup, this.inputNicknameSignup).then(response => {
-                if (response == true) {
+                if (response[0] == true) {
                     this.registerState = "success";
                     this.sm.Login(this.inputEmailSignup, this.inputPasswordSignup);
                     this.timeoutRedir = setTimeout(function() {this.router.navigate(['/home']); }.bind(this), 3000);
                 }
-                else
+                else {
                     this.registerState = "error";
+                    this.signupErrorMessage = "Sign Up Error! " + response[1];
+                }
                 this.logg.log(response);
             });
             this.logg.log("Trying to register");

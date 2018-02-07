@@ -67,7 +67,7 @@ export class SessionManager {
         }
     }
     
-    Register(email: string, password: string, name: string): Promise<boolean> {
+    Register(email: string, password: string, name: string): Promise<[boolean, string]> {
         return new Promise((resolve, reject) => {
             this.linker.register(email, password, name).then(response => {
                 console.log('Register');
@@ -76,19 +76,27 @@ export class SessionManager {
                 {
                     if (response['email'])
                     {
-                        resolve(true);
+                        resolve([true, "Success"]);
                     }
                     else
                     {
-                        resolve(false);
+                        if (response['description'])
+                            resolve([false, response['description']]);
+                        else
+                            resolve([false, "Please contact an administrator"]);
                     }
                     
                 }
                 catch (e)
                 {
-                    resolve(false);
+                    resolve([false, "Please contact an administrator"]);
                 }
-            }).catch((e) => {resolve(false);});
+            }).catch((e) => {
+                if (e.json() && e.json()['description'])
+                    resolve([false, e.json()['description']]);
+                else
+                    resolve([false, "Please contact an administrator"]);
+            });
         });
     }
     
