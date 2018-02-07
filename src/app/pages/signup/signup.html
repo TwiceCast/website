@@ -10,6 +10,7 @@
                         <fieldset>
                             <alert [hidden]="registerState!='error'" type="danger">{{ signupErrorMessage }}</alert>
                             <alert [hidden]="registerState!='passwordMismatch'" type="danger">Error! Passwords must be the same</alert>
+                            <alert [hidden]="registerState!='passwordRegexError'" type="danger">Error! Passwords must contain minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character</alert>
 							<alert [hidden]="registerState!='success'" type="success">Sign Up Success ! Redirecting in 3 seconds</alert>
                             <alert [hidden]="registerState!='trying'" type="info">Signing up...</alert>
                             <div class="form-group">
@@ -27,13 +28,13 @@
                             <div class="form-group">
                                 <label for="inputPasswordSignup" class="col-lg-3 control-label">Password</label>
                                 <div class="col-lg-9">
-                                    <input [(ngModel)]="inputPasswordSignup" type="password" class="form-control" id="inputPasswordSignup" name="inputPasswordSignup" placeholder="Password" required>
+                                    <input [(ngModel)]="inputPasswordSignup" type="password" class="form-control" id="inputPasswordSignup" [pattern]="passwordRegex" name="inputPasswordSignup" placeholder="Password" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputRePasswordSignup" class="col-lg-3 control-label">Password (confirm)</label>
                                 <div class="col-lg-9">
-                                    <input [(ngModel)]="inputRePasswordSignup" type="password" class="form-control" id="inputRePasswordSignup" name="inputRePasswordSignup" placeholder="Password (confirm)" required>
+                                    <input [(ngModel)]="inputRePasswordSignup" type="password" class="form-control" id="inputRePasswordSignup" [pattern]="passwordRegex" name="inputRePasswordSignup" placeholder="Password (confirm)" required>
                                 </div>
                             </div>
                             <!--<div class="form-group">
@@ -51,7 +52,7 @@
                             <div *ngIf="!sm.isLogged()" class="form-group">
                                 <div class="col-lg-9 col-lg-offset-3">
                                     <button type="reset" class="btn btn-default">Cancel</button>
-                                    <button [disabled]="!signupForm.form.valid" id="signup_button" type="submit" class="btn btn-success">Sign Up</button>
+                                    <button id="signup_button" type="submit" class="btn btn-success">Sign Up</button>
                                 </div>
                             </div>
                         </fieldset>

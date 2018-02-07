@@ -26,6 +26,8 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     public signupErrorMessage: string = "Sign Up Error!";
 
+    public passwordRegex = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
+
     constructor(private logg:Logger, public sm:SessionManager, private router: Router) {}
 
     ngOnInit() {
@@ -33,7 +35,10 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
     
     TryRegister() {
-        if (this.inputRePasswordSignup != this.inputPasswordSignup)
+        let regxp = new RegExp(this.passwordRegex);
+        if (!regxp.test(this.inputPasswordSignup) || !regxp.test(this.inputRePasswordSignup))
+            this.registerState = "passwordRegexError";
+        else if (this.inputRePasswordSignup != this.inputPasswordSignup)
             this.registerState = "passwordMismatch";
         else
         {
