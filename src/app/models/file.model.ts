@@ -7,7 +7,7 @@ export class File implements Serializable<File> {
 
     content: string;
     originalContent: string;
-    private fileLocked: boolean;
+    private fileLocked: boolean = false;
 
     isComplete(): boolean {
         return this.receivedPart == this.maxPart;
@@ -30,7 +30,6 @@ export class File implements Serializable<File> {
         this.realName = input.name;
         let splitName = this.realName.split('/');
         this.name = splitName[splitName.length - 1];
-        this.fileLocked = false;
 
         if (input.name == '/.gitignore')
             console.log(input);
