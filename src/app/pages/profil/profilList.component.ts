@@ -17,9 +17,13 @@ export class ProfilListComponent {
     private users: User[];
     private streams: Stream[];
     
+    public currentPage = 1;
+    private maxDisplay = 8;
+    public maxPage: number = 1;
+
     constructor(private api:APILinker, private logg:Logger) {
         api.getStreams().then(response => this.streams = response);
-        api.getUsers().then(response => this.users = response);
+        api.getUsers().then((response) => { this.users = response; this.maxPage = Math.floor(this.users.length / this.maxDisplay) + (this.users.length % this.maxDisplay == 0 ? 0 : 1); console.log(this.maxPage); });
     }
     
     public isLive(id: number): boolean {
@@ -33,5 +37,16 @@ export class ProfilListComponent {
     
     public encodeURL(val: string): string {
         return encodeURI(val);
+    }
+
+    public changePage(pageIndex: number) {
+        if (pageIndex <= this.maxPage && pageIndex > 0)
+            this.currentPage = pageIndex;
+    }
+
+    public shallDisplay(user: User, index: number): boolean {
+        if (index >= (this.currentPage - 1) * this.maxDisplay && index < this.currentPage * this.maxDisplay)
+            return true;
+        return false;
     }
 }

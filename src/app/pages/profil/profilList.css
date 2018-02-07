@@ -23,6 +23,19 @@
 .profile img {
 	border: 1px solid black;
 }
+
+.aspectRatioContainer {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+}
+.aspectRatioContainer > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
 /*
 .navbar {
     background-color: firebrick;

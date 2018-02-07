@@ -5,9 +5,11 @@
 		<div class="row">
             <div *ngIf="!users"><div class="alert alert-info col-sm-12 col-lg-12 col-md-12 text-center">Loading...</div></div>
             <div *ngFor="let user of users; let i = index">
-                <div class="pointer col-sm-4 col-lg-4 col-md-4 text-center" [routerLink]="['/profil/' + user.id]">
+                <div *ngIf="shallDisplay(user, i)" class="pointer col-xs-6 col-sm-4 col-lg-3 col-md-3 text-center" [routerLink]="['/profil/' + user.id]">
                     <div class="thumbnail">
-                        <img height="120" src="https://api.twicecast.ovh/users/{{user.id}}/avatar" alt="">
+                        <div class="aspectRatioContainer">
+                            <img class="img-fluid" src="https://api.twicecast.ovh/users/{{user.id}}/avatar" alt="">
+                        </div>
                         <div class="caption">
                             <h4 class="pull-right"></h4>
                             <h4><a>{{user.pseudo}}</a>
@@ -22,6 +24,20 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item" [class.disabled]="this.currentPage == 1"><a (click)="changePage(this.currentPage - 1)" class="page-link" [style.cursor]="this.currentPage == 1 ? 'not-allowed' : 'pointer'">Previous</a></li>
+                    <li class="page-item" *ngIf="this.currentPage > 2"><a (click)="changePage(this.currentPage - 2)" class="page-link" style="cursor: pointer;">{{ this.currentPage - 2 }}</a></li>
+                    <li class="page-item" *ngIf="this.currentPage > 1"><a (click)="changePage(this.currentPage - 1)" class="page-link" style="cursor: pointer;">{{ this.currentPage - 1 }}</a></li>
+                    <li class="page-item active"><a class="page-link" style="cursor: pointer;">{{ this.currentPage }} <span class="sr-only">(Current)</span></a></li>
+                    <li class="page-item" *ngIf="this.currentPage < this.maxPage"><a (click)="changePage(this.currentPage + 1)" class="page-link" style="cursor: pointer;">{{ this.currentPage + 1 }}</a></li>
+                    <li class="page-item" *ngIf="this.currentPage == 1 && this.currentPage + 1 < this.maxPage"><a (click)="changePage(this.currentPage + 2)" class="page-link" style="cursor: pointer;">{{ this.currentPage + 2 }}</a></li>
+                    <li class="page-item" [class.disabled]="this.currentPage == this.maxPage"><a (click)="changePage(this.currentPage + 1)" class="page-link" [style.cursor]="this.currentPage == this.maxPage ? 'not-allowed' : 'pointer'">Next</a></li>
+                </ul>
+            </nav>
         </div>
     </div>
     <!-- /.container -->
