@@ -104,7 +104,6 @@ export class StreamComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.player = false;
         this.fl.AuthStateChanged.subscribe(this.fileSystemAuthChanged.bind(this));
-        this.fl.AuthStateChanged.subscribe(this.fl.getFiles.bind(this.fl));
         this.fl.ReceivedFile.subscribe(this.receivedFile.bind(this));
         this.fl.DeletedFile.subscribe(this.deletedFile.bind(this));
 
@@ -447,6 +446,9 @@ export class StreamComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.chatService.Destroy();
         this.fl.disconnect();
+        this.fl.AuthStateChanged.unsubscribe();
+        this.fl.ReceivedFile.unsubscribe();
+        this.fl.DeletedFile.unsubscribe();
         this.sub.unsubscribe();
         if (this.player) {
             this.player.dispose();

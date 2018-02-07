@@ -39,6 +39,9 @@ export class LiveComponent implements OnInit, OnDestroy {
 
     public premiumInfos: any;
 
+    public chatExternalLink: string;
+    public streamExternalLink: string;
+
     constructor(private sm:SessionManager, private fl:FileSystemLinker, private route: ActivatedRoute, private router: Router, private linker:APILinker)
     {}
 
@@ -155,11 +158,13 @@ export class LiveComponent implements OnInit, OnDestroy {
                 this.formattedTags = [];
                 this.stream = stream;
                 this.activeTags = {};
+                this.streamExternalLink = '/stream/' + stream.id + '/';
                 if (this.chatService != null)
                     this.chatService.Destroy();
                 load().then(() => {
                     this.chatService = new ChatService('#newChatMessage', '#sendChat', this.sm);
                     this.chatService.Init(stream.id);
+                    this.chatExternalLink = '/stream/' + stream.id + '/chat';
                 });
                 console.log(stream.id);
             }

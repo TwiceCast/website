@@ -9,6 +9,7 @@
                     <div class="panel-body">
                         <h4>
                             Status : <span [class.text-danger]="live" [class.text-warning]="!live">{{ (live) ? 'LIVE': 'OFFLINE' }}</span>
+                            <a style="margin-left: 15px;" [href]="streamExternalLink" *ngIf="live" class="pull-right" target="_blank"><button class="btn btn-primary"><i class="fa fa-external-link"></i></button></a>
                             <button type="button"
                                     class="btn btn-success pull-right"
                                     style="vertical-align: middle;"
@@ -93,6 +94,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title text-center">
                                 <a data-toggle="collapse" href="#chat_collapse">Chat</a>
+                                <a [href]="chatExternalLink" *ngIf="chatService" class="pull-right" target="_blank"><button class="btn btn-primary btn-xs"><i class="fa fa-external-link"></i></button></a>
                             </h4>
                         </div>
                         <div id="chat_collapse" class="panel-collapse collapse in">
